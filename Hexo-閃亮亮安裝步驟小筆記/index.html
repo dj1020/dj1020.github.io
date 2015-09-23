@@ -11,49 +11,64 @@
     
 
     
-    <meta name="description" content="把 npm 和 git 裝好
+    <meta name="description" content="從無到有 Hexo 3.0 在 GitHub 發佈流程，還有踩雷心得和解法因為平常就有用 npm 和 git 所以這兩部份的安裝流程沒在裡面
+
+把 npm 和 git 裝好
+
 brew install npm
 git (Mac 內建)
 
 
 $ npm install -g hexo-cli
+
 $ hexo init hexo
+
 $ cd hexo
+
 $ npm install
-設定 _config.yml
-下載 jacman 佈景主題
-$ git clone https://github.com/wuchong/jacman.git themes">
+
+設定 _confi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo 3.0 發佈，閃亮亮安裝步驟小筆記">
 <meta property="og:url" content="http://dj1020.github.io/Hexo-閃亮亮安裝步驟小筆記/index.html">
 <meta property="og:site_name" content="閃亮亮大師之路">
-<meta property="og:description" content="把 npm 和 git 裝好
+<meta property="og:description" content="從無到有 Hexo 3.0 在 GitHub 發佈流程，還有踩雷心得和解法因為平常就有用 npm 和 git 所以這兩部份的安裝流程沒在裡面
+
+把 npm 和 git 裝好
+
 brew install npm
 git (Mac 內建)
 
 
 $ npm install -g hexo-cli
+
 $ hexo init hexo
+
 $ cd hexo
+
 $ npm install
-設定 _config.yml
-下載 jacman 佈景主題
-$ git clone https://github.com/wuchong/jacman.git themes">
-<meta property="og:updated_time" content="2015-09-23T02:33:41.000Z">
+
+設定 _confi">
+<meta property="og:updated_time" content="2015-09-23T04:18:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo 3.0 發佈，閃亮亮安裝步驟小筆記">
-<meta name="twitter:description" content="把 npm 和 git 裝好
+<meta name="twitter:description" content="從無到有 Hexo 3.0 在 GitHub 發佈流程，還有踩雷心得和解法因為平常就有用 npm 和 git 所以這兩部份的安裝流程沒在裡面
+
+把 npm 和 git 裝好
+
 brew install npm
 git (Mac 內建)
 
 
 $ npm install -g hexo-cli
+
 $ hexo init hexo
+
 $ cd hexo
+
 $ npm install
-設定 _config.yml
-下載 jacman 佈景主題
-$ git clone https://github.com/wuchong/jacman.git themes">
+
+設定 _confi">
 
     
     <link rel="alternative" href="/atom.xml" title="閃亮亮大師之路" type="application/atom+xml">
@@ -129,40 +144,53 @@ $ git clone https://github.com/wuchong/jacman.git themes">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目錄</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#從無到有_Hexo_3-0_在_GitHub_發佈流程，還有踩雷心得和解法"><span class="toc-number">1.</span> <span class="toc-text">從無到有 Hexo 3.0 在 GitHub 發佈流程，還有踩雷心得和解法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#待辦清單"><span class="toc-number">2.</span> <span class="toc-text">待辦清單</span></a></li></ol>
 		
 		</div>
 		
-		<ol>
-<li>把 npm 和 git 裝好<ul>
+		<h2 id="從無到有_Hexo_3-0_在_GitHub_發佈流程，還有踩雷心得和解法">從無到有 Hexo 3.0 在 GitHub 發佈流程，還有踩雷心得和解法</h2><p>因為平常就有用 npm 和 git 所以這兩部份的安裝流程沒在裡面</p>
+<ol>
+<li><p>把 npm 和 git 裝好</p>
+<ul>
 <li>brew install npm</li>
 <li>git (Mac 內建)</li>
 </ul>
 </li>
-<li><code>$ npm install -g hexo-cli</code></li>
-<li><code>$ hexo init hexo</code></li>
-<li><code>$ cd hexo</code></li>
-<li><code>$ npm install</code></li>
-<li>設定 _config.yml</li>
-<li>下載 <a href="https://github.com/wuchong/jacman" target="_blank" rel="external">jacman 佈景主題</a><ul>
+<li><p><code>$ npm install -g hexo-cli</code></p>
+</li>
+<li><p><code>$ hexo init hexo</code></p>
+</li>
+<li><p><code>$ cd hexo</code></p>
+</li>
+<li><p><code>$ npm install</code></p>
+</li>
+<li><p>設定 _config.yml</p>
+</li>
+<li><p>下載 <a href="https://github.com/wuchong/jacman" target="_blank" rel="external">jacman 佈景主題</a></p>
+<ul>
 <li><code>$ git clone https://github.com/wuchong/jacman.git themes/jacman</code></li>
 <li>把 _config.yml 的 themes 設成 jacman</li>
 </ul>
 </li>
-<li>建立這一篇文章<ul>
+<li><p>建立這一篇文章</p>
+<ul>
 <li><code>$ hexo new &quot;Hexo 閃亮亮安裝步驟小筆記&quot;</code></li>
 </ul>
 </li>
-<li>編輯 hexo/source/_posts/Hexo-閃亮亮安裝步驟小筆記.md</li>
-<li>產生網頁 <code>$ hexo generate</code></li>
-<li>打開 server 看一下效果 <code>$ hexo server</code>，開 <a href="http://0.0.0.0:4000/" target="_blank" rel="external">http://0.0.0.0:4000/</a></li>
-<li>試試看 deploy <code>$ hexo deploy -g</code> (部署網站前先產生靜態檔案)</li>
-<li>發現沒效，原來是要在 _config.yml 設 deploy 參數，參考這一篇: <a href="http://eva0919.github.io/2013/04/21/%E4%BD%BF%E7%94%A8hexo%E4%BB%A5%E5%8F%8Agithub-page%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84%E9%83%A8%E8%90%BD%E6%A0%BC/" target="_blank" rel="external">使用hexo以及github page建立自己的部落格</a><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: github</span><br><span class="line">  <span class="attribute">repository</span>: <span class="attribute">https</span>:<span class="comment">//github.com/你的帳號/你的帳號.github.com.git</span></span><br><span class="line">  <span class="attribute">branch</span>: master</span><br></pre></td></tr></table></figure>
+<li><p>編輯 hexo/source/_posts/Hexo-閃亮亮安裝步驟小筆記.md</p>
 </li>
-</ol>
+<li><p>產生網頁 <code>$ hexo generate</code></p>
+</li>
+<li><p>打開 server 看一下效果 <code>$ hexo server</code>，開 <a href="http://0.0.0.0:4000/" target="_blank" rel="external">http://0.0.0.0:4000/</a></p>
+</li>
+<li><p>試試看 deploy <code>$ hexo deploy -g</code> (部署網站前先產生靜態檔案)</p>
+</li>
+<li><p>發現沒效，原來是要在 _config.yml 設 deploy 參數，參考這一篇: <a href="http://eva0919.github.io/2013/04/21/%E4%BD%BF%E7%94%A8hexo%E4%BB%A5%E5%8F%8Agithub-page%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84%E9%83%A8%E8%90%BD%E6%A0%BC/" target="_blank" rel="external">使用hexo以及github page建立自己的部落格</a></p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: github</span><br><span class="line">  <span class="attribute">repository</span>: <span class="attribute">https</span>:<span class="comment">//github.com/你的帳號/你的帳號.github.com.git</span></span><br><span class="line">  <span class="attribute">branch</span>: master</span><br></pre></td></tr></table></figure>
 <p>【重要】 閃亮亮先去 github 建一個 repo，但因為建錯 repo 名字，所以沒有頁面可以看……，記得建 repo 的時候一定要用 username.github.io 才會被 github 當成一個靜態頁網站。</p>
-<ol>
-<li>再 deploy 一次試試看 <code>$ hexo deploy -g</code></li>
+</li>
+<li><p>再 deploy 一次試試看 <code>$ hexo deploy -g</code></p>
+</li>
 <li><p>結果出現：</p>
 <figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ERROR</span> Deployer <span class="keyword">not</span> found: github</span><br></pre></td></tr></table></figure>
 </li>
@@ -170,12 +198,10 @@ $ git clone https://github.com/wuchong/jacman.git themes">
 <blockquote>
 <p>1) <a href="http://ogeeker.com/2015/03/14/Hexo-Deployer-not-found-github/" target="_blank" rel="external">Hexo Deployer not found: github</a><br>2) <a href="https://www.v2ex.com/t/175940" target="_blank" rel="external">搭建 hexo，在執行 hexo deploy 後,出現 error deployer not found:github 的錯誤</a><br>3) <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Hexo deploy 官方文件</a></p>
 </blockquote>
-</li>
-</ol>
 <p>Hexo 3.0 開始 type 要改成 git，還有 repository 換成 repo，而且聽說新的 repo 是不能 deploy 上去的，要先自己  push 一個 commit，但說真的我不知道一開始 commit 要推什麼上去，先這樣好了：</p>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>git init</span><br><span class="line"><span class="variable">$ </span>git add .gitignore</span><br><span class="line"><span class="variable">$ </span>git commit -m <span class="string">"init commit"</span></span><br><span class="line"><span class="variable">$ </span>git remote add origin <span class="symbol">https:</span>/<span class="regexp">/github.com/</span>你的帳號/你的帳號.github.com.git</span><br><span class="line"><span class="variable">$ </span>git push -u origin master</span><br></pre></td></tr></table></figure>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: git</span><br><span class="line">  <span class="attribute">repo</span>: <span class="attribute">https</span>:<span class="comment">//github.com/你的帳號/你的帳號.github.com.git</span></span><br><span class="line">  <span class="attribute">branch</span>: master</span><br></pre></td></tr></table></figure>
-<ol>
+</li>
 <li><p>再試一次 deploy <code>$ hexo deploy -g</code>，還是</p>
 <figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ERROR</span> Deployer <span class="keyword">not</span> found: git</span><br></pre></td></tr></table></figure>
 </li>
@@ -183,11 +209,10 @@ $ git clone https://github.com/wuchong/jacman.git themes">
 <blockquote>
 <p>1) <a href="https://github.com/hexojs/hexo/issues/1040#issuecomment-109291766" target="_blank" rel="external">ERROR Deployer not found: github #1040</a></p>
 </blockquote>
-</li>
-</ol>
 <p>說要手動在 hexo 專案資料夾下安裝 <code>npm install hexo-deployer-git --save</code></p>
-<ol>
-<li>裝完再試一次 <code>$ hexo deploy -g</code>，成功！推上去了，但是要去哪裡看我的站呢？</li>
+</li>
+<li><p>裝完再試一次 <code>$ hexo deploy -g</code>，成功！推上去了，但是要去哪裡看我的站呢？</p>
+</li>
 <li><p>慘劇，原來建 repo 的時候一定要用 username.github.io 才會被當成一個 page，那就重建 repo 吧</p>
 <blockquote>
 <p>引用： <a href="http://www.jianshu.com/p/05289a4bc8b2" target="_blank" rel="external">如何搭建一個獨立博客——簡明Github Pages與Hexo教程</a></p>
@@ -196,8 +221,18 @@ $ git clone https://github.com/wuchong/jacman.git themes">
 </li>
 <li><p>去 github 發現不用重建，改 repo 名字就好了，然後再重新 deploy 一次 <code>$ hexo deploy -g</code></p>
 </li>
-<li>嘿嘿！終於成功了吧~ (閃亮亮大師之路)[<a href="http://dj1020.github.io/">http://dj1020.github.io/</a>] 開張，底下那個 theme 作者的頭像要改一下。</li>
+<li><p>嘿嘿！終於成功了吧~ <a href="http://dj1020.github.io/">閃亮亮大師之路</a> 開張，底下那個 theme 作者的頭像要改一下。</p>
+</li>
 </ol>
+<h2 id="待辦清單">待辦清單</h2><ul>
+<li>改 theme 作者頭像，小改一下配色</li>
+<li>發現 ol 後面的 ul 應該要是一個點，但樣式不對，看是語法要調整還是怎樣。</li>
+<li>RWD 時要把文章目錄隱藏</li>
+<li>增加 RSS 功能</li>
+<li>綁定到自訂網域 blog.dj1020.net</li>
+<li>在 sublime 設定自動 deploy 快速鍵</li>
+<li>也許弄個 Bulk Mailer 例如 MailChimp</li>
+</ul>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -242,7 +277,7 @@ $ git clone https://github.com/wuchong/jacman.git themes">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目錄</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#從無到有_Hexo_3-0_在_GitHub_發佈流程，還有踩雷心得和解法"><span class="toc-number">1.</span> <span class="toc-text">從無到有 Hexo 3.0 在 GitHub 發佈流程，還有踩雷心得和解法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#待辦清單"><span class="toc-number">2.</span> <span class="toc-text">待辦清單</span></a></li></ol>
  
   </div>
 
