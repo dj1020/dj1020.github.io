@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[閃亮亮大師之路]]></title>
+  <subtitle><![CDATA[程式學習心得筆記]]></subtitle>
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://dj1020.github.io/"/>
+  <updated>2015-09-24T02:15:06.000Z</updated>
+  <id>http://dj1020.github.io/</id>
+  
+  <author>
+    <name><![CDATA[閃亮亮dj]]></name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Hexo 添加 RSS]]></title>
+    <link href="http://dj1020.github.io/Hexo-%E6%B7%BB%E5%8A%A0-RSS/"/>
+    <id>http://dj1020.github.io/Hexo-添加-RSS/</id>
+    <published>2015-09-24T02:13:34.000Z</published>
+    <updated>2015-09-24T02:15:06.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="添加_RSS">添加 RSS</h2><ol>
+<li>安裝 RSS plugin</li>
+<li>在 _config.yml 裡使用 RSS plugin</li>
+<li>在 … 設定 Rss: /atom.xml</li>
+<li>Done</li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="添加_RSS">添加 RSS</h2><ol>
+<li>安裝 RSS plugin</li>
+<li>在 _config.yml 裡使用 RSS plugin</li>
+<li>在 … 設定 Rss: /atom.xml</li>
+<li>Done</li>
+</]]>
+    </summary>
+    
+      <category term="Bootstrap" scheme="http://dj1020.github.io/tags/Bootstrap/"/>
+    
+      <category term="Hexo" scheme="http://dj1020.github.io/tags/Hexo/"/>
+    
+      <category term="Install" scheme="http://dj1020.github.io/tags/Install/"/>
+    
+      <category term="Hexo 筆記" scheme="http://dj1020.github.io/categories/Hexo-%E7%AD%86%E8%A8%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hexo Jacman 主題換作者頭像照片、Logo、FavIcon]]></title>
+    <link href="http://dj1020.github.io/Hexo-Jacman-%E4%B8%BB%E9%A1%8C%E6%8F%9B%E4%BD%9C%E8%80%85%E9%A0%AD%E5%83%8F%E7%85%A7%E7%89%87/"/>
+    <id>http://dj1020.github.io/Hexo-Jacman-主題換作者頭像照片/</id>
+    <published>2015-09-24T00:59:14.000Z</published>
+    <updated>2015-09-24T02:04:07.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="找到_Jacman_主題設定檔__config-yml">找到 Jacman 主題設定檔 _config.yml</h2><p>說來也蠻容易的，就是找到主題設定檔，位置在 themes/jacman/_config.yml 約 line 32 行的位置，<br>裡面還可以換 logo, favicon, 和 img folder，還有 banner，目前 banner 預設是沒有。</p>
+<figure class="highlight bash"><figcaption><span>&#123;Hexo安裝資料夾&#125;/themes/jacman/_config.yml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### Image</span></span><br><span class="line">imglogo:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span>             <span class="comment">## display image logo true/false.</span></span><br><span class="line">  src: img/logo.png        <span class="comment">## `.svg` and `.png` are recommended,please put image into the theme folder `/jacman/source/img`.</span></span><br><span class="line">favicon: img/favicon.ico   <span class="comment">## size:32px*32px,`.ico` is recommended,please put image into the theme folder `/jacman/source/img`.</span></span><br><span class="line">apple_icon: img/jacman.jpg <span class="comment">## size:114px*114px,please put image into the theme folder `/jacman/source/img`.</span></span><br><span class="line">author_img: img/author.jpg <span class="comment">## size:220px*220px.display author avatar picture.if don't want to display,please don't set this.</span></span><br><span class="line">banner_img: <span class="comment">#img/banner.jpg ## size:1920px*200px+. Banner Picture</span></span><br><span class="line"><span class="comment">### Theme Color</span></span><br><span class="line">theme_color:</span><br><span class="line">    theme: <span class="string">'#673D88'</span>    <span class="comment">##the defaut theme color is blue</span></span><br></pre></td></tr></table></figure>
+<p>然後把 <code>author_img: img/author.jpg</code> 取代掉就可以了，或是指定另一個位置。</p>
+<p><code>author.jpg</code> 位置在 <code>{Hexo安裝資料夾}/themes/jacman/source/img/author.jpg</code></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="找到_Jacman_主題設定檔__config-yml">找到 Jacman 主題設定檔 _config.yml</h2><p>說來也蠻容易的，就是找到主題設定檔，位置在 themes/jacman/_config.yml 約 line 32 行的位置，<br>裡]]>
+    </summary>
+    
+      <category term="Bootstrap" scheme="http://dj1020.github.io/tags/Bootstrap/"/>
+    
+      <category term="Hexo" scheme="http://dj1020.github.io/tags/Hexo/"/>
+    
+      <category term="Install" scheme="http://dj1020.github.io/tags/Install/"/>
+    
+      <category term="Hexo 筆記" scheme="http://dj1020.github.io/categories/Hexo-%E7%AD%86%E8%A8%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hexo 3.0 發佈，閃亮亮安裝步驟小筆記]]></title>
+    <link href="http://dj1020.github.io/Hexo-%E9%96%83%E4%BA%AE%E4%BA%AE%E5%AE%89%E8%A3%9D%E6%AD%A5%E9%A9%9F%E5%B0%8F%E7%AD%86%E8%A8%98/"/>
+    <id>http://dj1020.github.io/Hexo-閃亮亮安裝步驟小筆記/</id>
+    <published>2015-09-23T01:20:51.000Z</published>
+    <updated>2015-09-24T02:08:43.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="從無到有_Hexo_3-0_在_GitHub_發佈流程，還有踩雷心得和解法">從無到有 Hexo 3.0 在 GitHub 發佈流程，還有踩雷心得和解法</h2><p>因為平常就有用 npm 和 git 所以這兩部份的安裝流程沒在裡面</p>
+<ol>
+<li><p>把 npm 和 git 裝好</p>
+<ul>
+<li>brew install npm</li>
+<li>git (Mac 內建)</li>
+</ul>
+</li>
+<li><p><code>$ npm install -g hexo-cli</code></p>
+</li>
+<li><p><code>$ hexo init hexo</code></p>
+</li>
+<li><p><code>$ cd hexo</code></p>
+</li>
+<li><p><code>$ npm install</code></p>
+</li>
+<li><p>設定 _config.yml</p>
+</li>
+<li><p>下載 <a href="https://github.com/wuchong/jacman" target="_blank" rel="external">jacman 佈景主題</a></p>
+<ul>
+<li><code>$ git clone https://github.com/wuchong/jacman.git themes/jacman</code></li>
+<li>把 _config.yml 的 themes 設成 jacman</li>
+</ul>
+</li>
+<li><p>建立這一篇文章</p>
+<ul>
+<li><code>$ hexo new &quot;Hexo 閃亮亮安裝步驟小筆記&quot;</code></li>
+</ul>
+</li>
+<li><p>編輯 hexo/source/_posts/Hexo-閃亮亮安裝步驟小筆記.md</p>
+</li>
+<li><p>產生網頁 <code>$ hexo generate</code></p>
+</li>
+<li><p>打開 server 看一下效果 <code>$ hexo server</code>，開 <a href="http://0.0.0.0:4000/" target="_blank" rel="external">http://0.0.0.0:4000/</a></p>
+</li>
+<li><p>試試看 deploy <code>$ hexo deploy -g</code> (部署網站前先產生靜態檔案)</p>
+</li>
+<li><p>發現沒效，原來是要在 _config.yml 設 deploy 參數，參考這一篇: <a href="http://eva0919.github.io/2013/04/21/%E4%BD%BF%E7%94%A8hexo%E4%BB%A5%E5%8F%8Agithub-page%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84%E9%83%A8%E8%90%BD%E6%A0%BC/" target="_blank" rel="external">使用hexo以及github page建立自己的部落格</a></p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: github</span><br><span class="line">  <span class="attribute">repository</span>: <span class="attribute">https</span>:<span class="comment">//github.com/你的帳號/你的帳號.github.com.git</span></span><br><span class="line">  <span class="attribute">branch</span>: master</span><br></pre></td></tr></table></figure>
+<p>【重要】 閃亮亮先去 github 建一個 repo，但因為建錯 repo 名字，所以沒有頁面可以看……，記得建 repo 的時候一定要用 username.github.io 才會被 github 當成一個靜態頁網站。</p>
+</li>
+<li><p>再 deploy 一次試試看 <code>$ hexo deploy -g</code></p>
+</li>
+<li><p>結果出現：</p>
+<figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ERROR</span> Deployer <span class="keyword">not</span> found: github</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>來去 google 找解，找到：</p>
+<blockquote>
+<p>1) <a href="http://ogeeker.com/2015/03/14/Hexo-Deployer-not-found-github/" target="_blank" rel="external">Hexo Deployer not found: github</a><br>2) <a href="https://www.v2ex.com/t/175940" target="_blank" rel="external">搭建 hexo，在執行 hexo deploy 後,出現 error deployer not found:github 的錯誤</a><br>3) <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Hexo deploy 官方文件</a></p>
+</blockquote>
+<p>Hexo 3.0 開始 type 要改成 git，還有 repository 換成 repo，而且聽說新的 repo 是不能 deploy 上去的，要先自己  push 一個 commit，但說真的我不知道一開始 commit 要推什麼上去，先這樣好了：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>git init</span><br><span class="line"><span class="variable">$ </span>git add .gitignore</span><br><span class="line"><span class="variable">$ </span>git commit -m <span class="string">"init commit"</span></span><br><span class="line"><span class="variable">$ </span>git remote add origin <span class="symbol">https:</span>/<span class="regexp">/github.com/</span>你的帳號/你的帳號.github.com.git</span><br><span class="line"><span class="variable">$ </span>git push -u origin master</span><br></pre></td></tr></table></figure>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: git</span><br><span class="line">  <span class="attribute">repo</span>: <span class="attribute">https</span>:<span class="comment">//github.com/你的帳號/你的帳號.github.com.git</span></span><br><span class="line">  <span class="attribute">branch</span>: master</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>再試一次 deploy <code>$ hexo deploy -g</code>，還是</p>
+<figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ERROR</span> Deployer <span class="keyword">not</span> found: git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不死心，再查 google 大神</p>
+<blockquote>
+<p>1) <a href="https://github.com/hexojs/hexo/issues/1040#issuecomment-109291766" target="_blank" rel="external">ERROR Deployer not found: github #1040</a></p>
+</blockquote>
+<p>說要手動在 hexo 專案資料夾下安裝 <code>npm install hexo-deployer-git --save</code></p>
+</li>
+<li><p>裝完再試一次 <code>$ hexo deploy -g</code>，成功！推上去了，但是要去哪裡看我的站呢？</p>
+</li>
+<li><p>慘劇，原來建 repo 的時候一定要用 username.github.io 才會被當成一個 page，那就重建 repo 吧</p>
+<blockquote>
+<p>引用： <a href="http://www.jianshu.com/p/05289a4bc8b2" target="_blank" rel="external">如何搭建一個獨立博客——簡明Github Pages與Hexo教程</a></p>
+<p>使用GitHub Pages建立博客與GitHub建立好鏈接之後，就可以方便的使用它提供的Pages服務，GitHub Pages分兩種，一種是你的GitHub用戶名建立的 username.github.io 這樣的用戶&amp;組織頁（站），另一種是依附項目的pages。<br>想建立個人博客是用的第一種，形如cnfeat.github.io這樣的可訪問的站，每個用戶名下面只能建立一個。</p>
+</blockquote>
+</li>
+<li><p>去 github 發現不用重建，改 repo 名字就好了，然後再重新 deploy 一次 <code>$ hexo deploy -g</code></p>
+</li>
+<li><p>嘿嘿！終於成功了吧~ <a href="http://dj1020.github.io/">閃亮亮大師之路</a> 開張，底下那個 theme 作者的頭像要改一下。</p>
+</li>
+</ol>
+<h2 id="待辦清單">待辦清單</h2><ul>
+<li>增加 RSS 功能</li>
+<li>發現 ol 後面的 ul 應該要是一個點，但樣式不對，看是語法要調整還是怎樣。</li>
+<li>RWD 時要把文章目錄隱藏</li>
+<li>綁定到自訂網域 blog.dj1020.net</li>
+<li>在 sublime 設定自動 deploy 快速鍵</li>
+<li>也許弄個 Bulk Mailer 例如 MailChimp</li>
+<li>把下面的微博分享什麼的拿掉</li>
+<li>學怎麼改 Menu</li>
+<li>調整 Search 功能，如 demo 一樣 <a href="http://wuchong.me/jacman/search/index.html?q=%E4%B8%BB%E9%A1%8C" target="_blank" rel="external">Demo</a>，或是用點燈坊的外掛</li>
+<li>瀏覽文章時預設顯示文章目錄在右側，分類 block 在下面</li>
+<li>加 FavIcon (Done 9/24/2015)</li>
+<li>改 theme 作者頭像，小改一下配色 (Done 9/24/2015)</li>
+<li>學怎麼用 Categories (Done 9/24/2015)</li>
+<li>日期 desc sort (其實是預設的)</li>
+<li>設定 Read More 模式 (Done 9/24/2015)</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="從無到有_Hexo_3-0_在_GitHub_發佈流程，還有踩雷心得和解法">從無到有 Hexo 3.0 在 GitHub 發佈流程，還有踩雷心得和解法</h2><p>因為平常就有用 npm 和 git 所以這兩部份的安裝流程沒在裡面</p>
+<ol>
+<li><]]>
+    </summary>
+    
+      <category term="Bootstrap" scheme="http://dj1020.github.io/tags/Bootstrap/"/>
+    
+      <category term="Hexo" scheme="http://dj1020.github.io/tags/Hexo/"/>
+    
+      <category term="Install" scheme="http://dj1020.github.io/tags/Install/"/>
+    
+      <category term="Hexo 筆記" scheme="http://dj1020.github.io/categories/Hexo-%E7%AD%86%E8%A8%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <link href="http://dj1020.github.io/hello-world/"/>
+    <id>http://dj1020.github.io/hello-world/</id>
+    <published>2015-09-23T01:10:51.000Z</published>
+    <updated>2015-09-24T01:02:40.000Z</updated>
+    <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io]]>
+    </summary>
+    
+  </entry>
+  
+</feed>

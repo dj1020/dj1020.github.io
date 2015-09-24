@@ -49,7 +49,7 @@ $ cd hexo
 $ npm install
 
 設定 _confi">
-<meta property="og:updated_time" content="2015-09-23T05:33:09.000Z">
+<meta property="og:updated_time" content="2015-09-24T02:08:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo 3.0 發佈，閃亮亮安裝步驟小筆記">
 <meta name="twitter:description" content="從無到有 Hexo 3.0 在 GitHub 發佈流程，還有踩雷心得和解法因為平常就有用 npm 和 git 所以這兩部份的安裝流程沒在裡面
@@ -141,13 +141,6 @@ $ npm install
 </header>
 	<div class="article-content">
 		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#從無到有_Hexo_3-0_在_GitHub_發佈流程，還有踩雷心得和解法"><span class="toc-number">1.</span> <span class="toc-text">從無到有 Hexo 3.0 在 GitHub 發佈流程，還有踩雷心得和解法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#待辦清單"><span class="toc-number">2.</span> <span class="toc-text">待辦清單</span></a></li></ol>
-		
-		</div>
-		
 		<h2 id="從無到有_Hexo_3-0_在_GitHub_發佈流程，還有踩雷心得和解法">從無到有 Hexo 3.0 在 GitHub 發佈流程，還有踩雷心得和解法</h2><p>因為平常就有用 npm 和 git 所以這兩部份的安裝流程沒在裡面</p>
 <ol>
 <li><p>把 npm 和 git 裝好</p>
@@ -225,24 +218,37 @@ $ npm install
 </li>
 </ol>
 <h2 id="待辦清單">待辦清單</h2><ul>
-<li>日期 desc sort</li>
-<li>加 FavIcon</li>
-<li>改 theme 作者頭像，小改一下配色</li>
+<li>增加 RSS 功能</li>
 <li>發現 ol 後面的 ul 應該要是一個點，但樣式不對，看是語法要調整還是怎樣。</li>
 <li>RWD 時要把文章目錄隱藏</li>
-<li>增加 RSS 功能</li>
 <li>綁定到自訂網域 blog.dj1020.net</li>
 <li>在 sublime 設定自動 deploy 快速鍵</li>
 <li>也許弄個 Bulk Mailer 例如 MailChimp</li>
 <li>把下面的微博分享什麼的拿掉</li>
-<li>學怎麼用 Categories 和 Menu</li>
-<li>調整 Search 功能，如 demo 一樣 <a href="http://wuchong.me/jacman/search/index.html?q=%E4%B8%BB%E9%A1%8C" target="_blank" rel="external">Demo</a></li>
+<li>學怎麼改 Menu</li>
+<li>調整 Search 功能，如 demo 一樣 <a href="http://wuchong.me/jacman/search/index.html?q=%E4%B8%BB%E9%A1%8C" target="_blank" rel="external">Demo</a>，或是用點燈坊的外掛</li>
+<li>瀏覽文章時預設顯示文章目錄在右側，分類 block 在下面</li>
+<li>加 FavIcon (Done 9/24/2015)</li>
+<li>改 theme 作者頭像，小改一下配色 (Done 9/24/2015)</li>
+<li>學怎麼用 Categories (Done 9/24/2015)</li>
+<li>日期 desc sort (其實是預設的)</li>
+<li>設定 Read More 模式 (Done 9/24/2015)</li>
 </ul>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Hexo-筆記/">Hexo 筆記</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Bootstrap/">Bootstrap</a><a href="/tags/Hexo/">Hexo</a><a href="/tags/Install/">Install</a>
+  </div>
 
 </div>
 
@@ -264,13 +270,21 @@ $ npm install
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/hello-world/" title="Hello World">
+ <a href="/Hexo-Jacman-主題換作者頭像照片/" title="Hexo Jacman 主題換作者頭像照片、Logo、FavIcon">
   <strong>上一篇：</strong><br/>
   <span>
-  Hello World</span>
+  Hexo Jacman 主題換作者頭像照片、Logo、FavIcon</span>
 </a>
 </div>
 
+
+<div class="next">
+<a href="/hello-world/"  title="Hello World">
+ <strong>下一篇：</strong><br/> 
+ <span>Hello World
+</span>
+</a>
+</div>
 
 </nav>
 
@@ -291,8 +305,48 @@ $ npm install
 <aside class="clearfix">
 
   
+<div class="categorieslist">
+	<p class="asidetitle">分類</p>
+		<ul>
+		
+		  
+		
+		  
+			<li><a href="/categories/Hexo-筆記/" title="Hexo 筆記">Hexo 筆記<sup>3</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
 
   
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Install/" title="Install">Install<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Bootstrap/" title="Bootstrap">Bootstrap<sup>3</sup></a></li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+		</ul>
+</div>
+
 
   <div class="linkslist">
   <p class="asidetitle">友情鏈接</p>
@@ -332,8 +386,8 @@ $ npm install
 	
 	
 	<section class="info">
-		<p> Hello ,I&#39;m Larry Page in Google. <br/>
-			This is my blog,believe it or not.</p>
+		<p> Hello ,I&#39;m Ken Lin in Cloud Interactive. <br/>
+			This is my blog, believe it or not.</p>
 	</section>
 	 
 	<div class="social-font" class="clearfix">
