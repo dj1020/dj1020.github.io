@@ -4,7 +4,7 @@
   <subtitle><![CDATA[程式學習心得筆記]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://dj1020.github.io/"/>
-  <updated>2015-09-24T02:15:06.000Z</updated>
+  <updated>2015-09-24T02:37:44.000Z</updated>
   <id>http://dj1020.github.io/</id>
   
   <author>
@@ -19,28 +19,31 @@
     <link href="http://dj1020.github.io/Hexo-%E6%B7%BB%E5%8A%A0-RSS/"/>
     <id>http://dj1020.github.io/Hexo-添加-RSS/</id>
     <published>2015-09-24T02:13:34.000Z</published>
-    <updated>2015-09-24T02:15:06.000Z</updated>
+    <updated>2015-09-24T02:37:44.000Z</updated>
     <content type="html"><![CDATA[<h2 id="添加_RSS">添加 RSS</h2><ol>
-<li>安裝 RSS plugin</li>
-<li>在 _config.yml 裡使用 RSS plugin</li>
-<li>在 … 設定 Rss: /atom.xml</li>
-<li>Done</li>
+<li><p>安裝 RSS plugin</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm <span class="operator"><span class="keyword">install</span> hexo-generator-feed <span class="comment">--save</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><del>在 _config.yml 裡使用 RSS plugin</del>  這個不用，加了反而不能用。</p>
+</li>
+<li><p>在 … 設定 Rss: /atom.xml，以 Jacman 來說，預設就設好了</p>
+</li>
+<li><p>參考 <a href="https://github.com/hexojs/hexo-generator-feed" target="_blank" rel="external">hexo-generator-feed的github說明</a>，在 _config.yml 設定：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">feed</span>:</span><br><span class="line">  <span class="attribute">type</span>: atom</span><br><span class="line">  <span class="attribute">path</span>: atom.xml</span><br><span class="line">  <span class="attribute">limit</span>: <span class="number">20</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重新 generate 頁面和 RSS feed <code>$ hexo clean &amp;&amp; hexo generate</code></p>
+</li>
 </ol>
 ]]></content>
     <summary type="html">
     <![CDATA[<h2 id="添加_RSS">添加 RSS</h2><ol>
-<li>安裝 RSS plugin</li>
-<li>在 _config.yml 裡使用 RSS plugin</li>
-<li>在 … 設定 Rss: /atom.xml</li>
-<li>Done</li>
-</]]>
+<li><p>安裝 RSS plugin</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line"]]>
     </summary>
     
       <category term="Bootstrap" scheme="http://dj1020.github.io/tags/Bootstrap/"/>
     
       <category term="Hexo" scheme="http://dj1020.github.io/tags/Hexo/"/>
-    
-      <category term="Install" scheme="http://dj1020.github.io/tags/Install/"/>
     
       <category term="Hexo 筆記" scheme="http://dj1020.github.io/categories/Hexo-%E7%AD%86%E8%A8%98/"/>
     
@@ -51,7 +54,7 @@
     <link href="http://dj1020.github.io/Hexo-Jacman-%E4%B8%BB%E9%A1%8C%E6%8F%9B%E4%BD%9C%E8%80%85%E9%A0%AD%E5%83%8F%E7%85%A7%E7%89%87/"/>
     <id>http://dj1020.github.io/Hexo-Jacman-主題換作者頭像照片/</id>
     <published>2015-09-24T00:59:14.000Z</published>
-    <updated>2015-09-24T02:04:07.000Z</updated>
+    <updated>2015-09-24T02:33:57.000Z</updated>
     <content type="html"><![CDATA[<h2 id="找到_Jacman_主題設定檔__config-yml">找到 Jacman 主題設定檔 _config.yml</h2><p>說來也蠻容易的，就是找到主題設定檔，位置在 themes/jacman/_config.yml 約 line 32 行的位置，<br>裡面還可以換 logo, favicon, 和 img folder，還有 banner，目前 banner 預設是沒有。</p>
 <figure class="highlight bash"><figcaption><span>&#123;Hexo安裝資料夾&#125;/themes/jacman/_config.yml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### Image</span></span><br><span class="line">imglogo:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span>             <span class="comment">## display image logo true/false.</span></span><br><span class="line">  src: img/logo.png        <span class="comment">## `.svg` and `.png` are recommended,please put image into the theme folder `/jacman/source/img`.</span></span><br><span class="line">favicon: img/favicon.ico   <span class="comment">## size:32px*32px,`.ico` is recommended,please put image into the theme folder `/jacman/source/img`.</span></span><br><span class="line">apple_icon: img/jacman.jpg <span class="comment">## size:114px*114px,please put image into the theme folder `/jacman/source/img`.</span></span><br><span class="line">author_img: img/author.jpg <span class="comment">## size:220px*220px.display author avatar picture.if don't want to display,please don't set this.</span></span><br><span class="line">banner_img: <span class="comment">#img/banner.jpg ## size:1920px*200px+. Banner Picture</span></span><br><span class="line"><span class="comment">### Theme Color</span></span><br><span class="line">theme_color:</span><br><span class="line">    theme: <span class="string">'#673D88'</span>    <span class="comment">##the defaut theme color is blue</span></span><br></pre></td></tr></table></figure>
 <p>然後把 <code>author_img: img/author.jpg</code> 取代掉就可以了，或是指定另一個位置。</p>
@@ -64,8 +67,6 @@
       <category term="Bootstrap" scheme="http://dj1020.github.io/tags/Bootstrap/"/>
     
       <category term="Hexo" scheme="http://dj1020.github.io/tags/Hexo/"/>
-    
-      <category term="Install" scheme="http://dj1020.github.io/tags/Install/"/>
     
       <category term="Hexo 筆記" scheme="http://dj1020.github.io/categories/Hexo-%E7%AD%86%E8%A8%98/"/>
     

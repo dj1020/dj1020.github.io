@@ -13,26 +13,38 @@
     
     <meta name="description" content="添加 RSS
 安裝 RSS plugin
-在 _config.yml 裡使用 RSS plugin
-在 … 設定 Rss: /atom.xml
-Done">
+1$ npm install hexo-generator-feed --save
+
+在 _config.yml 裡使用 RSS plugin  這個不用，加了反而不能用。
+
+在 … 設定 Rss: /atom.xml，以 Jacman 來說，預設就設好了
+
+參考 hexo-generator-feed的github說明，在 _config.yml 設定：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo 添加 RSS">
 <meta property="og:url" content="http://dj1020.github.io/Hexo-添加-RSS/index.html">
 <meta property="og:site_name" content="閃亮亮大師之路">
 <meta property="og:description" content="添加 RSS
 安裝 RSS plugin
-在 _config.yml 裡使用 RSS plugin
-在 … 設定 Rss: /atom.xml
-Done">
-<meta property="og:updated_time" content="2015-09-24T02:15:06.000Z">
+1$ npm install hexo-generator-feed --save
+
+在 _config.yml 裡使用 RSS plugin  這個不用，加了反而不能用。
+
+在 … 設定 Rss: /atom.xml，以 Jacman 來說，預設就設好了
+
+參考 hexo-generator-feed的github說明，在 _config.yml 設定：">
+<meta property="og:updated_time" content="2015-09-24T02:37:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo 添加 RSS">
 <meta name="twitter:description" content="添加 RSS
 安裝 RSS plugin
-在 _config.yml 裡使用 RSS plugin
-在 … 設定 Rss: /atom.xml
-Done">
+1$ npm install hexo-generator-feed --save
+
+在 _config.yml 裡使用 RSS plugin  這個不用，加了反而不能用。
+
+在 … 設定 Rss: /atom.xml，以 Jacman 來說，預設就設好了
+
+參考 hexo-generator-feed的github說明，在 _config.yml 設定：">
 
     
     <link rel="alternative" href="/atom.xml" title="閃亮亮大師之路" type="application/atom+xml">
@@ -100,16 +112,33 @@ Done">
 		
   <p class="article-time">
     <time datetime="2015-09-24T02:13:34.000Z" itemprop="datePublished"> 發表於 2015-09-24</time>
-    
   </p>
+
+  
+    <div class="article-share clearfix" id="share">
+    
+      <div data-url="http://dj1020.github.io/Hexo-添加-RSS/" data-title="Hexo 添加 RSS | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+      </div>
+    
+    </div>
+  
+
 </header>
 	<div class="article-content">
 		
 		<h2 id="添加_RSS">添加 RSS</h2><ol>
-<li>安裝 RSS plugin</li>
-<li>在 _config.yml 裡使用 RSS plugin</li>
-<li>在 … 設定 Rss: /atom.xml</li>
-<li>Done</li>
+<li><p>安裝 RSS plugin</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm <span class="operator"><span class="keyword">install</span> hexo-generator-feed <span class="comment">--save</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><del>在 _config.yml 裡使用 RSS plugin</del>  這個不用，加了反而不能用。</p>
+</li>
+<li><p>在 … 設定 Rss: /atom.xml，以 Jacman 來說，預設就設好了</p>
+</li>
+<li><p>參考 <a href="https://github.com/hexojs/hexo-generator-feed" target="_blank" rel="external">hexo-generator-feed的github說明</a>，在 _config.yml 設定：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">feed</span>:</span><br><span class="line">  <span class="attribute">type</span>: atom</span><br><span class="line">  <span class="attribute">path</span>: atom.xml</span><br><span class="line">  <span class="attribute">limit</span>: <span class="number">20</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重新 generate 頁面和 RSS feed <code>$ hexo clean &amp;&amp; hexo generate</code></p>
+</li>
 </ol>
   
 	</div>
@@ -124,7 +153,7 @@ Done">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Bootstrap/">Bootstrap</a><a href="/tags/Hexo/">Hexo</a><a href="/tags/Install/">Install</a>
+  <span></span> <a href="/tags/Bootstrap/">Bootstrap</a><a href="/tags/Hexo/">Hexo</a>
   </div>
 
 </div>
@@ -196,11 +225,11 @@ Done">
 			
 		
 			
-				<li><a href="/tags/Install/" title="Install">Install<sup>3</sup></a></li>
+				<li><a href="/tags/Bootstrap/" title="Bootstrap">Bootstrap<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Bootstrap/" title="Bootstrap">Bootstrap<sup>3</sup></a></li>
+				<li><a href="/tags/Install/" title="Install">Install<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -213,13 +242,13 @@ Done">
         
           <li>
             
-            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            	<a href="http://oomusou.io/" target="_blank" title="Sam&#39;s 點燈坊">Sam&#39;s 點燈坊</a>
             
           </li>
         
           <li>
             
-            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            	<a href="http://jaceju.net/" target="_blank" title="鐵哥 JaceJu&#39;s Blog">鐵哥 JaceJu&#39;s Blog</a>
             
           </li>
         
