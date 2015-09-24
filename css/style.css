@@ -926,6 +926,19 @@ article header.article-info >p.article-time:before {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+article .article-share.clearfix {
+  float: left;
+  width: auto;
+  padding-left: 4%;
+}
+article .article-share.clearfix span {
+  margin-right: 0.1em;
+}
+article .article-share.clearfix a,
+article .article-share.clearfix span {
+  width: 1.5em;
+  height: 1.5em;
+}
 article .article-content {
   padding: 1.5em 4%;
   color: #413f3f;
@@ -957,8 +970,14 @@ article .article-content h2 {
   font-size: 180%;
   line-height: 1.2em;
   padding-bottom: 0.3em;
-  margin-top: 1.5em;
+  margin-top: 0.5em;
   border-bottom: 2px solid #dbdbdb;
+}
+@media only screen and (min-width: 768px) {
+  article .article-content h1:first-child,
+  article .article-content h2:first-child {
+    margin-top: 0em;
+  }
 }
 article .article-content h3 {
   font-size: 140%;
@@ -1189,6 +1208,9 @@ footer.article-footer {
   padding: 0.5em 0;
   margin-top: 0.3em;
 }
+.share {
+  padding-top: 3px;
+}
 .share span {
   float: right;
   height: 3em;
@@ -1250,12 +1272,18 @@ footer.article-footer {
   background: #3b5998;
   text-shadow: 0 1px #2f477a;
 }
+.article-share-weibo {
+  display: none !important;
+}
 .article-share-weibo:before {
   content: "\f18a";
 }
 .article-share-weibo:hover {
   background: #c64d3e;
   text-shadow: 0 1px #a13c2f;
+}
+.article-share-qrcode {
+  display: none !important;
 }
 .article-share-qrcode:before {
   font-family: "fontdiao" !important;
@@ -1264,6 +1292,9 @@ footer.article-footer {
 .article-share-qrcode:hover {
   background: #49ae0f;
   text-shadow: 0 1px #3a8b0c;
+}
+.article-share-renren {
+  display: none !important;
 }
 .article-share-renren:before {
   content: "\f18b";
@@ -1385,11 +1416,11 @@ footer.article-footer {
   background: #2ca6cb;
 }
 .article-nav {
-  padding: 0 10%;
+  padding: 2em 10%;
 }
 @media only screen and (min-width: 768px) {
   .article-nav {
-    padding: 0 4%;
+    padding: 2em 4%;
   }
 }
 .article-nav strong {
@@ -1707,8 +1738,8 @@ section.comment {
   text-align: center;
 }
 .rsspart a:hover {
-  color: #673d88;
-  background: #fafafa;
+  color: #e9cd4c;
+  background: #4d2b69;
 }
 .rsspart a::before {
   font-family: "FontAwesome";
