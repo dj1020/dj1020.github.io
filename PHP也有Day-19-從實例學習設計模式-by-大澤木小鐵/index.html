@@ -1,26 +1,168 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-  <title><![CDATA[閃亮亮大師之路]]></title>
-  <subtitle><![CDATA[程式學習心得筆記]]></subtitle>
-  <link href="/atom.xml" rel="self"/>
-  <link href="http://dj1020.github.io/"/>
-  <updated>2015-09-25T08:20:30.000Z</updated>
-  <id>http://dj1020.github.io/</id>
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
   
-  <author>
-    <name><![CDATA[閃亮亮dj]]></name>
+    <title>[筆記] PHP也有Day #19 - 從實例學習設計模式 by 大澤木小鐵 | 閃亮亮大師之路</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
-  </author>
+    <meta name="author" content="閃亮亮dj">
+    
+
+    
+    <meta name="description" content="About Jace Ju 大澤木小鐵KKBOX 網站工程師為了訓練公司內部人員設計模式的基本教學
+Agenda
+OO 常見問題
+SOLID 原則
+該用什麼模式
+應用「設計模式」應該注意什麼
+
+OO 常見問題
+萬能類別
+
+  兩個人要合作一個案子，寫同一段 Code 時 Conflict 解不完
+
+
+臭蟲製造機
+
+  需求一直變，每改一個地方就有可能出現 bug
+
+
+繼承用起來很不順
+
+  想要繼">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[筆記] PHP也有Day #19 - 從實例學習設計模式 by 大澤木小鐵">
+<meta property="og:url" content="http://dj1020.github.io/PHP也有Day-19-從實例學習設計模式-by-大澤木小鐵/index.html">
+<meta property="og:site_name" content="閃亮亮大師之路">
+<meta property="og:description" content="About Jace Ju 大澤木小鐵KKBOX 網站工程師為了訓練公司內部人員設計模式的基本教學
+Agenda
+OO 常見問題
+SOLID 原則
+該用什麼模式
+應用「設計模式」應該注意什麼
+
+OO 常見問題
+萬能類別
+
+  兩個人要合作一個案子，寫同一段 Code 時 Conflict 解不完
+
+
+臭蟲製造機
+
+  需求一直變，每改一個地方就有可能出現 bug
+
+
+繼承用起來很不順
+
+  想要繼">
+<meta property="og:updated_time" content="2015-09-25T08:20:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[筆記] PHP也有Day #19 - 從實例學習設計模式 by 大澤木小鐵">
+<meta name="twitter:description" content="About Jace Ju 大澤木小鐵KKBOX 網站工程師為了訓練公司內部人員設計模式的基本教學
+Agenda
+OO 常見問題
+SOLID 原則
+該用什麼模式
+應用「設計模式」應該注意什麼
+
+OO 常見問題
+萬能類別
+
+  兩個人要合作一個案子，寫同一段 Code 時 Conflict 解不完
+
+
+臭蟲製造機
+
+  需求一直變，每改一個地方就有可能出現 bug
+
+
+繼承用起來很不順
+
+  想要繼">
+
+    
+    <link rel="alternative" href="/atom.xml" title="閃亮亮大師之路" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="閃亮亮大師之路" title="閃亮亮大師之路"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="閃亮亮大師之路">閃亮亮大師之路</a></h1>
+				<h2 class="blog-motto">程式學習心得筆記</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:dj1020.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
   
-  <generator uri="http://hexo.io/">Hexo</generator>
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/PHP也有Day-19-從實例學習設計模式-by-大澤木小鐵/" title="[筆記] PHP也有Day #19 - 從實例學習設計模式 by 大澤木小鐵" itemprop="url">[筆記] PHP也有Day #19 - 從實例學習設計模式 by 大澤木小鐵</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="閃亮亮dj" target="_blank" itemprop="author">閃亮亮dj</a>
+		
+  <p class="article-time">
+    <time datetime="2015-09-24T10:14:37.000Z" itemprop="datePublished"> 發表於 2015-09-24</time>
+  </p>
+
   
-  <entry>
-    <title><![CDATA[[筆記] PHP也有Day #19 - 從實例學習設計模式 by 大澤木小鐵]]></title>
-    <link href="http://dj1020.github.io/PHP%E4%B9%9F%E6%9C%89Day-19-%E5%BE%9E%E5%AF%A6%E4%BE%8B%E5%AD%B8%E7%BF%92%E8%A8%AD%E8%A8%88%E6%A8%A1%E5%BC%8F-by-%E5%A4%A7%E6%BE%A4%E6%9C%A8%E5%B0%8F%E9%90%B5/"/>
-    <id>http://dj1020.github.io/PHP也有Day-19-從實例學習設計模式-by-大澤木小鐵/</id>
-    <published>2015-09-24T10:14:37.000Z</published>
-    <updated>2015-09-25T08:20:30.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="About_Jace_Ju_大澤木小鐵">About Jace Ju 大澤木小鐵</h2><p>KKBOX 網站工程師<br>為了訓練公司內部人員設計模式的基本教學</p>
+    <div class="article-share clearfix" id="share">
+    
+      <div data-url="http://dj1020.github.io/PHP也有Day-19-從實例學習設計模式-by-大澤木小鐵/" data-title="[筆記] PHP也有Day #19 - 從實例學習設計模式 by 大澤木小鐵 | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+      </div>
+    
+    </div>
+  
+
+</header>
+	<div class="article-content">
+		
+		<h2 id="About_Jace_Ju_大澤木小鐵">About Jace Ju 大澤木小鐵</h2><p>KKBOX 網站工程師<br>為了訓練公司內部人員設計模式的基本教學</p>
 <h2 id="Agenda">Agenda</h2><ul>
 <li>OO 常見問題</li>
 <li>SOLID 原則</li>
@@ -211,217 +353,373 @@
 <li>鐵哥：購物車架構簡報！ <a href="http://www.slideshare.net/jaceju/ss-6312192" target="_blank" rel="external">購物車程式架構簡介</a></li>
 </ul>
 <p><br><br></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="About_Jace_Ju_大澤木小鐵">About Jace Ju 大澤木小鐵</h2><p>KKBOX 網站工程師<br>為了訓練公司內部人員設計模式的基本教學</p>
-<h2 id="Agenda">Agenda</h2><ul>
-<li>OO 常見問題</]]>
-    </summary>
-    
-      <category term="PHP也有Day" scheme="http://dj1020.github.io/tags/PHP%E4%B9%9F%E6%9C%89Day/"/>
-    
-      <category term="筆記" scheme="http://dj1020.github.io/tags/%E7%AD%86%E8%A8%98/"/>
-    
-      <category term="設計模式" scheme="http://dj1020.github.io/tags/%E8%A8%AD%E8%A8%88%E6%A8%A1%E5%BC%8F/"/>
-    
-      <category term="程式筆記" scheme="http://dj1020.github.io/categories/%E7%A8%8B%E5%BC%8F%E7%AD%86%E8%A8%98/"/>
-    
-  </entry>
   
-  <entry>
-    <title><![CDATA[Hexo 添加 RSS]]></title>
-    <link href="http://dj1020.github.io/Hexo-%E6%B7%BB%E5%8A%A0-RSS/"/>
-    <id>http://dj1020.github.io/Hexo-添加-RSS/</id>
-    <published>2015-09-24T02:13:34.000Z</published>
-    <updated>2015-09-24T02:37:44.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="添加_RSS">添加 RSS</h2><ol>
-<li><p>安裝 RSS plugin</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm <span class="operator"><span class="keyword">install</span> hexo-generator-feed <span class="comment">--save</span></span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><del>在 _config.yml 裡使用 RSS plugin</del>  這個不用，加了反而不能用。</p>
-</li>
-<li><p>在 … 設定 Rss: /atom.xml，以 Jacman 來說，預設就設好了</p>
-</li>
-<li><p>參考 <a href="https://github.com/hexojs/hexo-generator-feed" target="_blank" rel="external">hexo-generator-feed的github說明</a>，在 _config.yml 設定：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">feed</span>:</span><br><span class="line">  <span class="attribute">type</span>: atom</span><br><span class="line">  <span class="attribute">path</span>: atom.xml</span><br><span class="line">  <span class="attribute">limit</span>: <span class="number">20</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重新 generate 頁面和 RSS feed <code>$ hexo clean &amp;&amp; hexo generate</code></p>
-</li>
-</ol>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="添加_RSS">添加 RSS</h2><ol>
-<li><p>安裝 RSS plugin</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line"]]>
-    </summary>
-    
-      <category term="Bootstrap" scheme="http://dj1020.github.io/tags/Bootstrap/"/>
-    
-      <category term="Hexo" scheme="http://dj1020.github.io/tags/Hexo/"/>
-    
-      <category term="Hexo 筆記" scheme="http://dj1020.github.io/categories/Hexo-%E7%AD%86%E8%A8%98/"/>
-    
-  </entry>
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/程式筆記/">程式筆記</a>
+</div>
+
+
+  <div class="article-tags">
   
-  <entry>
-    <title><![CDATA[Hexo Jacman 主題換作者頭像照片、Logo、FavIcon]]></title>
-    <link href="http://dj1020.github.io/Hexo-Jacman-%E4%B8%BB%E9%A1%8C%E6%8F%9B%E4%BD%9C%E8%80%85%E9%A0%AD%E5%83%8F%E7%85%A7%E7%89%87/"/>
-    <id>http://dj1020.github.io/Hexo-Jacman-主題換作者頭像照片/</id>
-    <published>2015-09-24T00:59:14.000Z</published>
-    <updated>2015-09-24T02:33:57.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="找到_Jacman_主題設定檔__config-yml">找到 Jacman 主題設定檔 _config.yml</h2><p>說來也蠻容易的，就是找到主題設定檔，位置在 themes/jacman/_config.yml 約 line 32 行的位置，<br>裡面還可以換 logo, favicon, 和 img folder，還有 banner，目前 banner 預設是沒有。</p>
-<figure class="highlight bash"><figcaption><span>&#123;Hexo安裝資料夾&#125;/themes/jacman/_config.yml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### Image</span></span><br><span class="line">imglogo:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span>             <span class="comment">## display image logo true/false.</span></span><br><span class="line">  src: img/logo.png        <span class="comment">## `.svg` and `.png` are recommended,please put image into the theme folder `/jacman/source/img`.</span></span><br><span class="line">favicon: img/favicon.ico   <span class="comment">## size:32px*32px,`.ico` is recommended,please put image into the theme folder `/jacman/source/img`.</span></span><br><span class="line">apple_icon: img/jacman.jpg <span class="comment">## size:114px*114px,please put image into the theme folder `/jacman/source/img`.</span></span><br><span class="line">author_img: img/author.jpg <span class="comment">## size:220px*220px.display author avatar picture.if don't want to display,please don't set this.</span></span><br><span class="line">banner_img: <span class="comment">#img/banner.jpg ## size:1920px*200px+. Banner Picture</span></span><br><span class="line"><span class="comment">### Theme Color</span></span><br><span class="line">theme_color:</span><br><span class="line">    theme: <span class="string">'#673D88'</span>    <span class="comment">##the defaut theme color is blue</span></span><br></pre></td></tr></table></figure>
-<p>然後把 <code>author_img: img/author.jpg</code> 取代掉就可以了，或是指定另一個位置。</p>
-<p><code>author.jpg</code> 位置在 <code>{Hexo安裝資料夾}/themes/jacman/source/img/author.jpg</code></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="找到_Jacman_主題設定檔__config-yml">找到 Jacman 主題設定檔 _config.yml</h2><p>說來也蠻容易的，就是找到主題設定檔，位置在 themes/jacman/_config.yml 約 line 32 行的位置，<br>裡]]>
-    </summary>
-    
-      <category term="Bootstrap" scheme="http://dj1020.github.io/tags/Bootstrap/"/>
-    
-      <category term="Hexo" scheme="http://dj1020.github.io/tags/Hexo/"/>
-    
-      <category term="Hexo 筆記" scheme="http://dj1020.github.io/categories/Hexo-%E7%AD%86%E8%A8%98/"/>
-    
-  </entry>
+  <span></span> <a href="/tags/PHP也有Day/">PHP也有Day</a><a href="/tags/筆記/">筆記</a><a href="/tags/設計模式/">設計模式</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://dj1020.github.io/PHP也有Day-19-從實例學習設計模式-by-大澤木小鐵/" data-title="[筆記] PHP也有Day #19 - 從實例學習設計模式 by 大澤木小鐵 | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/Hexo-添加-RSS/"  title="Hexo 添加 RSS">
+ <strong>下一篇：</strong><br/> 
+ <span>Hexo 添加 RSS
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目錄</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#About_Jace_Ju_大澤木小鐵"><span class="toc-number">1.</span> <span class="toc-text">About Jace Ju 大澤木小鐵</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Agenda"><span class="toc-number">2.</span> <span class="toc-text">Agenda</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OO_常見問題"><span class="toc-number">3.</span> <span class="toc-text">OO 常見問題</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#學物件導向就要先學設計模式？"><span class="toc-number">4.</span> <span class="toc-text">學物件導向就要先學設計模式？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SOLID_是…"><span class="toc-number">5.</span> <span class="toc-text">SOLID 是…</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-_SRP_-_單一職責原則_Single_Responsibility_Principle"><span class="toc-number">5.1.</span> <span class="toc-text">1. SRP - 單一職責原則 Single Responsibility Principle</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#秘訣"><span class="toc-number">5.1.1.</span> <span class="toc-text">秘訣</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#實例"><span class="toc-number">5.1.2.</span> <span class="toc-text">實例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-_OCP_-_開放/關閉原則_Open-Closed_Principle"><span class="toc-number">5.2.</span> <span class="toc-text">2. OCP - 開放/關閉原則 Open-Closed Principle</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#秘訣-1"><span class="toc-number">5.2.1.</span> <span class="toc-text">秘訣</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#範例"><span class="toc-number">5.2.2.</span> <span class="toc-text">範例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#小提醒"><span class="toc-number">5.2.3.</span> <span class="toc-text">小提醒</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-_LSP_-_里氏替換原則_Liskov_Substitution_Principle"><span class="toc-number">5.3.</span> <span class="toc-text">3. LSP - 里氏替換原則 Liskov Substitution Principle</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#秘訣-2"><span class="toc-number">5.3.1.</span> <span class="toc-text">秘訣</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#範例-1"><span class="toc-number">5.3.2.</span> <span class="toc-text">範例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#範例(反例)"><span class="toc-number">5.3.3.</span> <span class="toc-text">範例(反例)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#小提醒-1"><span class="toc-number">5.3.4.</span> <span class="toc-text">小提醒</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-_LKP_-_最小知識原則_Least_Knowledge_Principle_(a-k-a_迪米特法則_Law_of_Demeter)"><span class="toc-number">5.4.</span> <span class="toc-text">3-2. LKP - 最小知識原則 Least Knowledge Principle (a.k.a 迪米特法則 Law of Demeter)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#範例-2"><span class="toc-number">5.4.1.</span> <span class="toc-text">範例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-_ISP_-_介面隔離原則_Interface_Segregation_Principle"><span class="toc-number">5.5.</span> <span class="toc-text">4. ISP - 介面隔離原則 Interface Segregation Principle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-_DIP_-_依頼反轉原則_Dependency_Inversion_Principle"><span class="toc-number">5.6.</span> <span class="toc-text">5. DIP - 依頼反轉原則 Dependency Inversion Principle</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#秘訣-3"><span class="toc-number">5.6.1.</span> <span class="toc-text">秘訣</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#範例-3"><span class="toc-number">5.6.2.</span> <span class="toc-text">範例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SOLID_講的是同一件事"><span class="toc-number">6.</span> <span class="toc-text">SOLID 講的是同一件事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#為什麼還是要有設計模式"><span class="toc-number">7.</span> <span class="toc-text">為什麼還是要有設計模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP_常見的模式"><span class="toc-number">8.</span> <span class="toc-text">PHP 常見的模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Strategy_Pattern_策略模式"><span class="toc-number">8.1.</span> <span class="toc-text">Strategy Pattern 策略模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Simple_Factory_Method_Pattern_簡單工廠模式"><span class="toc-number">8.2.</span> <span class="toc-text">Simple Factory Method Pattern 簡單工廠模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Adapter_Patern_轉接器模式"><span class="toc-number">8.3.</span> <span class="toc-text">Adapter Patern 轉接器模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Decorator_Pattern_裝飾者模式"><span class="toc-number">8.4.</span> <span class="toc-text">Decorator Pattern 裝飾者模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#範例-4"><span class="toc-number">8.4.1.</span> <span class="toc-text">範例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Chain_of_Responsibility_Pattern_責任鍊"><span class="toc-number">8.5.</span> <span class="toc-text">Chain of Responsibility Pattern 責任鍊</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#複合模式"><span class="toc-number">8.6.</span> <span class="toc-text">複合模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#書單"><span class="toc-number">8.7.</span> <span class="toc-text">書單</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#是不是一定要套用模式？"><span class="toc-number">9.</span> <span class="toc-text">是不是一定要套用模式？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference_參考連結"><span class="toc-number"></span> <span class="toc-text">Reference 參考連結</span></a>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
   
-  <entry>
-    <title><![CDATA[Hexo 3.0 發佈，閃亮亮安裝步驟小筆記]]></title>
-    <link href="http://dj1020.github.io/Hexo-%E9%96%83%E4%BA%AE%E4%BA%AE%E5%AE%89%E8%A3%9D%E6%AD%A5%E9%A9%9F%E5%B0%8F%E7%AD%86%E8%A8%98/"/>
-    <id>http://dj1020.github.io/Hexo-閃亮亮安裝步驟小筆記/</id>
-    <published>2015-09-23T01:20:51.000Z</published>
-    <updated>2015-09-24T02:08:43.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="從無到有_Hexo_3-0_在_GitHub_發佈流程，還有踩雷心得和解法">從無到有 Hexo 3.0 在 GitHub 發佈流程，還有踩雷心得和解法</h2><p>因為平常就有用 npm 和 git 所以這兩部份的安裝流程沒在裡面</p>
-<ol>
-<li><p>把 npm 和 git 裝好</p>
-<ul>
-<li>brew install npm</li>
-<li>git (Mac 內建)</li>
-</ul>
-</li>
-<li><p><code>$ npm install -g hexo-cli</code></p>
-</li>
-<li><p><code>$ hexo init hexo</code></p>
-</li>
-<li><p><code>$ cd hexo</code></p>
-</li>
-<li><p><code>$ npm install</code></p>
-</li>
-<li><p>設定 _config.yml</p>
-</li>
-<li><p>下載 <a href="https://github.com/wuchong/jacman" target="_blank" rel="external">jacman 佈景主題</a></p>
-<ul>
-<li><code>$ git clone https://github.com/wuchong/jacman.git themes/jacman</code></li>
-<li>把 _config.yml 的 themes 設成 jacman</li>
-</ul>
-</li>
-<li><p>建立這一篇文章</p>
-<ul>
-<li><code>$ hexo new &quot;Hexo 閃亮亮安裝步驟小筆記&quot;</code></li>
-</ul>
-</li>
-<li><p>編輯 hexo/source/_posts/Hexo-閃亮亮安裝步驟小筆記.md</p>
-</li>
-<li><p>產生網頁 <code>$ hexo generate</code></p>
-</li>
-<li><p>打開 server 看一下效果 <code>$ hexo server</code>，開 <a href="http://0.0.0.0:4000/" target="_blank" rel="external">http://0.0.0.0:4000/</a></p>
-</li>
-<li><p>試試看 deploy <code>$ hexo deploy -g</code> (部署網站前先產生靜態檔案)</p>
-</li>
-<li><p>發現沒效，原來是要在 _config.yml 設 deploy 參數，參考這一篇: <a href="http://eva0919.github.io/2013/04/21/%E4%BD%BF%E7%94%A8hexo%E4%BB%A5%E5%8F%8Agithub-page%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84%E9%83%A8%E8%90%BD%E6%A0%BC/" target="_blank" rel="external">使用hexo以及github page建立自己的部落格</a></p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: github</span><br><span class="line">  <span class="attribute">repository</span>: <span class="attribute">https</span>:<span class="comment">//github.com/你的帳號/你的帳號.github.com.git</span></span><br><span class="line">  <span class="attribute">branch</span>: master</span><br></pre></td></tr></table></figure>
-<p>【重要】 閃亮亮先去 github 建一個 repo，但因為建錯 repo 名字，所以沒有頁面可以看……，記得建 repo 的時候一定要用 username.github.io 才會被 github 當成一個靜態頁網站。</p>
-</li>
-<li><p>再 deploy 一次試試看 <code>$ hexo deploy -g</code></p>
-</li>
-<li><p>結果出現：</p>
-<figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ERROR</span> Deployer <span class="keyword">not</span> found: github</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>來去 google 找解，找到：</p>
-<blockquote>
-<p>1) <a href="http://ogeeker.com/2015/03/14/Hexo-Deployer-not-found-github/" target="_blank" rel="external">Hexo Deployer not found: github</a><br>2) <a href="https://www.v2ex.com/t/175940" target="_blank" rel="external">搭建 hexo，在執行 hexo deploy 後,出現 error deployer not found:github 的錯誤</a><br>3) <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Hexo deploy 官方文件</a></p>
-</blockquote>
-<p>Hexo 3.0 開始 type 要改成 git，還有 repository 換成 repo，而且聽說新的 repo 是不能 deploy 上去的，要先自己  push 一個 commit，但說真的我不知道一開始 commit 要推什麼上去，先這樣好了：</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>git init</span><br><span class="line"><span class="variable">$ </span>git add .gitignore</span><br><span class="line"><span class="variable">$ </span>git commit -m <span class="string">"init commit"</span></span><br><span class="line"><span class="variable">$ </span>git remote add origin <span class="symbol">https:</span>/<span class="regexp">/github.com/</span>你的帳號/你的帳號.github.com.git</span><br><span class="line"><span class="variable">$ </span>git push -u origin master</span><br></pre></td></tr></table></figure>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: git</span><br><span class="line">  <span class="attribute">repo</span>: <span class="attribute">https</span>:<span class="comment">//github.com/你的帳號/你的帳號.github.com.git</span></span><br><span class="line">  <span class="attribute">branch</span>: master</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>再試一次 deploy <code>$ hexo deploy -g</code>，還是</p>
-<figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ERROR</span> Deployer <span class="keyword">not</span> found: git</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>不死心，再查 google 大神</p>
-<blockquote>
-<p>1) <a href="https://github.com/hexojs/hexo/issues/1040#issuecomment-109291766" target="_blank" rel="external">ERROR Deployer not found: github #1040</a></p>
-</blockquote>
-<p>說要手動在 hexo 專案資料夾下安裝 <code>npm install hexo-deployer-git --save</code></p>
-</li>
-<li><p>裝完再試一次 <code>$ hexo deploy -g</code>，成功！推上去了，但是要去哪裡看我的站呢？</p>
-</li>
-<li><p>慘劇，原來建 repo 的時候一定要用 username.github.io 才會被當成一個 page，那就重建 repo 吧</p>
-<blockquote>
-<p>引用： <a href="http://www.jianshu.com/p/05289a4bc8b2" target="_blank" rel="external">如何搭建一個獨立博客——簡明Github Pages與Hexo教程</a></p>
-<p>使用GitHub Pages建立博客與GitHub建立好鏈接之後，就可以方便的使用它提供的Pages服務，GitHub Pages分兩種，一種是你的GitHub用戶名建立的 username.github.io 這樣的用戶&amp;組織頁（站），另一種是依附項目的pages。<br>想建立個人博客是用的第一種，形如cnfeat.github.io這樣的可訪問的站，每個用戶名下面只能建立一個。</p>
-</blockquote>
-</li>
-<li><p>去 github 發現不用重建，改 repo 名字就好了，然後再重新 deploy 一次 <code>$ hexo deploy -g</code></p>
-</li>
-<li><p>嘿嘿！終於成功了吧~ <a href="http://dj1020.github.io/">閃亮亮大師之路</a> 開張，底下那個 theme 作者的頭像要改一下。</p>
-</li>
-</ol>
-<h2 id="待辦清單">待辦清單</h2><ul>
-<li>增加 RSS 功能</li>
-<li>發現 ol 後面的 ul 應該要是一個點，但樣式不對，看是語法要調整還是怎樣。</li>
-<li>RWD 時要把文章目錄隱藏</li>
-<li>綁定到自訂網域 blog.dj1020.net</li>
-<li>在 sublime 設定自動 deploy 快速鍵</li>
-<li>也許弄個 Bulk Mailer 例如 MailChimp</li>
-<li>把下面的微博分享什麼的拿掉</li>
-<li>學怎麼改 Menu</li>
-<li>調整 Search 功能，如 demo 一樣 <a href="http://wuchong.me/jacman/search/index.html?q=%E4%B8%BB%E9%A1%8C" target="_blank" rel="external">Demo</a>，或是用點燈坊的外掛</li>
-<li>瀏覽文章時預設顯示文章目錄在右側，分類 block 在下面</li>
-<li>加 FavIcon (Done 9/24/2015)</li>
-<li>改 theme 作者頭像，小改一下配色 (Done 9/24/2015)</li>
-<li>學怎麼用 Categories (Done 9/24/2015)</li>
-<li>日期 desc sort (其實是預設的)</li>
-<li>設定 Read More 模式 (Done 9/24/2015)</li>
-</ul>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="從無到有_Hexo_3-0_在_GitHub_發佈流程，還有踩雷心得和解法">從無到有 Hexo 3.0 在 GitHub 發佈流程，還有踩雷心得和解法</h2><p>因為平常就有用 npm 和 git 所以這兩部份的安裝流程沒在裡面</p>
-<ol>
-<li><]]>
-    </summary>
-    
-      <category term="Bootstrap" scheme="http://dj1020.github.io/tags/Bootstrap/"/>
-    
-      <category term="Hexo" scheme="http://dj1020.github.io/tags/Hexo/"/>
-    
-      <category term="Install" scheme="http://dj1020.github.io/tags/Install/"/>
-    
-      <category term="Hexo 筆記" scheme="http://dj1020.github.io/categories/Hexo-%E7%AD%86%E8%A8%98/"/>
-    
-  </entry>
+<div class="categorieslist">
+	<p class="asidetitle">分類</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Hexo-筆記/" title="Hexo 筆記">Hexo 筆記<sup>3</sup></a></li>
+		  
+		
+		  
+		
+		  
+			<li><a href="/categories/程式筆記/" title="程式筆記">程式筆記<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
   
-  <entry>
-    <title><![CDATA[Hello World]]></title>
-    <link href="http://dj1020.github.io/hello-world/"/>
-    <id>http://dj1020.github.io/hello-world/</id>
-    <published>2015-09-23T01:10:51.000Z</published>
-    <updated>2015-09-24T01:02:40.000Z</updated>
-    <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io]]>
-    </summary>
-    
-  </entry>
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Bootstrap/" title="Bootstrap">Bootstrap<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Install/" title="Install">Install<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP也有Day/" title="PHP也有Day">PHP也有Day<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/設計模式/" title="設計模式">設計模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/筆記/" title="筆記">筆記<sup>1</sup></a></li>
+			
+		
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情鏈接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://oomusou.io/" target="_blank" title="Sam&#39;s 點燈坊">Sam&#39;s 點燈坊</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://jaceju.net/" target="_blank" title="鐵哥 JaceJu&#39;s Blog">鐵哥 JaceJu&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
   
-</feed>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Ken Lin in Cloud Interactive. <br/>
+			This is my blog, believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="閃亮亮dj">閃亮亮dj</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
