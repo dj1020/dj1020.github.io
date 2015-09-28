@@ -3,9 +3,9 @@
   <title><![CDATA[閃亮亮大師之路]]></title>
   <subtitle><![CDATA[程式學習心得筆記]]></subtitle>
   <link href="/atom.xml" rel="self"/>
-  <link href="http://dj1020.github.io/"/>
+  <link href="http://blog.dj1020.net/"/>
   <updated>2015-09-25T08:20:30.000Z</updated>
-  <id>http://dj1020.github.io/</id>
+  <id>http://blog.dj1020.net/</id>
   
   <author>
     <name><![CDATA[閃亮亮dj]]></name>
@@ -16,8 +16,8 @@
   
   <entry>
     <title><![CDATA[[筆記] PHP也有Day #19 - 從實例學習設計模式 by 大澤木小鐵]]></title>
-    <link href="http://dj1020.github.io/PHP%E4%B9%9F%E6%9C%89Day-19-%E5%BE%9E%E5%AF%A6%E4%BE%8B%E5%AD%B8%E7%BF%92%E8%A8%AD%E8%A8%88%E6%A8%A1%E5%BC%8F-by-%E5%A4%A7%E6%BE%A4%E6%9C%A8%E5%B0%8F%E9%90%B5/"/>
-    <id>http://dj1020.github.io/PHP也有Day-19-從實例學習設計模式-by-大澤木小鐵/</id>
+    <link href="http://blog.dj1020.net/PHP%E4%B9%9F%E6%9C%89Day-19-%E5%BE%9E%E5%AF%A6%E4%BE%8B%E5%AD%B8%E7%BF%92%E8%A8%AD%E8%A8%88%E6%A8%A1%E5%BC%8F-by-%E5%A4%A7%E6%BE%A4%E6%9C%A8%E5%B0%8F%E9%90%B5/"/>
+    <id>http://blog.dj1020.net/PHP也有Day-19-從實例學習設計模式-by-大澤木小鐵/</id>
     <published>2015-09-24T10:14:37.000Z</published>
     <updated>2015-09-25T08:20:30.000Z</updated>
     <content type="html"><![CDATA[<h2 id="About_Jace_Ju_大澤木小鐵">About Jace Ju 大澤木小鐵</h2><p>KKBOX 網站工程師<br>為了訓練公司內部人員設計模式的基本教學</p>
@@ -218,20 +218,20 @@
 <li>OO 常見問題</]]>
     </summary>
     
-      <category term="PHP也有Day" scheme="http://dj1020.github.io/tags/PHP%E4%B9%9F%E6%9C%89Day/"/>
+      <category term="PHP也有Day" scheme="http://blog.dj1020.net/tags/PHP%E4%B9%9F%E6%9C%89Day/"/>
     
-      <category term="筆記" scheme="http://dj1020.github.io/tags/%E7%AD%86%E8%A8%98/"/>
+      <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
     
-      <category term="設計模式" scheme="http://dj1020.github.io/tags/%E8%A8%AD%E8%A8%88%E6%A8%A1%E5%BC%8F/"/>
+      <category term="設計模式" scheme="http://blog.dj1020.net/tags/%E8%A8%AD%E8%A8%88%E6%A8%A1%E5%BC%8F/"/>
     
-      <category term="程式筆記" scheme="http://dj1020.github.io/categories/%E7%A8%8B%E5%BC%8F%E7%AD%86%E8%A8%98/"/>
+      <category term="程式筆記" scheme="http://blog.dj1020.net/categories/%E7%A8%8B%E5%BC%8F%E7%AD%86%E8%A8%98/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Hexo 添加 RSS]]></title>
-    <link href="http://dj1020.github.io/Hexo-%E6%B7%BB%E5%8A%A0-RSS/"/>
-    <id>http://dj1020.github.io/Hexo-添加-RSS/</id>
+    <link href="http://blog.dj1020.net/Hexo-%E6%B7%BB%E5%8A%A0-RSS/"/>
+    <id>http://blog.dj1020.net/Hexo-添加-RSS/</id>
     <published>2015-09-24T02:13:34.000Z</published>
     <updated>2015-09-24T02:37:44.000Z</updated>
     <content type="html"><![CDATA[<h2 id="添加_RSS">添加 RSS</h2><ol>
@@ -255,18 +255,18 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line"]]>
     </summary>
     
-      <category term="Bootstrap" scheme="http://dj1020.github.io/tags/Bootstrap/"/>
+      <category term="Bootstrap" scheme="http://blog.dj1020.net/tags/Bootstrap/"/>
     
-      <category term="Hexo" scheme="http://dj1020.github.io/tags/Hexo/"/>
+      <category term="Hexo" scheme="http://blog.dj1020.net/tags/Hexo/"/>
     
-      <category term="Hexo 筆記" scheme="http://dj1020.github.io/categories/Hexo-%E7%AD%86%E8%A8%98/"/>
+      <category term="Hexo 筆記" scheme="http://blog.dj1020.net/categories/Hexo-%E7%AD%86%E8%A8%98/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Hexo Jacman 主題換作者頭像照片、Logo、FavIcon]]></title>
-    <link href="http://dj1020.github.io/Hexo-Jacman-%E4%B8%BB%E9%A1%8C%E6%8F%9B%E4%BD%9C%E8%80%85%E9%A0%AD%E5%83%8F%E7%85%A7%E7%89%87/"/>
-    <id>http://dj1020.github.io/Hexo-Jacman-主題換作者頭像照片/</id>
+    <link href="http://blog.dj1020.net/Hexo-Jacman-%E4%B8%BB%E9%A1%8C%E6%8F%9B%E4%BD%9C%E8%80%85%E9%A0%AD%E5%83%8F%E7%85%A7%E7%89%87/"/>
+    <id>http://blog.dj1020.net/Hexo-Jacman-主題換作者頭像照片/</id>
     <published>2015-09-24T00:59:14.000Z</published>
     <updated>2015-09-24T02:33:57.000Z</updated>
     <content type="html"><![CDATA[<h2 id="找到_Jacman_主題設定檔__config-yml">找到 Jacman 主題設定檔 _config.yml</h2><p>說來也蠻容易的，就是找到主題設定檔，位置在 themes/jacman/_config.yml 約 line 32 行的位置，<br>裡面還可以換 logo, favicon, 和 img folder，還有 banner，目前 banner 預設是沒有。</p>
@@ -278,18 +278,18 @@
     <![CDATA[<h2 id="找到_Jacman_主題設定檔__config-yml">找到 Jacman 主題設定檔 _config.yml</h2><p>說來也蠻容易的，就是找到主題設定檔，位置在 themes/jacman/_config.yml 約 line 32 行的位置，<br>裡]]>
     </summary>
     
-      <category term="Bootstrap" scheme="http://dj1020.github.io/tags/Bootstrap/"/>
+      <category term="Bootstrap" scheme="http://blog.dj1020.net/tags/Bootstrap/"/>
     
-      <category term="Hexo" scheme="http://dj1020.github.io/tags/Hexo/"/>
+      <category term="Hexo" scheme="http://blog.dj1020.net/tags/Hexo/"/>
     
-      <category term="Hexo 筆記" scheme="http://dj1020.github.io/categories/Hexo-%E7%AD%86%E8%A8%98/"/>
+      <category term="Hexo 筆記" scheme="http://blog.dj1020.net/categories/Hexo-%E7%AD%86%E8%A8%98/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Hexo 3.0 發佈，閃亮亮安裝步驟小筆記]]></title>
-    <link href="http://dj1020.github.io/Hexo-%E9%96%83%E4%BA%AE%E4%BA%AE%E5%AE%89%E8%A3%9D%E6%AD%A5%E9%A9%9F%E5%B0%8F%E7%AD%86%E8%A8%98/"/>
-    <id>http://dj1020.github.io/Hexo-閃亮亮安裝步驟小筆記/</id>
+    <link href="http://blog.dj1020.net/Hexo-%E9%96%83%E4%BA%AE%E4%BA%AE%E5%AE%89%E8%A3%9D%E6%AD%A5%E9%A9%9F%E5%B0%8F%E7%AD%86%E8%A8%98/"/>
+    <id>http://blog.dj1020.net/Hexo-閃亮亮安裝步驟小筆記/</id>
     <published>2015-09-23T01:20:51.000Z</published>
     <updated>2015-09-24T02:08:43.000Z</updated>
     <content type="html"><![CDATA[<h2 id="從無到有_Hexo_3-0_在_GitHub_發佈流程，還有踩雷心得和解法">從無到有 Hexo 3.0 在 GitHub 發佈流程，還有踩雷心得和解法</h2><p>因為平常就有用 npm 和 git 所以這兩部份的安裝流程沒在裡面</p>
@@ -365,7 +365,7 @@
 </li>
 <li><p>去 github 發現不用重建，改 repo 名字就好了，然後再重新 deploy 一次 <code>$ hexo deploy -g</code></p>
 </li>
-<li><p>嘿嘿！終於成功了吧~ <a href="http://dj1020.github.io/">閃亮亮大師之路</a> 開張，底下那個 theme 作者的頭像要改一下。</p>
+<li><p>嘿嘿！終於成功了吧~ <a href="http://dj1020.github.io/" target="_blank" rel="external">閃亮亮大師之路</a> 開張，底下那個 theme 作者的頭像要改一下。</p>
 </li>
 </ol>
 <h2 id="待辦清單">待辦清單</h2><ul>
@@ -392,20 +392,20 @@
 <li><]]>
     </summary>
     
-      <category term="Bootstrap" scheme="http://dj1020.github.io/tags/Bootstrap/"/>
+      <category term="Bootstrap" scheme="http://blog.dj1020.net/tags/Bootstrap/"/>
     
-      <category term="Hexo" scheme="http://dj1020.github.io/tags/Hexo/"/>
+      <category term="Hexo" scheme="http://blog.dj1020.net/tags/Hexo/"/>
     
-      <category term="Install" scheme="http://dj1020.github.io/tags/Install/"/>
+      <category term="Install" scheme="http://blog.dj1020.net/tags/Install/"/>
     
-      <category term="Hexo 筆記" scheme="http://dj1020.github.io/categories/Hexo-%E7%AD%86%E8%A8%98/"/>
+      <category term="Hexo 筆記" scheme="http://blog.dj1020.net/categories/Hexo-%E7%AD%86%E8%A8%98/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Hello World]]></title>
-    <link href="http://dj1020.github.io/hello-world/"/>
-    <id>http://dj1020.github.io/hello-world/</id>
+    <link href="http://blog.dj1020.net/hello-world/"/>
+    <id>http://blog.dj1020.net/hello-world/</id>
     <published>2015-09-23T01:10:51.000Z</published>
     <updated>2015-09-24T01:02:40.000Z</updated>
     <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
