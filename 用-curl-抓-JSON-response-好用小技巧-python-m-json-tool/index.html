@@ -4,26 +4,32 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Hello World | 閃亮亮大師之路</title>
+    <title>用 curl 抓 JSON response 好用小技巧 - python -m json.tool | 閃亮亮大師之路</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="閃亮亮dj">
     
 
     
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+    <meta name="description" content="利用 curl 取回 JSON reponse，只要經過 pipe 給 python -m json.tool 就可以得到漂亮的 JSON 格式資料。
+12# -s 是不要秀 Progress Bar 用的$ curl -s http://jsonplaceholder.typicode.com/posts/1/comments | python -m json.tool
+結果：
+12345678">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://blog.dj1020.net/hello-world/index.html">
+<meta property="og:title" content="用 curl 抓 JSON response 好用小技巧 - python -m json.tool">
+<meta property="og:url" content="http://blog.dj1020.net/用-curl-抓-JSON-response-好用小技巧-python-m-json-tool/index.html">
 <meta property="og:site_name" content="閃亮亮大師之路">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2015-09-24T01:02:40.000Z">
+<meta property="og:description" content="利用 curl 取回 JSON reponse，只要經過 pipe 給 python -m json.tool 就可以得到漂亮的 JSON 格式資料。
+12# -s 是不要秀 Progress Bar 用的$ curl -s http://jsonplaceholder.typicode.com/posts/1/comments | python -m json.tool
+結果：
+12345678">
+<meta property="og:updated_time" content="2015-10-01T01:13:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="用 curl 抓 JSON response 好用小技巧 - python -m json.tool">
+<meta name="twitter:description" content="利用 curl 取回 JSON reponse，只要經過 pipe 給 python -m json.tool 就可以得到漂亮的 JSON 格式資料。
+12# -s 是不要秀 Progress Bar 用的$ curl -s http://jsonplaceholder.typicode.com/posts/1/comments | python -m json.tool
+結果：
+12345678">
 
     
     <link rel="alternative" href="/atom.xml" title="閃亮亮大師之路" type="application/atom+xml">
@@ -83,20 +89,20 @@ Quick">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/hello-world/" title="Hello World" itemprop="url">Hello World</a>
+      <a href="/用-curl-抓-JSON-response-好用小技巧-python-m-json-tool/" title="用 curl 抓 JSON response 好用小技巧 - python -m json.tool" itemprop="url">用 curl 抓 JSON response 好用小技巧 - python -m json.tool</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="閃亮亮dj" target="_blank" itemprop="author">閃亮亮dj</a>
 		
   <p class="article-time">
-    <time datetime="2015-09-23T01:10:51.000Z" itemprop="datePublished"> 发表于 2015-09-23</time>
+    <time datetime="2015-09-30T09:53:24.000Z" itemprop="datePublished"> 发表于 2015-09-30</time>
   </p>
 
   
     <div class="article-share clearfix" id="share">
     
-      <div data-url="http://blog.dj1020.net/hello-world/" data-title="Hello World | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+      <div data-url="http://blog.dj1020.net/用-curl-抓-JSON-response-好用小技巧-python-m-json-tool/" data-title="用 curl 抓 JSON response 好用小技巧 - python -m json.tool | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
       </div>
     
     </div>
@@ -105,20 +111,19 @@ Quick">
 </header>
 	<div class="article-content">
 		
-		<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-  
+		<p>利用 curl 取回 JSON reponse，只要經過 pipe 給 python -m json.tool 就可以得到漂亮的 JSON 格式資料。</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -s 是不要秀 Progress Bar 用的</span></span><br><span class="line"><span class="variable">$ </span>curl -s <span class="symbol">http:</span>/<span class="regexp">/jsonplaceholder.typicode.com/posts</span><span class="regexp">/1/comments</span> | python -m json.tool</span><br></pre></td></tr></table></figure>
+<p>結果：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">$ curl -s http://jsonplaceholder.typicode.com/posts/1/comments | python -m json.tool</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        "body": "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium",</span><br><span class="line">        "email": "Eliseo@gardner.biz",</span><br><span class="line">        "id": 1,</span><br><span class="line">        "name": "id labore ex et quam laborum",</span><br><span class="line">        "postId": 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        "body": "est natus enim nihil est dolore omnis voluptatem numquam\net omnis occaecati quod ullam at\nvoluptatem error expedita pariatur\nnihil sint nostrum voluptatem reiciendis et",</span><br><span class="line">        "email": "Jayne_Kuhic@sydney.com",</span><br><span class="line">        "id": 2,</span><br><span class="line">        "name": "quo vero reiciendis velit similique earum",</span><br><span class="line">        "postId": 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        "body": "quia molestiae reprehenderit quasi aspernatur\naut expedita occaecati aliquam eveniet laudantium\nomnis quibusdam delectus saepe quia accusamus maiores nam est\ncum et ducimus et vero voluptates excepturi deleniti ratione",</span><br><span class="line">        "email": "Nikita@garfield.biz",</span><br><span class="line">        "id": 3,</span><br><span class="line">        "name": "odio adipisci rerum aut animi",</span><br><span class="line">        "postId": 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        "body": "non et atque\noccaecati deserunt quas accusantium unde odit nobis qui voluptatem\nquia voluptas consequuntur itaque dolor\net qui rerum deleniti ut occaecati",</span><br><span class="line">        "email": "Lew@alysha.tv",</span><br><span class="line">        "id": 4,</span><br><span class="line">        "name": "alias odio sit",</span><br><span class="line">        "postId": 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        "body": "harum non quasi et ratione\ntempore iure ex voluptates in ratione\nharum architecto fugit inventore cupiditate\nvoluptates magni quo et",</span><br><span class="line">        "email": "Hayden@althea.biz",</span><br><span class="line">        "id": 5,</span><br><span class="line">        "name": "vero eaque aliquid doloribus et culpa",</span><br><span class="line">        "postId": 1</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JSON/">JSON</a><a href="/tags/Linux/">Linux</a><a href="/tags/curl/">curl</a>
+  </div>
 
 </div>
 
@@ -126,7 +131,7 @@ Quick">
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://blog.dj1020.net/hello-world/" data-title="Hello World | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+	  <div data-url="http://blog.dj1020.net/用-curl-抓-JSON-response-好用小技巧-python-m-json-tool/" data-title="用 curl 抓 JSON response 好用小技巧 - python -m json.tool | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -139,14 +144,14 @@ Quick">
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/Hexo-閃亮亮安裝步驟小筆記/" title="Hexo 3.0 發佈，閃亮亮安裝步驟小筆記">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Hexo 3.0 發佈，閃亮亮安裝步驟小筆記</span>
+
+<div class="next">
+<a href="/Hexo-發佈到-GitHub-的方式，設-CNAME/"  title="Hexo 發佈到 GitHub 自訂網域(網址)的方式，設 CNAME">
+ <strong>下一篇：</strong><br/> 
+ <span>Hexo 發佈到 GitHub 自訂網域(網址)的方式，設 CNAME
+</span>
 </a>
 </div>
-
 
 </nav>
 
@@ -158,7 +163,7 @@ Quick">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick_Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create_a_new_post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run_server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate_static_files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy_to_remote_sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+ 
  
   </div>
 

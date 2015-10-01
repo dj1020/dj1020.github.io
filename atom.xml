@@ -4,7 +4,7 @@
   <subtitle><![CDATA[程式學習心得筆記]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.dj1020.net/"/>
-  <updated>2015-09-28T09:55:00.000Z</updated>
+  <updated>2015-10-01T01:13:37.000Z</updated>
   <id>http://blog.dj1020.net/</id>
   
   <author>
@@ -13,6 +13,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[用 curl 抓 JSON response 好用小技巧 - python -m json.tool]]></title>
+    <link href="http://blog.dj1020.net/%E7%94%A8-curl-%E6%8A%93-JSON-response-%E5%A5%BD%E7%94%A8%E5%B0%8F%E6%8A%80%E5%B7%A7-python-m-json-tool/"/>
+    <id>http://blog.dj1020.net/用-curl-抓-JSON-response-好用小技巧-python-m-json-tool/</id>
+    <published>2015-09-30T09:53:24.000Z</published>
+    <updated>2015-10-01T01:13:37.000Z</updated>
+    <content type="html"><![CDATA[<p>利用 curl 取回 JSON reponse，只要經過 pipe 給 python -m json.tool 就可以得到漂亮的 JSON 格式資料。</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -s 是不要秀 Progress Bar 用的</span></span><br><span class="line"><span class="variable">$ </span>curl -s <span class="symbol">http:</span>/<span class="regexp">/jsonplaceholder.typicode.com/posts</span><span class="regexp">/1/comments</span> | python -m json.tool</span><br></pre></td></tr></table></figure>
+<p>結果：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">$ curl -s http://jsonplaceholder.typicode.com/posts/1/comments | python -m json.tool</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        "body": "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium",</span><br><span class="line">        "email": "Eliseo@gardner.biz",</span><br><span class="line">        "id": 1,</span><br><span class="line">        "name": "id labore ex et quam laborum",</span><br><span class="line">        "postId": 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        "body": "est natus enim nihil est dolore omnis voluptatem numquam\net omnis occaecati quod ullam at\nvoluptatem error expedita pariatur\nnihil sint nostrum voluptatem reiciendis et",</span><br><span class="line">        "email": "Jayne_Kuhic@sydney.com",</span><br><span class="line">        "id": 2,</span><br><span class="line">        "name": "quo vero reiciendis velit similique earum",</span><br><span class="line">        "postId": 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        "body": "quia molestiae reprehenderit quasi aspernatur\naut expedita occaecati aliquam eveniet laudantium\nomnis quibusdam delectus saepe quia accusamus maiores nam est\ncum et ducimus et vero voluptates excepturi deleniti ratione",</span><br><span class="line">        "email": "Nikita@garfield.biz",</span><br><span class="line">        "id": 3,</span><br><span class="line">        "name": "odio adipisci rerum aut animi",</span><br><span class="line">        "postId": 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        "body": "non et atque\noccaecati deserunt quas accusantium unde odit nobis qui voluptatem\nquia voluptas consequuntur itaque dolor\net qui rerum deleniti ut occaecati",</span><br><span class="line">        "email": "Lew@alysha.tv",</span><br><span class="line">        "id": 4,</span><br><span class="line">        "name": "alias odio sit",</span><br><span class="line">        "postId": 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        "body": "harum non quasi et ratione\ntempore iure ex voluptates in ratione\nharum architecto fugit inventore cupiditate\nvoluptates magni quo et",</span><br><span class="line">        "email": "Hayden@althea.biz",</span><br><span class="line">        "id": 5,</span><br><span class="line">        "name": "vero eaque aliquid doloribus et culpa",</span><br><span class="line">        "postId": 1</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>]]></content>
+    <summary type="html">
+    <![CDATA[<p>利用 curl 取回 JSON reponse，只要經過 pipe 給 python -m json.tool 就可以得到漂亮的 JSON 格式資料。</p>
+<figure class="highlight crystal"><table><tr><td class="g]]>
+    </summary>
+    
+      <category term="JSON" scheme="http://blog.dj1020.net/tags/JSON/"/>
+    
+      <category term="Linux" scheme="http://blog.dj1020.net/tags/Linux/"/>
+    
+      <category term="curl" scheme="http://blog.dj1020.net/tags/curl/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Hexo 發佈到 GitHub 自訂網域(網址)的方式，設 CNAME]]></title>
