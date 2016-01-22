@@ -1,0 +1,687 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>2015 PHP Conf 筆記 (8) - High Performance Solution for PHP (@Laruence) | 閃亮亮大師之路</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="閃亮亮dj">
+    
+
+    
+    <meta name="description" content="About 惠心辰
+Ya*, Yaf, Yar, Yaconf, Yac, Taint
+Maintainer of Opcache, Msgpack, PHP-Lua
+Core Developer of PHP7 (NG branch)
+微博總架構師
+
+Overview
+Weibo V5 (2012~2015)
+
+Nginx, PHP-5.4
+300% performance improvemen">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2015 PHP Conf 筆記 (8) - High Performance Solution for PHP (@Laruence)">
+<meta property="og:url" content="http://blog.dj1020.net/2015-PHP-Conf-筆記(8) - High Performance Solution for PHP (@Laruence)/index.html">
+<meta property="og:site_name" content="閃亮亮大師之路">
+<meta property="og:description" content="About 惠心辰
+Ya*, Yaf, Yar, Yaconf, Yac, Taint
+Maintainer of Opcache, Msgpack, PHP-Lua
+Core Developer of PHP7 (NG branch)
+微博總架構師
+
+Overview
+Weibo V5 (2012~2015)
+
+Nginx, PHP-5.4
+300% performance improvemen">
+<meta property="og:updated_time" content="2015-10-09T09:07:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2015 PHP Conf 筆記 (8) - High Performance Solution for PHP (@Laruence)">
+<meta name="twitter:description" content="About 惠心辰
+Ya*, Yaf, Yar, Yaconf, Yac, Taint
+Maintainer of Opcache, Msgpack, PHP-Lua
+Core Developer of PHP7 (NG branch)
+微博總架構師
+
+Overview
+Weibo V5 (2012~2015)
+
+Nginx, PHP-5.4
+300% performance improvemen">
+
+    
+    <link rel="alternative" href="/atom.xml" title="閃亮亮大師之路" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="閃亮亮大師之路" title="閃亮亮大師之路"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="閃亮亮大師之路">閃亮亮大師之路</a></h1>
+				<h2 class="blog-motto">程式學習心得筆記</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.dj1020.net">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015-PHP-Conf-筆記(8) - High Performance Solution for PHP (@Laruence)/" title="2015 PHP Conf 筆記 (8) - High Performance Solution for PHP (@Laruence)" itemprop="url">2015 PHP Conf 筆記 (8) - High Performance Solution for PHP (@Laruence)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="閃亮亮dj" target="_blank" itemprop="author">閃亮亮dj</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-09T01:33:08.000Z" itemprop="datePublished"> 發表於 2015-10-09</time>
+  </p>
+
+  
+    <div class="article-share clearfix" id="share">
+    
+      <div data-url="http://blog.dj1020.net/2015-PHP-Conf-筆記(8) - High Performance Solution for PHP (@Laruence)/" data-title="2015 PHP Conf 筆記 (8) - High Performance Solution for PHP (@Laruence) | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+      </div>
+    
+    </div>
+  
+
+</header>
+	<div class="article-content">
+		
+		<h2 id="About__u60E0_u5FC3_u8FB0"><a href="#About__u60E0_u5FC3_u8FB0" class="headerlink" title="About 惠心辰"></a>About 惠心辰</h2><ul>
+<li>Ya*, Yaf, Yar, Yaconf, Yac, Taint</li>
+<li>Maintainer of Opcache, Msgpack, PHP-Lua</li>
+<li>Core Developer of PHP7 (NG branch)</li>
+<li>微博總架構師</li>
+</ul>
+<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><ul>
+<li><p>Weibo V5 (2012~2015)</p>
+<ul>
+<li>Nginx, PHP-5.4</li>
+<li>300% performance improvement</li>
+<li>60% Response time reduced</li>
+<li>More than 1000 servers saved</li>
+</ul>
+</li>
+<li><p>CBigpipe ??</p>
+</li>
+</ul>
+<h2 id="Framework_-_Yaf"><a href="#Framework_-_Yaf" class="headerlink" title="Framework - Yaf"></a>Framework - Yaf</h2><ul>
+<li>(2011) Use or not use framework was a problem</li>
+<li>What PHP framework should do ?<ul>
+<li>Route</li>
+<li>Dispatch</li>
+<li>Autoloading</li>
+<li>View ? PHP 天生就是 template，Yaf 只有最簡單的</li>
+<li>ORM ? Yaf 沒有</li>
+</ul>
+</li>
+<li>簡單、夠用就好，不求「高」、「大」、「全」</li>
+</ul>
+<h3 id="Yaf_-_the_first_PHP_framework_in_extension"><a href="#Yaf_-_the_first_PHP_framework_in_extension" class="headerlink" title="Yaf - the first PHP framework in extension"></a>Yaf - the first PHP framework in extension</h3><ul>
+<li>不用經過 compile 到 opcode 在 zend VM，最後進入 zend internal APIs</li>
+<li>直接使用 zend internal APIs</li>
+<li>包含 PhalconPHP 都被幹掉，但 Phalcon 也很快，第二名 (參考就好)</li>
+<li>大陸百度、微博、新浪都在用 Yaf</li>
+</ul>
+<h2 id="SOA"><a href="#SOA" class="headerlink" title="SOA"></a>SOA</h2><ul>
+<li>方便分工、解耦合、High Available、Scale out</li>
+<li>(2013) PC 微博，代碼超過 15萬，70多人合作，但只有一個 repo。</li>
+<li>不知道一個接口有沒有人做過，就自己寫了一個。</li>
+<li>所以要 Service 化</li>
+<li><p>但要用 HTTP 嗎？ -&gt; 用 RPC</p>
+<ul>
+<li>但 RPC 有性能問題</li>
+<li>自己寫一個 RPC -&gt; Yar</li>
+</ul>
+</li>
+<li><p>Throughput vs Lagency 有時候是一個 trade-off</p>
+</li>
+</ul>
+<h2 id="Yar"><a href="#Yar" class="headerlink" title="Yar"></a>Yar</h2><ul>
+<li>輕量 RPC framework in etension</li>
+<li>支援 C, PHP, Java</li>
+<li>Bigpipe 自欺欺人讓用戶感覺變快了 - 先給 DOM 結構，慢慢的再把 json 吐出來，把資料填進 dom 裡。但是是 queue 的概念，一個個 output 出來。</li>
+<li>CBigpipe 可以 concurrent 處理 output。</li>
+</ul>
+<h3 id="Yar_for_C_framework"><a href="#Yar_for_C_framework" class="headerlink" title="Yar for C framework"></a>Yar for C framework</h3><ul>
+<li>ex: 白名單、黑名單、Search</li>
+<li>會變動又需要執行的很快的服務，改用 C 來寫核心</li>
+</ul>
+<h3 id="Github"><a href="#Github" class="headerlink" title="Github"></a>Github</h3><ul>
+<li><a href="http://github.com/laruence/yar" target="_blank" rel="external">http://github.com/laruence/yar</a></li>
+<li><a href="http://github.com/laruence/yar-c" target="_blank" rel="external">http://github.com/laruence/yar-c</a></li>
+</ul>
+<h2 id="Yac"><a href="#Yac" class="headerlink" title="Yac"></a>Yac</h2><ul>
+<li>用來取代 APC</li>
+<li>市面沒有本機的 Cache 產品，只好自己寫</li>
+<li>Cache<ul>
+<li>Memcached</li>
+<li>Redis</li>
+</ul>
+</li>
+<li>但運行起來很複雜</li>
+<li>基於共享 Memory 的 Cache 機制</li>
+<li>如果加 lock 多核 CPU 都在等 Memory access</li>
+<li>用 CRC 來確認拿回來的資料對不對！</li>
+<li>Yac is not safe，不是百分百安全</li>
+<li>less than 1/千萬 會得到一個 wrong result (故意給他錯)</li>
+<li>Where is can be used (出了問題也不知道 哈)</li>
+<li>錯誤率可容忍！比 APC 快 6 倍</li>
+<li>特別適用不同用戶，不同進程之間</li>
+<li>key 和 value 分開存，key 基本上不會出錯 (64bits, bytes? 字節)</li>
+<li>衝突發生率很小</li>
+<li>Not wildly used，也不推薦用</li>
+<li>也可以用: APC, Memcached</li>
+</ul>
+<h2 id="Configuration_-_Yaconf"><a href="#Configuration_-_Yaconf" class="headerlink" title="Configuration - Yaconf"></a>Configuration - Yaconf</h2><ul>
+<li>一堆 config 目錄，什麼都存</li>
+<li>問題：<ul>
+<li>每次請求都要 parse 一次</li>
+<li>就算存了 opcache，還是要執行一次 detect env</li>
+<li>配置和代碼一起上線 -&gt; 嚴重的安全性問題，你甚至可以在 github 上 hack 某人的 DB password</li>
+<li>代碼和配置該分開！</li>
+</ul>
+</li>
+<li>Yaconf 就是為了解決這些問題<ul>
+<li>INI File</li>
+<li>Persistent configurations container in extension</li>
+<li>Supports multiply files, sections</li>
+<li>Support constants, env varialbes in PHP</li>
+<li>Loading once serve multiple requests</li>
+</ul>
+</li>
+<li>在微博廣泛使用</li>
+<li>PHP 7 適用，講者不想再 migrate 到 php 5</li>
+<li>PHP 5 以下替代方案： Hidef</li>
+</ul>
+<h2 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h2><ul>
+<li>PHP 最大的三個安全問題<ul>
+<li>XSS</li>
+<li>RCE (Remote Code Execution)</li>
+<li>SQL Injection</li>
+</ul>
+</li>
+</ul>
+<h3 id="Taint"><a href="#Taint" class="headerlink" title="Taint"></a>Taint</h3><ul>
+<li>全部 mark 成「可疑數據」</li>
+<li>敏感操作時，會 warning，ex: echo, print, file_put_contents …</li>
+<li>Q: 何時會去掉 mark ?</li>
+<li>Hack 界很有用！發覺漏洞</li>
+<li>It’s not a cure, 會替換掉一些核心 coode</li>
+<li>和 Xdebug 會衝突</li>
+<li>替代： RIPS etc 靜態檢查，所以有些會查不到</li>
+</ul>
+<h2 id="Opcache"><a href="#Opcache" class="headerlink" title="Opcache"></a>Opcache</h2><ul>
+<li>隨著 PHP 5.5 發佈，快！不建議再用 APC</li>
+<li>也是一個 opcode optimizer<ul>
+<li>Constant propagation</li>
+<li>Dead coes removal</li>
+<li>Literations compact</li>
+<li>NOPS removal</li>
+</ul>
+</li>
+<li>到處都在用</li>
+<li>Always remember to enbale it，不能編到核心碼內。</li>
+</ul>
+<h2 id="PHP_7"><a href="#PHP_7" class="headerlink" title="PHP 7"></a>PHP 7</h2><ul>
+<li>Yaf 17% faster</li>
+<li>Yar 10% faster</li>
+<li>Yac 20% faster</li>
+<li>Yaconf (only for PHP 7)</li>
+<li>Opcache<ul>
+<li>file-based opcodes cache</li>
+<li>hugepagefy text segment (新特性，PHP 爸爸沒提)</li>
+<li>把核心碼 4K page 改成 2T page</li>
+</ul>
+</li>
+</ul>
+<h2 id="QA"><a href="#QA" class="headerlink" title="QA"></a>QA</h2>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/PHP-Conf/">PHP Conf</a><a href="/tags/筆記/">筆記</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.dj1020.net/2015-PHP-Conf-筆記(8) - High Performance Solution for PHP (@Laruence)/" data-title="2015 PHP Conf 筆記 (8) - High Performance Solution for PHP (@Laruence) | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015-PHP-Conf-筆記(7) - Docker 當專案漸趕當遷移不再那麼難 (若虛)/" title="2015 PHP Conf 筆記 (7) - Docker 當專案漸趕當遷移不再那麼難 (若虛)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  2015 PHP Conf 筆記 (7) - Docker 當專案漸趕當遷移不再那麼難 (若虛)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015-PHP-Conf-筆記(2) - c9s Code Generation(CodeGen)/"  title="2015 PHP Conf 筆記 (2) - c9s Code Generation(CodeGen)">
+ <strong>下一篇：</strong><br/> 
+ <span>2015 PHP Conf 筆記 (2) - c9s Code Generation(CodeGen)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目錄</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#About__u60E0_u5FC3_u8FB0"><span class="toc-number">1.</span> <span class="toc-text">About 惠心辰</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Overview"><span class="toc-number">2.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Framework_-_Yaf"><span class="toc-number">3.</span> <span class="toc-text">Framework - Yaf</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Yaf_-_the_first_PHP_framework_in_extension"><span class="toc-number">3.1.</span> <span class="toc-text">Yaf - the first PHP framework in extension</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SOA"><span class="toc-number">4.</span> <span class="toc-text">SOA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Yar"><span class="toc-number">5.</span> <span class="toc-text">Yar</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Yar_for_C_framework"><span class="toc-number">5.1.</span> <span class="toc-text">Yar for C framework</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Github"><span class="toc-number">5.2.</span> <span class="toc-text">Github</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Yac"><span class="toc-number">6.</span> <span class="toc-text">Yac</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Configuration_-_Yaconf"><span class="toc-number">7.</span> <span class="toc-text">Configuration - Yaconf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Security"><span class="toc-number">8.</span> <span class="toc-text">Security</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Taint"><span class="toc-number">8.1.</span> <span class="toc-text">Taint</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Opcache"><span class="toc-number">9.</span> <span class="toc-text">Opcache</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP_7"><span class="toc-number">10.</span> <span class="toc-text">PHP 7</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#QA"><span class="toc-number">11.</span> <span class="toc-text">QA</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分類</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Hexo-筆記/" title="Hexo 筆記">Hexo 筆記<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程式筆記/" title="程式筆記">程式筆記<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/筆記/" title="筆記">筆記<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP-Conf/" title="PHP Conf">PHP Conf<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Bootstrap/" title="Bootstrap">Bootstrap<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP也有Day/" title="PHP也有Day">PHP也有Day<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TDD/" title="TDD">TDD<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner讀書會/" title="Laradiner讀書會">Laradiner讀書會<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程式學習/" title="程式學習">程式學習<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/設計模式/" title="設計模式">設計模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner/" title="Laradiner">Laradiner<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/講座/" title="講座">講座<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Install/" title="Install">Install<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/curl/" title="curl">curl<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情鏈接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://oomusou.io/" target="_blank" title="Sam&#39;s 點燈坊">Sam&#39;s 點燈坊</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://jaceju.net/" target="_blank" title="鐵哥 JaceJu&#39;s Blog">鐵哥 JaceJu&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Ken Lin in Cloud Interactive. <br/>
+			This is my blog, believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="閃亮亮dj">閃亮亮dj</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

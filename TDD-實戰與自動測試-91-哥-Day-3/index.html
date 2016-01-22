@@ -1,0 +1,720 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>TDD 實戰與自動測試 (91 哥) - Day 3 | 閃亮亮大師之路</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="閃亮亮dj">
+    
+
+    
+    <meta name="description" content="HW Learning
+一次只新增一個 Scenario，一次只有一個紅燈，關注點集中。
+一次新增多個測試案例不會比較快，但會造成很大的「干擾」，不自覺想去 implement 下一個 Scenario。
+用”最少”、”最簡單”、”最直覺(最快)” 的方式來寫 production code 通過 test case。
+花太多時間一次做到位，也許寫錯或需求改變要打掉重寫，或重構，成本都高很多。
+也">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TDD 實戰與自動測試 (91 哥) - Day 3">
+<meta property="og:url" content="http://blog.dj1020.net/TDD-實戰與自動測試-91-哥-Day-3/index.html">
+<meta property="og:site_name" content="閃亮亮大師之路">
+<meta property="og:description" content="HW Learning
+一次只新增一個 Scenario，一次只有一個紅燈，關注點集中。
+一次新增多個測試案例不會比較快，但會造成很大的「干擾」，不自覺想去 implement 下一個 Scenario。
+用”最少”、”最簡單”、”最直覺(最快)” 的方式來寫 production code 通過 test case。
+花太多時間一次做到位，也許寫錯或需求改變要打掉重寫，或重構，成本都高很多。
+也">
+<meta property="og:image" content="http://lh5.ggpht.com/-yZnKirtvtMw/UVtoLg_35oI/AAAAAAAABYg/-BPqlP6OWGU/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-7C3CsZ_r484/UVtoKaESqWI/AAAAAAAABYQ/MCcuTLL0uIY/image_thumb%25255B2%25255D.png?imgmax=800">
+<meta property="og:updated_time" content="2015-10-31T09:48:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TDD 實戰與自動測試 (91 哥) - Day 3">
+<meta name="twitter:description" content="HW Learning
+一次只新增一個 Scenario，一次只有一個紅燈，關注點集中。
+一次新增多個測試案例不會比較快，但會造成很大的「干擾」，不自覺想去 implement 下一個 Scenario。
+用”最少”、”最簡單”、”最直覺(最快)” 的方式來寫 production code 通過 test case。
+花太多時間一次做到位，也許寫錯或需求改變要打掉重寫，或重構，成本都高很多。
+也">
+
+    
+    <link rel="alternative" href="/atom.xml" title="閃亮亮大師之路" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="閃亮亮大師之路" title="閃亮亮大師之路"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="閃亮亮大師之路">閃亮亮大師之路</a></h1>
+				<h2 class="blog-motto">程式學習心得筆記</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.dj1020.net">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/TDD-實戰與自動測試-91-哥-Day-3/" title="TDD 實戰與自動測試 (91 哥) - Day 3" itemprop="url">TDD 實戰與自動測試 (91 哥) - Day 3</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="閃亮亮dj" target="_blank" itemprop="author">閃亮亮dj</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-31T01:54:27.000Z" itemprop="datePublished"> 發表於 2015-10-31</time>
+  </p>
+
+  
+    <div class="article-share clearfix" id="share">
+    
+      <div data-url="http://blog.dj1020.net/TDD-實戰與自動測試-91-哥-Day-3/" data-title="TDD 實戰與自動測試 (91 哥) - Day 3 | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+      </div>
+    
+    </div>
+  
+
+</header>
+	<div class="article-content">
+		
+		<h2 id="HW_Learning"><a href="#HW_Learning" class="headerlink" title="HW Learning"></a>HW Learning</h2><ol>
+<li>一次只新增一個 Scenario，一次只有一個紅燈，關注點集中。</li>
+<li>一次新增多個測試案例不會比較快，但會造成很大的「干擾」，不自覺想去 implement 下一個 Scenario。</li>
+<li>用”最少”、”最簡單”、”最直覺(最快)” 的方式來寫 production code 通過 test case。</li>
+<li>花太多時間一次做到位，也許寫錯或需求改變要打掉重寫，或重構，成本都高很多。</li>
+<li>也可能後面 implement 的 scenario 根本不重要，不用寫，每次只寫一個 scenario 可以做到增量式 delivery</li>
+<li>承上，如果想一次做到位，同時滿足 10 個 Scenario，也許交付時間卡在尷尬的時點，結果什麼可執行的 Code 都交不出來。</li>
+<li><code>先有 Code 再重構</code></li>
+<li>承上，一定比你一開始要設計到完美才開始寫 Code 來得簡單。</li>
+<li>一定要跟 PO(或需求單位) 要 Example !!!! 不同的路徑都要有，一定有 if / else，每個 if / else 都會多測試案例。</li>
+</ol>
+<h2 id="IDEAs"><a href="#IDEAs" class="headerlink" title="IDEAs"></a>IDEAs</h2><ol>
+<li>全面性的思考，可以分「軟體架構」和「系統架構」面：系統架構面，如存資料要用檔案還是資料庫，哪些 service 要用 queue … 等等。軟體架構面，如分幾個 layer 的，要寫哪些 class 等等。</li>
+<li>Interface 應該用「使用端」來定義，我們只是要實作出來；而且大多數是從需求中重構出來的。</li>
+<li>用註解表示需求，之後補 TestCase</li>
+</ol>
+<h2 id="Unit_Test_vs-_TDD_vs-_BDD"><a href="#Unit_Test_vs-_TDD_vs-_BDD" class="headerlink" title="Unit Test vs. TDD vs. BDD"></a>Unit Test vs. TDD vs. BDD</h2><ul>
+<li>Unit Test: 確保程式寫的跟你想的一樣</li>
+<li>TDD: 確保你先想清楚才動手寫，知道我寫的每一行 Code 的目的，和何時該結束，並且能驗證。</li>
+<li><p>BDD: 確保你想的是使用者要的。(確保功能符合客戶需求才動手寫。)</p>
+</li>
+<li><p>不用 TDD，開發很容易發散回不來！如，要修燈、換燈泡發現櫃子壞、要修櫃子找抽屜發現怪聲、要修抽屜找潤滑油結果沒了要開車去買、開車發現車壞了，所以先跑去修車。老婆回來怒問，我不是叫你修燈泡嗎？老公：不然你以為我在做什麼？</p>
+</li>
+</ul>
+<h2 id="u6210_u672C_u548C_u4FEE_u6539_u6642_u9EDE_-_26gt_3B__u8DDF_u8001_u95C6_u8AC7_u6700_u597D_u7684"><a href="#u6210_u672C_u548C_u4FEE_u6539_u6642_u9EDE_-_26gt_3B__u8DDF_u8001_u95C6_u8AC7_u6700_u597D_u7684" class="headerlink" title="成本和修改時點 -&gt; 跟老闆談最好的"></a>成本和修改時點 -&gt; 跟老闆談最好的</h2><ul>
+<li>Length of Feedback cycle 圖，應該跟老闆講解的！為何專案 delay 的元兇。p.180</li>
+<li>2006-2009 Scott W. Ambler</li>
+<li><a href="http://www.richard-banks.org/2013/04/why-short-feedback-cycle-is-good-thing.html" target="_blank" rel="external">http://www.richard-banks.org/2013/04/why-short-feedback-cycle-is-good-thing.html</a><br><img src="http://lh5.ggpht.com/-yZnKirtvtMw/UVtoLg_35oI/AAAAAAAABYg/-BPqlP6OWGU/image_thumb%25255B5%25255D.png?imgmax=800"></li>
+<li>這張圖更簡單，還包含需求收集：<br><img src="http://lh3.ggpht.com/-7C3CsZ_r484/UVtoKaESqWI/AAAAAAAABYQ/MCcuTLL0uIY/image_thumb%25255B2%25255D.png?imgmax=800"></li>
+</ul>
+<h2 id="RIP_TDD__28from_Ken_Beck_29_http_3A//mvcbook-net/006m"><a href="#RIP_TDD__28from_Ken_Beck_29_http_3A//mvcbook-net/006m" class="headerlink" title="RIP TDD (from Ken Beck) http://mvcbook.net/006m"></a>RIP TDD (from Ken Beck) <a href="http://mvcbook.net/006m" target="_blank" rel="external">http://mvcbook.net/006m</a></h2><ul>
+<li>Over-engineering (過度設計)<ul>
+<li>如果沒有 TDD 我要用什麼來解決過度設計的問題</li>
+<li>反例：架構太空人</li>
+</ul>
+</li>
+<li>API feedback (改善 API 的設計與可用性)<ul>
+<li>先寫測試案例來使用自己設計的 API，才會知道 API 好不好用</li>
+<li>TDD 就是模擬使用端來用你的 API</li>
+<li>Test Case 就是在教別人怎麼用你 API</li>
+</ul>
+</li>
+<li>Logic errors (想的和寫的不一樣，寫的和需求不一樣)<ul>
+<li>由需求寫測試案例，綠燈表示通過測試案例</li>
+</ul>
+</li>
+<li>Documentation (寫的跟維護文件是痛苦的)<ul>
+<li>從測試案例轉換成文件，不用重工，或是辛苦的維護文件同步更新</li>
+</ul>
+</li>
+<li>Feeling overwhelmed (找不到切入點)<ul>
+<li>第一步比較花時間是寫 Test Case 時，對 target class 的命名，method 的命名</li>
+<li>建議從最主要的 happy path 開始 implement</li>
+</ul>
+</li>
+<li>Separate interface from implementation thinking (抽象設計)</li>
+<li>Agreement (確保已修正問題的證據)</li>
+<li>Anxiety (改東壞西的擔心受怕)</li>
+</ul>
+<blockquote>
+<p>如果沒有碰到上面的問題，可以不用 TDD<br>如果你比 TDD 有更低成本的解決方案，請提出來，你就是大師了</p>
+</blockquote>
+<h2 id="UncleBob"><a href="#UncleBob" class="headerlink" title="UncleBob"></a>UncleBob</h2><ul>
+<li><a href="http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd" target="_blank" rel="external">http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd</a></li>
+</ul>
+<h4 id="Over_the_years_I_have_come_to_describe_Test_Driven_Development_in_terms_of_three_simple_rules-_They_are_3A"><a href="#Over_the_years_I_have_come_to_describe_Test_Driven_Development_in_terms_of_three_simple_rules-_They_are_3A" class="headerlink" title="Over the years I have come to describe Test Driven Development in terms of three simple rules. They are:"></a>Over the years I have come to describe Test Driven Development in terms of three simple rules. They are:</h4><ol>
+<li>You are not allowed to write any production code unless it is to make a failing unit test pass.</li>
+<li>You are not allowed to write any more of a unit test than is sufficient to fail; and compilation failures are failures.</li>
+<li>You are not allowed to write any more production code than is sufficient to pass the one failing unit test.</li>
+</ol>
+<h2 id="User_Story_Lab"><a href="#User_Story_Lab" class="headerlink" title="User Story Lab"></a>User Story Lab</h2><ul>
+<li>會計人員算薪水的系統</li>
+<li>多了以時薪計算的兼職人員，但目前系統未提供時薪制計算方式</li>
+<li>依據上、下班時間，計算出該日工時，並加上兼職人員加班的時間</li>
+<li>…</li>
+</ul>
+<h2 id="User_Story_vs_User_Story_Card"><a href="#User_Story_vs_User_Story_Card" class="headerlink" title="User Story vs User Story Card"></a>User Story vs User Story Card</h2><ul>
+<li>上班時間 &gt; 8hr/day 就是加班</li>
+<li>Common Sense 要問出來，你的和我的不一樣</li>
+<li>加班 &lt; 2 hr *1.66</li>
+<li>加班 2~4 hr *2</li>
+<li>加班不得超過 4 hr</li>
+<li>必要有 Example 不然你怎麼知道中午那一個小時算不算錢</li>
+<li>每個 Scenario 要對應「關鍵商業邏輯」</li>
+</ul>
+<h2 id="TDD_vs-_Non-TDD"><a href="#TDD_vs-_Non-TDD" class="headerlink" title="TDD vs. Non-TDD"></a>TDD vs. Non-TDD</h2><ul>
+<li>圖1: 像繞路一團亂的線</li>
+<li>圖2: 像星狀圖，直線，走過的路不用再走，只是多叉路，打叉的表示例外</li>
+<li><a href="http://dreamyeh.pixnet.net/blog/post/41497630-%E6%96%B0%E6%89%8B%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%B8%AB%E5%92%8C%E8%B3%87%E6%B7%B1%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%B8%AB%E7%9A%84%E5%B7%AE%E7%95%B0" target="_blank" rel="external">專業的設計師和不專業的設計師</a></li>
+</ul>
+<h2 id="u88FD_u4F5C_u6F86_u82B1_u5668"><a href="#u88FD_u4F5C_u6F86_u82B1_u5668" class="headerlink" title="製作澆花器"></a>製作澆花器</h2><ul>
+<li>規格<ul>
+<li>能裝水</li>
+<li>能提</li>
+<li>能灑水</li>
+</ul>
+</li>
+<li>自己灑水給自己的外掛</li>
+<li>RD 地雷：跟這支功能一樣，這是 common sense，只是稍微調整一下</li>
+<li>PM 地雷：你規格沒寫清楚，這是需求異動，你上次不是這樣說的，這要大改。你出一張嘴比較快。</li>
+</ul>
+<h2 id="BDD__u53EF_u4EE5_u89E3_u6C7A_u4F60_u7684_u554F_u984C"><a href="#BDD__u53EF_u4EE5_u89E3_u6C7A_u4F60_u7684_u554F_u984C" class="headerlink" title="BDD 可以解決你的問題"></a>BDD 可以解決你的問題</h2><ul>
+<li>BDD 測試案例怎麼來？<ul>
+<li>分析 User Story，看滿足哪些 Scenario 才叫做 Done。(Acceptance Criteria - 寫在 User Story Card 背面)</li>
+<li>最重要的事！到底怎麼樣才叫做做完，最值得花時間的事。</li>
+<li>Top Down! Don’t Bottom Up!</li>
+<li>更專業說法：Outside In</li>
+<li>TDD 的 Test Case 應該是由 Accept test 出來的</li>
+<li>Requirement -&gt; User Story -&gt; Acceptance Test Case -&gt; Intergration Test Case -&gt; Unit Test Case</li>
+<li>Requirement -&gt; User Story -&gt; Acceptance Test Case <code>是從 PO, user, QA 來的</code></li>
+</ul>
+</li>
+<li>如何降低溝通成本？<ul>
+<li>減少需求和開發中的落差</li>
+<li>不是 Boss Driven Development</li>
+<li>Doamin Specific Language (DSL 簡稱 人話, ex: 加班、時薪)</li>
+</ul>
+</li>
+</ul>
+<h2 id="u4EC0_u9EBC_u662F_BDD"><a href="#u4EC0_u9EBC_u662F_BDD" class="headerlink" title="什麼是 BDD"></a>什麼是 BDD</h2><ul>
+<li>把你想做的紀錄下來，但是每個人都看得懂！</li>
+<li>都用人話溝通</li>
+<li>人話可轉換成程式</li>
+<li>滿足使用者需求</li>
+</ul>
+<h2 id="SpecFlow_for_BDD__28Cucumber_2C_PHP__u4E5F_u6709_29"><a href="#SpecFlow_for_BDD__28Cucumber_2C_PHP__u4E5F_u6709_29" class="headerlink" title="SpecFlow for BDD (Cucumber, PHP 也有)"></a>SpecFlow for BDD (Cucumber, PHP 也有)</h2><ul>
+<li>把文件和程式碼分開</li>
+</ul>
+<h2 id="BDD_by_Cucumber"><a href="#BDD_by_Cucumber" class="headerlink" title="BDD by Cucumber"></a>BDD by Cucumber</h2><ul>
+<li>BDD Test Case -&gt; Accept TC -&gt; I TC -&gt; U TC</li>
+<li>粒度越滾越小</li>
+<li>但一樣可以用 Cucumber 來做 Unit Test，沒有說 Cucumber 一定只能用在 Acceptance Test</li>
+</ul>
+<h2 id="Scope"><a href="#Scope" class="headerlink" title="Scope"></a>Scope</h2><ul>
+<li>什麼是 Scope? 老師說要提醒問他</li>
+<li>用來避免 step definition 全域的副作用，例如有兩個 “When I Press Save”</li>
+</ul>
+<h2 id="Web_Service__u6E2C_u8A66"><a href="#Web_Service__u6E2C_u8A66" class="headerlink" title="Web Service 測試"></a>Web Service 測試</h2><ul>
+<li>PostMan 可以 generate code snippet</li>
+</ul>
+<h2 id="Living_Documents_of_specFlow"><a href="#Living_Documents_of_specFlow" class="headerlink" title="Living Documents of specFlow"></a>Living Documents of specFlow</h2><ul>
+<li>Pickles Living Documentation</li>
+</ul>
+<h2 id="u9019_u4E09_u5929_u6C92_u6559_u7684_u4E8B"><a href="#u9019_u4E09_u5929_u6C92_u6559_u7684_u4E8B" class="headerlink" title="這三天沒教的事"></a>這三天沒教的事</h2><ul>
+<li>基礎建設設置<ul>
+<li>版控</li>
+<li>CI : build, report, auto email, auto testing</li>
+<li>程式碼分析: Code Mess Detect, 深度檢測, 相似度檢測, Code Standard Detect(ex, PSR)</li>
+<li>自動化部署</li>
+</ul>
+</li>
+<li>軟體開發流程框架</li>
+<li>團隊成員心態轉換<ul>
+<li>PO, sketcholder, Scrum Team</li>
+</ul>
+</li>
+</ul>
+<h2 id="u5982_u4F55_u548C_PO__u6E9D_u901A"><a href="#u5982_u4F55_u548C_PO__u6E9D_u901A" class="headerlink" title="如何和 PO 溝通"></a>如何和 PO 溝通</h2><ul>
+<li>千萬不要想「改變」他們 -&gt; 重點是「改善」，幫助他們解決問題。</li>
+</ul>
+<ol>
+<li><p>先用「白板」與 PO 討論</p>
+<ul>
+<li>Why, What, Who，Given/When/Then</li>
+<li>引導 PO 給實例，有哪些 Scenario，當場和 PO 討論時就定下來，越擬真越好</li>
+<li>把白板結果拍下來！</li>
+</ul>
+</li>
+<li><p>RD 拍白板的結果整理成 Gherkin Style Documents</p>
+<ul>
+<li>把白板照和 Behat 文件一起 mail 給他</li>
+<li>一定要問 PO，這樣有沒有比較清楚？</li>
+<li>把 HTML 產生給他</li>
+<li>快速 prototype 給他，寫 acceptance test</li>
+</ul>
+</li>
+<li><p>在白板上開始和 PO 使用 Given/When/Then 與 table 方式討論，描述 Scenario</p>
+</li>
+<li>直接用 Visual Studio 把 table generate 出來</li>
+<li>需求異動時，請 PO 補上哪些 Scenario 要做什麼樣的調整(由 PO 發動)</li>
+<li>請 PO 一開始整理 User Story 或 Story 時，直接使用 <em>一致的格式</em> (Gherkin)</li>
+<li>終極目標，新增或異動需求時，透過 pull request 來更新 Gherkin 文件，讓 PO 操作網頁就好了。</li>
+</ol>
+<blockquote>
+<p>重點不是誰寫！</p>
+</blockquote>
+<h2 id="IDEAs-1"><a href="#IDEAs-1" class="headerlink" title="IDEAs"></a>IDEAs</h2><ul>
+<li>交付文件拿 30%</li>
+<li>使用 Test Case 和需求單位 confirm 需求！就不用先寫 production code 之後才來改。</li>
+<li>和需求單位確認還有沒有需要加入的 scenario，才不會之後被挌話「這是 common sense 啊」</li>
+<li>因為要改難改，結果害所有人都很難用</li>
+<li>如果討論 scenario 時客戶說沒有畫面我不知道 -&gt; 快速製 prototype</li>
+<li>曳光彈開發 -&gt; 讓 prototype 不被浪費，UI 一直到 Controller 都 hard code。</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/TDD/">TDD</a><a href="/tags/筆記/">筆記</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.dj1020.net/TDD-實戰與自動測試-91-哥-Day-3/" data-title="TDD 實戰與自動測試 (91 哥) - Day 3 | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/真。淺談_RESTful_API_by_Triton_Ho/" title="真。淺談 RESTful API by Triton Ho">
+  <strong>上一篇：</strong><br/>
+  <span>
+  真。淺談 RESTful API by Triton Ho</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/TDD-實戰與自動測試-91-哥-Day-2/"  title="TDD 實戰與自動測試 (91 哥) - Day 2 Web Testing">
+ <strong>下一篇：</strong><br/> 
+ <span>TDD 實戰與自動測試 (91 哥) - Day 2 Web Testing
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目錄</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HW_Learning"><span class="toc-number">1.</span> <span class="toc-text">HW Learning</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IDEAs"><span class="toc-number">2.</span> <span class="toc-text">IDEAs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Unit_Test_vs-_TDD_vs-_BDD"><span class="toc-number">3.</span> <span class="toc-text">Unit Test vs. TDD vs. BDD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6210_u672C_u548C_u4FEE_u6539_u6642_u9EDE_-_26gt_3B__u8DDF_u8001_u95C6_u8AC7_u6700_u597D_u7684"><span class="toc-number">4.</span> <span class="toc-text">成本和修改時點 -> 跟老闆談最好的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RIP_TDD__28from_Ken_Beck_29_http_3A//mvcbook-net/006m"><span class="toc-number">5.</span> <span class="toc-text">RIP TDD (from Ken Beck) http://mvcbook.net/006m</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UncleBob"><span class="toc-number">6.</span> <span class="toc-text">UncleBob</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Over_the_years_I_have_come_to_describe_Test_Driven_Development_in_terms_of_three_simple_rules-_They_are_3A"><span class="toc-number">6.0.1.</span> <span class="toc-text">Over the years I have come to describe Test Driven Development in terms of three simple rules. They are:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User_Story_Lab"><span class="toc-number">7.</span> <span class="toc-text">User Story Lab</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User_Story_vs_User_Story_Card"><span class="toc-number">8.</span> <span class="toc-text">User Story vs User Story Card</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TDD_vs-_Non-TDD"><span class="toc-number">9.</span> <span class="toc-text">TDD vs. Non-TDD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u88FD_u4F5C_u6F86_u82B1_u5668"><span class="toc-number">10.</span> <span class="toc-text">製作澆花器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BDD__u53EF_u4EE5_u89E3_u6C7A_u4F60_u7684_u554F_u984C"><span class="toc-number">11.</span> <span class="toc-text">BDD 可以解決你的問題</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4EC0_u9EBC_u662F_BDD"><span class="toc-number">12.</span> <span class="toc-text">什麼是 BDD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpecFlow_for_BDD__28Cucumber_2C_PHP__u4E5F_u6709_29"><span class="toc-number">13.</span> <span class="toc-text">SpecFlow for BDD (Cucumber, PHP 也有)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BDD_by_Cucumber"><span class="toc-number">14.</span> <span class="toc-text">BDD by Cucumber</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scope"><span class="toc-number">15.</span> <span class="toc-text">Scope</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Web_Service__u6E2C_u8A66"><span class="toc-number">16.</span> <span class="toc-text">Web Service 測試</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Living_Documents_of_specFlow"><span class="toc-number">17.</span> <span class="toc-text">Living Documents of specFlow</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u9019_u4E09_u5929_u6C92_u6559_u7684_u4E8B"><span class="toc-number">18.</span> <span class="toc-text">這三天沒教的事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5982_u4F55_u548C_PO__u6E9D_u901A"><span class="toc-number">19.</span> <span class="toc-text">如何和 PO 溝通</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IDEAs-1"><span class="toc-number">20.</span> <span class="toc-text">IDEAs</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分類</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Hexo-筆記/" title="Hexo 筆記">Hexo 筆記<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程式筆記/" title="程式筆記">程式筆記<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/筆記/" title="筆記">筆記<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP-Conf/" title="PHP Conf">PHP Conf<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Bootstrap/" title="Bootstrap">Bootstrap<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP也有Day/" title="PHP也有Day">PHP也有Day<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TDD/" title="TDD">TDD<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner讀書會/" title="Laradiner讀書會">Laradiner讀書會<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程式學習/" title="程式學習">程式學習<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/設計模式/" title="設計模式">設計模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner/" title="Laradiner">Laradiner<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/講座/" title="講座">講座<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Install/" title="Install">Install<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/curl/" title="curl">curl<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情鏈接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://oomusou.io/" target="_blank" title="Sam&#39;s 點燈坊">Sam&#39;s 點燈坊</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://jaceju.net/" target="_blank" title="鐵哥 JaceJu&#39;s Blog">鐵哥 JaceJu&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Ken Lin in Cloud Interactive. <br/>
+			This is my blog, believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="閃亮亮dj">閃亮亮dj</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

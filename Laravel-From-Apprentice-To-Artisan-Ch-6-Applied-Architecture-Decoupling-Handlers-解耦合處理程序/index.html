@@ -1,0 +1,596 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Laradiner 讀書會 - Laravel: From Apprentice To Artisan - Ch. 6 Applied Architecture: Decoupling Handlers (解耦合處理程序) 導讀心得整理筆記 | 閃亮亮大師之路</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="閃亮亮dj">
+    
+
+    
+    <meta name="description" content="介紹前置作業 (Demo 帶快速講解 15 分鐘)Git Repo 按此
+laravel new ch6_demo
+cd ch6_demo
+php artisan key:generate
+php artisan serve 開一個 web server 測試用
+用 CDN 加入 bootstrap css，快速建 form 表單
+php artisan make:controller SmsCo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Laradiner 讀書會 - Laravel: From Apprentice To Artisan - Ch. 6 Applied Architecture: Decoupling Handlers (解耦合處理程序) 導讀心得整理筆記">
+<meta property="og:url" content="http://blog.dj1020.net/Laravel-From-Apprentice-To-Artisan-Ch-6-Applied-Architecture-Decoupling-Handlers-解耦合處理程序/index.html">
+<meta property="og:site_name" content="閃亮亮大師之路">
+<meta property="og:description" content="介紹前置作業 (Demo 帶快速講解 15 分鐘)Git Repo 按此
+laravel new ch6_demo
+cd ch6_demo
+php artisan key:generate
+php artisan serve 開一個 web server 測試用
+用 CDN 加入 bootstrap css，快速建 form 表單
+php artisan make:controller SmsCo">
+<meta property="og:updated_time" content="2016-01-22T07:34:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Laradiner 讀書會 - Laravel: From Apprentice To Artisan - Ch. 6 Applied Architecture: Decoupling Handlers (解耦合處理程序) 導讀心得整理筆記">
+<meta name="twitter:description" content="介紹前置作業 (Demo 帶快速講解 15 分鐘)Git Repo 按此
+laravel new ch6_demo
+cd ch6_demo
+php artisan key:generate
+php artisan serve 開一個 web server 測試用
+用 CDN 加入 bootstrap css，快速建 form 表單
+php artisan make:controller SmsCo">
+
+    
+    <link rel="alternative" href="/atom.xml" title="閃亮亮大師之路" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="閃亮亮大師之路" title="閃亮亮大師之路"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="閃亮亮大師之路">閃亮亮大師之路</a></h1>
+				<h2 class="blog-motto">程式學習心得筆記</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.dj1020.net">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/Laravel-From-Apprentice-To-Artisan-Ch-6-Applied-Architecture-Decoupling-Handlers-解耦合處理程序/" title="Laradiner 讀書會 - Laravel: From Apprentice To Artisan - Ch. 6 Applied Architecture: Decoupling Handlers (解耦合處理程序) 導讀心得整理筆記" itemprop="url">Laradiner 讀書會 - Laravel: From Apprentice To Artisan - Ch. 6 Applied Architecture: Decoupling Handlers (解耦合處理程序) 導讀心得整理筆記</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="閃亮亮dj" target="_blank" itemprop="author">閃亮亮dj</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-27T01:04:23.000Z" itemprop="datePublished"> 發表於 2015-11-27</time>
+  </p>
+
+  
+    <div class="article-share clearfix" id="share">
+    
+      <div data-url="http://blog.dj1020.net/Laravel-From-Apprentice-To-Artisan-Ch-6-Applied-Architecture-Decoupling-Handlers-解耦合處理程序/" data-title="Laradiner 讀書會 - Laravel: From Apprentice To Artisan - Ch. 6 Applied Architecture: Decoupling Handlers (解耦合處理程序) 導讀心得整理筆記 | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+      </div>
+    
+    </div>
+  
+
+</header>
+	<div class="article-content">
+		
+		<h2 id="u4ECB_u7D39"><a href="#u4ECB_u7D39" class="headerlink" title="介紹"></a>介紹</h2><h3 id="u524D_u7F6E_u4F5C_u696D__28Demo__u5E36_u5FEB_u901F_u8B1B_u89E3_15__u5206_u9418_29"><a href="#u524D_u7F6E_u4F5C_u696D__28Demo__u5E36_u5FEB_u901F_u8B1B_u89E3_15__u5206_u9418_29" class="headerlink" title="前置作業 (Demo 帶快速講解 15 分鐘)"></a>前置作業 (Demo 帶快速講解 15 分鐘)</h3><h4 id="Git_Repo__u6309_u6B64"><a href="#Git_Repo__u6309_u6B64" class="headerlink" title="Git Repo 按此"></a><a href="https://github.com/dj1020/Laradiner_Decoupling_Handler" target="_blank" rel="external">Git Repo 按此</a></h4><ol>
+<li><code>laravel new ch6_demo</code></li>
+<li><code>cd ch6_demo</code></li>
+<li><code>php artisan key:generate</code></li>
+<li><code>php artisan serve</code> 開一個 web server 測試用</li>
+<li>用 CDN 加入 bootstrap css，快速建 form 表單</li>
+<li><code>php artisan make:controller SmsController</code></li>
+<li>設 routes 測試 controller (新手注意：有雷，CSRF Token)</li>
+<li><code>php artisan make:event SendSMSEvent</code> 建立事件</li>
+<li><code>php artisan handler:event SendSMS --event SendSMSEvent --queued</code>  建立事件的處理 Handler</li>
+<li>在 <code>EventServiceProvider</code> 註冊 event handler (Ref: Registering Events / Listeners)</li>
+<li>把 form data 傳入 event 物件，在 handler 中取出</li>
+<li>實作 handler (SendSMS class)</li>
+<li>設定 .env 檔並建立資料庫 <code>ch6_demo</code> (demo/secret)</li>
+<li><code>php artisan migrate</code> (建立 User Table)</li>
+<li><code>php artisan make:seeder UsersSeeder</code> 建立 seeder 用來存假 User 資料，並編輯 <code>DatabaseSeeder.php</code></li>
+<li><code>php artisan db:seed</code>  (或 php artisan migrate –seed)，記得重啟 <code>php artisan serve</code></li>
+<li><code>php artisan migrate:refresh --seed</code> 重建資料庫及匯入假 User 資料</li>
+<li><code>php artisan make:model Messages --migration</code> 建 messages table 和 model class</li>
+<li>清空資料庫，重新 <code>php artisan migrate --seed</code>，記得重啟 php artisan serve</li>
+<li>建立 user 和 messages 兩表之間的 relation  (Ref: One to Many Relation)</li>
+</ol>
+<h2 id="u89E3_u8026_u5408_handler"><a href="#u89E3_u8026_u5408_handler" class="headerlink" title="解耦合 handler"></a>解耦合 handler</h2><p>這裡書中使用一段 Code 來解釋「<strong>解耦合 handler</strong>」的概念，其實講的就是 SOLID 中的<strong>「Single Responsibility Principle」單一職責原則</strong>。它給了一個傳簡訊(SMS)序列(Queue)的例子，用的版本是 Laravel 4 ，<strong>下面這段 Code 已經被我用 Laravel 5.1 的 Event 機制改寫過和原書中稍有不同</strong>，大意是當有要傳送簡訊的 event 被送進 Queue 裡，按 Queue 的機制，會呼叫對應的 handler 來處理這個 event，所謂的 handler 就是指 <code>SendSMS</code> 這個類別，Queue 會讓 handler 類別中的 handle 方法被觸發。</p>
+<p>handler 透過實例化 <code>Mitake_SMS</code> 這個類別，使用 <code>sendTextMessage</code> 方法呼叫第三方的 API 完成傳送線上簡訊(SMS)。在發出簡訊後，把送出的簡訊用 Eloquent 物件存進本地的資料庫中做為 log 紀錄起來，且和 User 進行關聯，這樣如有需要我們就可以查詢所有這個 User 送出過的簡訊歷史紀錄。原書中存進資料庫的是「傳給該 User 的簡訊」，為了講解方便我這邊用的例子是存「該 User 送出過的簡訊」，我有對原始碼稍做修改，講起來比較順也比較容易和實務對應做理解，之後會以這段 Code 為實例 demo 怎樣解耦合，後續實例也都以此為基礎。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SendSMS</span> <span class="keyword">implements</span> <span class="title">ShouldQueue</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    use InteractsWithQueue;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> function <span class="title">handle</span><span class="params">(SendSMSEvent $event)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        $data = $event-&gt;getData();</span><br><span class="line">        $mitake = <span class="keyword">new</span> Mitake_SMS($<span class="keyword">this</span>-&gt;apiKey);</span><br><span class="line">        $mitake-&gt;sendTextMessage([</span><br><span class="line">            <span class="string">'to'</span>      =&gt; $data[<span class="string">'phone'</span>],</span><br><span class="line">            <span class="string">'message'</span> =&gt; $data[<span class="string">'message'</span>],</span><br><span class="line">        ]);</span><br><span class="line"></span><br><span class="line">        $user = \App\User::find($data[<span class="string">'user'</span>][<span class="string">'id'</span>]);</span><br><span class="line">        $user-&gt;messages()-&gt;create([</span><br><span class="line">            <span class="string">'to'</span>      =&gt; $data[<span class="string">'phone'</span>],</span><br><span class="line">            <span class="string">'message'</span> =&gt; $data[<span class="string">'message'</span>],</span><br><span class="line">        ]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="u5728_u9019_u6BB5_Code__u7684_u4F8B_u5B50_u4E2D_uFF0C_u4F60_u6709_u6C92_u6709_u770B_u51FA_u4F86_u4EC0_u9EBC_u554F_u984C_uFF1F_282__u5206_u9418_29"><a href="#u5728_u9019_u6BB5_Code__u7684_u4F8B_u5B50_u4E2D_uFF0C_u4F60_u6709_u6C92_u6709_u770B_u51FA_u4F86_u4EC0_u9EBC_u554F_u984C_uFF1F_282__u5206_u9418_29" class="headerlink" title="在這段 Code 的例子中，你有沒有看出來什麼問題？(2 分鐘)"></a>在這段 Code 的例子中，你有沒有看出來什麼問題？(2 分鐘)</h4><p>可往 <strong>可維護性(Maintainability)、可擴充性(Scalability)、可測試性(Testability)、重用性(Reusability)</strong> … 來想</p>
+<p>[閃亮亮PS] : 如果你對這段 Code 的實作細節有興趣，你可以從下面連結瞭解 Laravel 的 Eloquent 和 Event Handler 的用法：</p>
+<ol>
+<li><a href="https://laravel.com/docs/5.1/eloquent#retrieving-single-models" target="_blank" rel="external">Retrieving Single Models / Aggregates</a></li>
+<li><a href="http://laravel.com/docs/5.1/eloquent-relationships#one-to-many" target="_blank" rel="external">One To Many Relation</a></li>
+<li><a href="http://laravel.com/docs/5.1/eloquent-relationships#inserting-related-models" target="_blank" rel="external">Inserting Related Models (示例在第三小點：The Create Method)</a></li>
+<li><a href="http://laravel.com/docs/5.0/events#basic-usage" target="_blank" rel="external">Laravel Events (建議完整看完，沒有很長)</a></li>
+</ol>
+<p><br><br><br><br><br></p>
+<h2 id="u554F_u984C_u8207_u6311_u6230"><a href="#u554F_u984C_u8207_u6311_u6230" class="headerlink" title="問題與挑戰"></a>問題與挑戰</h2><h3 id="u9019_u6BB5_Code__u7684_u554F_u984C_u5728_u65BC_uFF1A"><a href="#u9019_u6BB5_Code__u7684_u554F_u984C_u5728_u65BC_uFF1A" class="headerlink" title="這段 Code 的問題在於："></a>這段 Code 的問題在於：</h3><ol>
+<li>這一段 Code 很難被「自動化地」測試，因為在 handle 方法中直接實例化 <code>Mitake_SMS</code> 這個類別，我們無法利用依賴注入 (DI) 的方式，注入一個 Mock 物件來進行測試。</li>
+<li>handle 方法裡直接使用 \App\User (Eloquent 物件) 導致另一個測試的問題，我們無法在不觸及資料庫的情況下對 handle 方法進行單元測試。</li>
+<li>還有，因為傳送簡訊的主要邏輯寫在 handle 方法裡，我們要傳簡訊變成一定要經過 Queue 的機制才能傳送，使得傳簡訊邏輯和 Queue 緊密耦合。換種說法，就是我們沒辦法不用 Queue 來傳簡訊。</li>
+</ol>
+<p><br></p>
+<h3 id="u9019_u4E9B_u554F_u984C_uFF0C_u5E36_u4F86_u4E86_u5E7E_u500B_u6311_u6230_uFF1A"><a href="#u9019_u4E9B_u554F_u984C_uFF0C_u5E36_u4F86_u4E86_u5E7E_u500B_u6311_u6230_uFF1A" class="headerlink" title="這些問題，帶來了幾個挑戰："></a>這些問題，帶來了幾個挑戰：</h3><ul>
+<li><strong>挑戰 1</strong>：有沒有什麼寫法是可以換簡訊平台卻不需要修改已經寫好的 Production Code？</li>
+<li><strong>挑戰 2</strong>：在修改最少的情況下，讓這個 Mitake_SMS 類別可以被 Mock 取代，進而測試 handle 方法</li>
+<li><strong>挑戰 3</strong>：如何在不觸及資料庫操作的前提下，寫測試驗證 handle 方法內的處理邏輯？</li>
+<li><strong>挑戰 4</strong>：如果我不想使用 Event 系統來發簡訊的話怎麼辦？</li>
+</ul>
+<p><br></p>
+<p>[閃亮亮PS] : 解法請來 Laradiner 看 Live Demo 或 GitHub Repo HERE，重構的過程比較重要，會一個一個挑戰完成，而不是一次完成四個。書中只示範了最終結果，而且省略了相關的一些 Controller 或是 Event 的原始碼，如果對 Laravel 不熟的朋友會比較難體會。</p>
+<p><strong>Demo (30 分鐘)</strong></p>
+<h2 id="u89E3_u8026_u5408_u4E4B_u5F8C"><a href="#u89E3_u8026_u5408_u4E4B_u5F8C" class="headerlink" title="解耦合之後"></a>解耦合之後</h2><p>以下是達成挑戰 1,2,3,4 之後，解耦合完成的結果。主要轉變是把 <strong>“傳簡訊”</strong> 這個行為交給了 User Model <strong>不再直接透過 handler</strong> 執行，這樣就可以不用 Queue 也能傳簡訊。簡訊平台物件 courier 也不再直接實例化，改以參數傳入，也就是所謂的 Dependency Injection 依賴注入(俗稱 DI)，達成解耦合。courier 因為是以參數傳入，不會綁死在 <code>Mitake_SMS</code> 這個類別上，方便切換簡訊平台，也方便測試時使用 Mock 物件替換 courier。但為了確認傳入的 courier 一定擁有並實作 <code>sendTextMessage</code> 這個方法，所以在參數列裡使用 type hinting 強制傳入的 courier 物件一定要實作 <code>SmsCourierInterface</code> 這個介面，介面中則定義一定要實作 <code>sendTextMessage</code> 方法。改寫過後，handler 的職責只剩一個：<strong>給 user 物件足夠資訊，叫 user 傳簡訊</strong>。也就是書中所指的 <strong>Translation Layer 唯一應該做的事情</strong>！</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SendSMS</span> <span class="keyword">implements</span> <span class="title">ShouldQueue</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    use InteractsWithQueue;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> $users;</span><br><span class="line">    <span class="keyword">private</span> $courier;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> function <span class="title">__construct</span><span class="params">(UserRepository $repo, SmsCourierInterface $courier)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        $<span class="keyword">this</span>-&gt;users = $repo;</span><br><span class="line">        $<span class="keyword">this</span>-&gt;courier = $courier;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> function <span class="title">handle</span><span class="params">(SendSMSEvent $event)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        $data = $event-&gt;getData();</span><br><span class="line"></span><br><span class="line">        $user = $<span class="keyword">this</span>-&gt;users-&gt;find($data[<span class="string">'user'</span>][<span class="string">'id'</span>]);</span><br><span class="line"></span><br><span class="line">        $user-&gt;sendSms($<span class="keyword">this</span>-&gt;courier, $data[<span class="string">'message'</span>], $data[<span class="string">'phone'</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>這邊是測試程式碼</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SmsTest</span> <span class="keyword">extends</span> <span class="title">TestCase</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="comment">/** <span class="doctag">@test</span> */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> function <span class="title">it_should_send_sms_message</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="comment">// Arrange</span></span><br><span class="line">        $data = [</span><br><span class="line">            <span class="string">'user'</span>    =&gt; [<span class="string">'id'</span> =&gt; <span class="number">1</span>],</span><br><span class="line">            <span class="string">'phone'</span>   =&gt; <span class="string">'12345678'</span>,</span><br><span class="line">            <span class="string">'message'</span> =&gt; <span class="string">'test message here...'</span></span><br><span class="line">        ];</span><br><span class="line"></span><br><span class="line">        $user = Mockery::mock(<span class="string">'\App\User[sms]'</span>); <span class="comment">// partial mock</span></span><br><span class="line">        $relation = Mockery::mock(<span class="string">'stdClass'</span>);</span><br><span class="line">        $courier = Mockery::mock(SmsCourierInterface::<span class="class"><span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">        $user-&gt;shouldReceive(<span class="string">'sms'</span>)-&gt;once()-&gt;andReturn($relation);</span><br><span class="line">        $relation-&gt;shouldReceive(<span class="string">'create'</span>)-&gt;once()-&gt;with([</span><br><span class="line">            <span class="string">'to'</span> =&gt; $data[<span class="string">'phone'</span>],</span><br><span class="line">            <span class="string">'message'</span> =&gt; $data[<span class="string">'message'</span>],</span><br><span class="line">        ]);</span><br><span class="line"></span><br><span class="line">        $courier-&gt;shouldReceive(<span class="string">'sendTextMessage'</span>)-&gt;once()-&gt;with([</span><br><span class="line">            <span class="string">'to'</span>      =&gt; $data[<span class="string">'phone'</span>],</span><br><span class="line">            <span class="string">'message'</span> =&gt; $data[<span class="string">'message'</span>]</span><br><span class="line">        ]);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Act &amp; Assert</span></span><br><span class="line">        $user-&gt;sendSms($courier, $data[<span class="string">'message'</span>], $data[<span class="string">'phone'</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="u5176_u4ED6_Handlers"><a href="#u5176_u4ED6_Handlers" class="headerlink" title="其他 Handlers"></a>其他 Handlers</h2><p>這裡提的另一個例子比較單純，總而言之就是教你如何讓你的 handler 只做單純的 Translation Layer，把一些複雜的商業邏輯隔離在 Framework 的架構之外。想想看，這段 Code 又出了什麼問題？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Router::filter(<span class="string">'premium'</span>, function() &#123;</span><br><span class="line">   <span class="keyword">return</span> Auth::user() &amp;&amp; Auth::user()-&gt;plan == <span class="string">'premium'</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>[閃亮亮PS] : Laravel 5.1 中使用 middleware 來取代 filter ，所以這一段 return 的邏輯應該會出現是出現在某個 middleware 中。</p>
+<p>你看！這麼簡短的 Code，看起來多麼無辜啊！怎麼可能會有什麼問題呢？</p>
+<p>然而，雖然這是一段很小的 filter 程式碼，但它已經洩露太多<del>國家機密(誤)</del> 程式細節，好比，filter 居然知道 Auth 回傳的 user 物件中有一個叫 “plan” 的屬性，還知道，如果 “plan” 屬性等於 “premium” 表示可以擁有 premium 資格。<strong>這會埋下什麼地雷？</strong></p>
+<ol>
+<li><strong>屬性名稱改了沒改到 filter</strong>。如果 plan 屬性被某人在 User 物件中改名成 privilege (也許是因為資料庫欄位改名稱了)，卻沒注意到 filter 中也有用到 plan 這個屬性…</li>
+<li><strong>屬性值改了沒改到 filter</strong>。如果以後屬性要等於 “VIP” 而不是 “premium” 的話…</li>
+<li><strong>要改判斷 premium 資格的邏輯 filter 就得跟著改</strong>。例如，要擁有 ‘premium’ 資格還必需年消費總額到10萬元以上才行。</li>
+</ol>
+<p>Sure，你當然可以說，那只要小心一點，記得改就好了。但如果有別人埋這個雷給你踩，在你花了數小時 debug 之後不氣死才怪！</p>
+<p>好，怎麼改？看這樣有沒有好一點：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Router::filter(<span class="string">'premium'</span>, function() &#123;</span><br><span class="line">    <span class="keyword">return</span> Auth::user() &amp;&amp; Auth::user()-&gt;isPremium();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>多一個小小的 function 不會耗你多少效能啦，但上面3個問題都可以解決，且更有彈性了。就算修改 permium 資格的邏輯也完全不用動到原本寫好的 filter。已所不雷，勿施於人。</p>
+<h2 id="u9583_u4EAE_u4EAE_u5C0F_u7D50"><a href="#u9583_u4EAE_u4EAE_u5C0F_u7D50" class="headerlink" title="閃亮亮小結"></a>閃亮亮小結</h2><p>我覺得書中這個例子裡，把 sendSms 的職責交給 User Model 還蠻合理的，User 可以 sendSms 唸起來就很順。但還是要小心，很容易就會讓 User Model 胖到爆掉，如果可以的話我自己是儘可能不放 User Model 就不放。另外建一個 Class，把傳簡訊的動作變成另一個 Service。也許，不是 User 也可以傳簡訊啊，例如如果簡訊是由系統自動送出的話，這樣不就沒有辦法關聯 User 了？</p>
+<p>嗯，這次讀書會要 demo 前才發現 Laravel 5.1 有分 Event 和 Job ，兩個都有 Queue 的機制。還沒時間去研究差別和用途，期待讀書會朋友們的分享！</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Laradiner讀書會/">Laradiner讀書會</a><a href="/tags/程式學習/">程式學習</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.dj1020.net/Laravel-From-Apprentice-To-Artisan-Ch-6-Applied-Architecture-Decoupling-Handlers-解耦合處理程序/" data-title="Laradiner 讀書會 - Laravel: From Apprentice To Artisan - Ch. 6 Applied Architecture: Decoupling Handlers (解耦合處理程序) 導讀心得整理筆記 | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/Laradiner讀書會-SOLID-原則-2016-01-21/" title="Laradiner 讀書會 - SOLID 原則 (1) Single Responsibility Principle 單一職責原則 導讀心得整理筆記">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Laradiner 讀書會 - SOLID 原則 (1) Single Responsibility Principle 單一職責原則 導讀心得整理筆記</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/PHP也有Day-21-從C語言到PHP_Extension-Ricky-Su/"  title="PHP 也有 Day #21 - 從 C 語言到 PHP Extension (C9s)">
+ <strong>下一篇：</strong><br/> 
+ <span>PHP 也有 Day #21 - 從 C 語言到 PHP Extension (C9s)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目錄</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u4ECB_u7D39"><span class="toc-number">1.</span> <span class="toc-text">介紹</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u524D_u7F6E_u4F5C_u696D__28Demo__u5E36_u5FEB_u901F_u8B1B_u89E3_15__u5206_u9418_29"><span class="toc-number">1.1.</span> <span class="toc-text">前置作業 (Demo 帶快速講解 15 分鐘)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Git_Repo__u6309_u6B64"><span class="toc-number">1.1.1.</span> <span class="toc-text">Git Repo 按此</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u89E3_u8026_u5408_handler"><span class="toc-number">2.</span> <span class="toc-text">解耦合 handler</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u5728_u9019_u6BB5_Code__u7684_u4F8B_u5B50_u4E2D_uFF0C_u4F60_u6709_u6C92_u6709_u770B_u51FA_u4F86_u4EC0_u9EBC_u554F_u984C_uFF1F_282__u5206_u9418_29"><span class="toc-number">2.0.1.</span> <span class="toc-text">在這段 Code 的例子中，你有沒有看出來什麼問題？(2 分鐘)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u554F_u984C_u8207_u6311_u6230"><span class="toc-number">3.</span> <span class="toc-text">問題與挑戰</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u9019_u6BB5_Code__u7684_u554F_u984C_u5728_u65BC_uFF1A"><span class="toc-number">3.1.</span> <span class="toc-text">這段 Code 的問題在於：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u9019_u4E9B_u554F_u984C_uFF0C_u5E36_u4F86_u4E86_u5E7E_u500B_u6311_u6230_uFF1A"><span class="toc-number">3.2.</span> <span class="toc-text">這些問題，帶來了幾個挑戰：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u89E3_u8026_u5408_u4E4B_u5F8C"><span class="toc-number">4.</span> <span class="toc-text">解耦合之後</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5176_u4ED6_Handlers"><span class="toc-number">5.</span> <span class="toc-text">其他 Handlers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u9583_u4EAE_u4EAE_u5C0F_u7D50"><span class="toc-number">6.</span> <span class="toc-text">閃亮亮小結</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分類</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Hexo-筆記/" title="Hexo 筆記">Hexo 筆記<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程式筆記/" title="程式筆記">程式筆記<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/筆記/" title="筆記">筆記<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP-Conf/" title="PHP Conf">PHP Conf<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Bootstrap/" title="Bootstrap">Bootstrap<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP也有Day/" title="PHP也有Day">PHP也有Day<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TDD/" title="TDD">TDD<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner讀書會/" title="Laradiner讀書會">Laradiner讀書會<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程式學習/" title="程式學習">程式學習<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/設計模式/" title="設計模式">設計模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner/" title="Laradiner">Laradiner<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/講座/" title="講座">講座<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Install/" title="Install">Install<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/curl/" title="curl">curl<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情鏈接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://oomusou.io/" target="_blank" title="Sam&#39;s 點燈坊">Sam&#39;s 點燈坊</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://jaceju.net/" target="_blank" title="鐵哥 JaceJu&#39;s Blog">鐵哥 JaceJu&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Ken Lin in Cloud Interactive. <br/>
+			This is my blog, believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="閃亮亮dj">閃亮亮dj</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

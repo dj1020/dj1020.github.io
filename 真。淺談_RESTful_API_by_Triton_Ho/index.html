@@ -1,0 +1,792 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>真。淺談 RESTful API by Triton Ho | 閃亮亮大師之路</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="閃亮亮dj">
+    
+
+    
+    <meta name="description" content="淺談 HTTP
+HTTP 是通訊協定！
+
+RESTful 後端
+SOAP
+REST 介面的資料庫
+
+
+HTTP 理念：( resource ) + ( method )
+
+stateless
+
+
+動名詞(Gerunds)也算是名詞的一種, ex: /MoneyTransfers
+
+(POST) Create a “MoneyTransfers” object, 內容是把錢從 A 轉到 B
+
+
+HT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="真。淺談 RESTful API by Triton Ho">
+<meta property="og:url" content="http://blog.dj1020.net/真。淺談_RESTful_API_by_Triton_Ho/index.html">
+<meta property="og:site_name" content="閃亮亮大師之路">
+<meta property="og:description" content="淺談 HTTP
+HTTP 是通訊協定！
+
+RESTful 後端
+SOAP
+REST 介面的資料庫
+
+
+HTTP 理念：( resource ) + ( method )
+
+stateless
+
+
+動名詞(Gerunds)也算是名詞的一種, ex: /MoneyTransfers
+
+(POST) Create a “MoneyTransfers” object, 內容是把錢從 A 轉到 B
+
+
+HT">
+<meta property="og:updated_time" content="2015-11-09T13:30:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="真。淺談 RESTful API by Triton Ho">
+<meta name="twitter:description" content="淺談 HTTP
+HTTP 是通訊協定！
+
+RESTful 後端
+SOAP
+REST 介面的資料庫
+
+
+HTTP 理念：( resource ) + ( method )
+
+stateless
+
+
+動名詞(Gerunds)也算是名詞的一種, ex: /MoneyTransfers
+
+(POST) Create a “MoneyTransfers” object, 內容是把錢從 A 轉到 B
+
+
+HT">
+
+    
+    <link rel="alternative" href="/atom.xml" title="閃亮亮大師之路" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="閃亮亮大師之路" title="閃亮亮大師之路"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="閃亮亮大師之路">閃亮亮大師之路</a></h1>
+				<h2 class="blog-motto">程式學習心得筆記</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.dj1020.net">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/真。淺談_RESTful_API_by_Triton_Ho/" title="真。淺談 RESTful API by Triton Ho" itemprop="url">真。淺談 RESTful API by Triton Ho</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="閃亮亮dj" target="_blank" itemprop="author">閃亮亮dj</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-09T11:00:34.000Z" itemprop="datePublished"> 發表於 2015-11-09</time>
+  </p>
+
+  
+    <div class="article-share clearfix" id="share">
+    
+      <div data-url="http://blog.dj1020.net/真。淺談_RESTful_API_by_Triton_Ho/" data-title="真。淺談 RESTful API by Triton Ho | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+      </div>
+    
+    </div>
+  
+
+</header>
+	<div class="article-content">
+		
+		<h2 id="u6DFA_u8AC7_HTTP"><a href="#u6DFA_u8AC7_HTTP" class="headerlink" title="淺談 HTTP"></a>淺談 HTTP</h2><ul>
+<li><p>HTTP 是通訊協定！</p>
+<ul>
+<li>RESTful 後端</li>
+<li>SOAP</li>
+<li>REST 介面的資料庫</li>
+</ul>
+</li>
+<li><p>HTTP 理念：( resource ) + ( method )</p>
+<ul>
+<li>stateless</li>
+</ul>
+</li>
+<li><p>動名詞(Gerunds)也算是名詞的一種, ex: /MoneyTransfers</p>
+<ul>
+<li>(POST) Create a “MoneyTransfers” object, 內容是把錢從 A 轉到 B</li>
+</ul>
+</li>
+<li><p>HTML 通常只用上 GET / POST，但其實 HTTP 裡還有除了這兩個以外很多 method 可用。</p>
+</li>
+<li><p>一些資源可能只支持部份 method，例如， /img/image1.jpg 應該只有 GET 可用。</p>
+</li>
+<li><p>建議不要用 GET 做為建立物件的方法，如不使用約定俗成的後果自負。</p>
+</li>
+</ul>
+<h3 id="GET_method"><a href="#GET_method" class="headerlink" title="GET method"></a>GET method</h3><ul>
+<li>READONLY 的，讀取資源</li>
+<li><code>重要！ 應該只有 GET 才使用 Query String</code></li>
+<li>以物件 id 結尾，一般是指讀取單一物件<ul>
+<li>ex: /v1/users/9527</li>
+</ul>
+</li>
+<li>如果沒有 id 結尾，則是讀取該物件的 Collection<ul>
+<li>ex: /v1/users 取得所有 user</li>
+<li>ex: <code>/v1/users?AgeMax=20 利用 Query String 做 filter</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="DELETE_method"><a href="#DELETE_method" class="headerlink" title="DELETE method"></a>DELETE method</h3><h3 id="POST_method"><a href="#POST_method" class="headerlink" title="POST method"></a>POST method</h3><ul>
+<li>一般會把資源的 id 回給 caller</li>
+<li>如果在不穩定的網路下，用戶建立資源時，卻發出兩次POST，怎麼辦？<ul>
+<li>雖然 HTTP 原始定義是 non-idempotent ，但是他沒禁止你自行解決 idempotent 問題。</li>
+<li>idempotent 簡單說，就是<code>後端應該要處理重複 request 的問題。</code></li>
+<li>後面會講怎麼做 idempotent</li>
+</ul>
+</li>
+</ul>
+<h3 id="PATCH_method"><a href="#PATCH_method" class="headerlink" title="PATCH method"></a>PATCH method</h3><ul>
+<li>改動資源的部份內容</li>
+<li>是否 idempotent 是看你怎麼做處理<ul>
+<li>SET age = 31  -&gt; it’s idempotent，不管做幾次結果都一樣</li>
+<li>SET age = age + 1 -&gt; it’s NOT idempotent</li>
+</ul>
+</li>
+</ul>
+<h3 id="PUT_method"><a href="#PUT_method" class="headerlink" title="PUT method"></a>PUT method</h3><ul>
+<li>原本應該是上傳的內容會完全蓋掉原本的資源內容，如果資源不存在則 create</li>
+<li>但後來很多人，用 PUT 取代 PATCH，來做部份資源的改動。</li>
+</ul>
+<h3 id="OPTIONS_method"><a href="#OPTIONS_method" class="headerlink" title="OPTIONS method"></a>OPTIONS method</h3><ul>
+<li>在 cross domain request 時，用戶會先發出 options</li>
+<li>用來查詢</li>
+</ul>
+<h3 id="u5E38_u7528_u7684_HTTP_Response_Code"><a href="#u5E38_u7528_u7684_HTTP_Response_Code" class="headerlink" title="常用的 HTTP Response Code"></a>常用的 HTTP Response Code</h3><h5 id="200__28OK_29"><a href="#200__28OK_29" class="headerlink" title="200 (OK)"></a>200 (OK)</h5><h5 id="204__28No_Content_29"><a href="#204__28No_Content_29" class="headerlink" title="204 (No Content)"></a>204 (No Content)</h5><pre><code>- 跟 200 相似，但沒有結果回傳
+- 一般來說，DELETE 和 PUT 常用
+</code></pre><h5 id="202__28Accepted_29"><a href="#202__28Accepted_29" class="headerlink" title="202 (Accepted)"></a>202 (Accepted)</h5><pre><code>- 伺服器收到 request ，並且確定請求沒問題。
+- 不過，這個請求需要執行很長的時間，所以為了避免客戶等待。即使工作還沒完成也好，先回等客戶端：「工作收到了」
+- ~~沒事別亂用~~ 很麻煩！ 應該用 Server Push 的方式來處理 async request。
+</code></pre><h5 id="304__28Not_Modified_29"><a href="#304__28Not_Modified_29" class="headerlink" title="304 (Not Modified)"></a>304 (Not Modified)</h5><pre><code>- 如果客戶 request 重複的資源，通常會 Cache 起來，如果客戶端版本是最新的，就回 304。否則回 200。
+</code></pre><h5 id="400__28Bad_Request_29"><a href="#400__28Bad_Request_29" class="headerlink" title="400 (Bad Request)"></a>400 (Bad Request)</h5><pre><code>- 請求的內容有誤，拒絕執行
+- Ex: set age = abc123 (age 應為 integer)
+</code></pre><h5 id="401__28Unauthorized_29"><a href="#401__28Unauthorized_29" class="headerlink" title="401 (Unauthorized)"></a>401 (Unauthorized)</h5><pre><code>- 還沒 login
+- 如果把 authorization 放進 http body，會被放進 error log，會被看到！
+</code></pre><h5 id="403__28Forbidden_29"><a href="#403__28Forbidden_29" class="headerlink" title="403 (Forbidden)"></a>403 (Forbidden)</h5><pre><code>- 跟 400 不同，伺服器明白請求的內容
+- 不過，請求內容與商業邏輯矛盾，伺服器拒絕執行
+- ex: 建立一個 乳牛 物件，但 { favoriteFood = 仙人掌 }
+</code></pre><h5 id="404__28Not_Found_29"><a href="#404__28Not_Found_29" class="headerlink" title="404 (Not Found)"></a>404 (Not Found)</h5><pre><code>- 請求的資源不存在
+- 註：有些系統，即使資源存在，而 method 不對，也會返回 404
+- 註：如果 GET collection 而沒搜查到滿足條件的資源，是應該返回 200 不是 404。
+</code></pre><h5 id="409__28Conflict_29"><a href="#409__28Conflict_29" class="headerlink" title="409 (Conflict)"></a>409 (Conflict)</h5><pre><code>- 一般是說，表示用戶正在改動的這個物件，已經被人先改動過了。
+- 通常表示要重送最新的 request
+</code></pre><h5 id="500__28Internal_Server_Error_29"><a href="#500__28Internal_Server_Error_29" class="headerlink" title="500 (Internal Server Error)"></a>500 (Internal Server Error)</h5><h5 id="502__28Bad_Gateway_29"><a href="#502__28Bad_Gateway_29" class="headerlink" title="502 (Bad Gateway)"></a>502 (Bad Gateway)</h5><pre><code>- 一般是說，表示用戶正在改動的這個物件，已經被人先改動過了。
+</code></pre><h5 id="503__28Service_Unavailable_29"><a href="#503__28Service_Unavailable_29" class="headerlink" title="503 (Service Unavailable)"></a>503 (Service Unavailable)</h5><pre><code>- 伺服器沒當掉，只是太多人在使用，所以暫時無法提供服務。
+</code></pre><h2 id="u70BA_u4EC0_u9EBC_u8981_u91CD_u8996_API__u8A2D_u8A08"><a href="#u70BA_u4EC0_u9EBC_u8981_u91CD_u8996_API__u8A2D_u8A08" class="headerlink" title="為什麼要重視 API 設計"></a>為什麼要重視 API 設計</h2><ul>
+<li><p>改動 API 需要同時改動”前端”和”後端”，現實上會有極大困難</p>
+<ul>
+<li>所以 url 裡要放 /v1/users，要放版本</li>
+</ul>
+</li>
+<li><p>錯誤的 API 設計，可以引起：</p>
+<ul>
+<li>嚴重的效能問題</li>
+<li>扭曲了的程式邏輯，和扭曲了的數據結構</li>
+<li>數據錯誤</li>
+<li><del>整天在公司加班，結果女朋友跑掉</del></li>
+</ul>
+</li>
+</ul>
+<h4 id="API__u8A2D_u8A08_u91CD_u9EDE"><a href="#API__u8A2D_u8A08_u91CD_u9EDE" class="headerlink" title="API 設計重點"></a>API 設計重點</h4><pre><code>* 統一介面 ( uniform interface ) 是相對上最死不了人的，別為這吵架太久
+* 例如，這兩種流派都有人支持
+    - /v1/pets/1234
+    - /v1/users/9527/pets/1234
+* 好的 API 永不限制前端的設計，即使要輕度違反 uniform interface 原則，但一切應該以 User Experence 為最優先。
+    - 例：在頁面中，應該可以同時建立 User 和該 User 的 Pets，而不需要呼叫兩次 API。所以需要建立特殊的 UserAndPet POST
+</code></pre><h2 id="u50B3_u7D71_u7DB2_u9801_u7684_Render__u6D41_u7A0B"><a href="#u50B3_u7D71_u7DB2_u9801_u7684_Render__u6D41_u7A0B" class="headerlink" title="傳統網頁的 Render 流程"></a>傳統網頁的 Render 流程</h2><p>傳統網頁把 Data 和 View 在 Server binding 後把 result page 回給客戶端</p>
+<p>(缺圖)</p>
+<pre><code>- 把 Data 和 Presentation 混合，反而讓 html 無法被 Cache 起來，致效能下降！(To 小黑)
+- 無法分割 Presentation, Business Logic 和 Data，影響開發、測試、除錯的作業！
+- 伺服器負責將 Data 和 Presentation 整合(簡稱 Data Binding)，消耗伺服器的 CPU 資源，需要更好的 Server side machine
+</code></pre><h2 id="u4F7F_u7528_Async_Request__u7684_u597D_u8655"><a href="#u4F7F_u7528_Async_Request__u7684_u597D_u8655" class="headerlink" title="使用 Async Request 的好處"></a>使用 Async Request 的好處</h2><p>一個 request 變兩個 request，先回傳 Presentation 和 scripts，之後透過 script 向 server 要 data，伺服器回傳 json/xml 後再 render 畫面出來</p>
+<p>(缺圖)</p>
+<pre><code>- Presentation 和 script 如果沒改動，都會是 304 Cache 起來的。
+- 表面上增加為兩次 request，實際上因為 304 (Not Modified)，會省下更多網路流量，也很省錢$$$$！
+- Presentation 和 Data 徹底分離，可以使用專門的 mock API 伺服器。
+- 只要定好 Spec ，可以讓前、後端分別專心開發。
+- 容易將執行架構改為 Presentation 在 Apache / CDN, API 在 Tomcat。(區分靜態內容和動態資料)
+- 節省伺服器資源，可以不放伺服器的就不要放在伺服器。
+- Data Binding 現在在 Client side 的瀏覽器做，省 Server CPU
+- 未來可以支持 iOS 和 Android， API 都可以重複使用，不用重複開發相同的商業邏輯。酷！
+</code></pre><h2 id="RESTful_API__u8A2D_u8A08"><a href="#RESTful_API__u8A2D_u8A08" class="headerlink" title="RESTful API 設計"></a>RESTful API 設計</h2><ul>
+<li>RESTful是一種設計哲學，不是一定要用 HTTP 的方式來實現，常見例如加入 action 在 POST 裡</li>
+</ul>
+<h2 id="RESTful__u7684_u8B2C_u8AA4"><a href="#RESTful__u7684_u8B2C_u8AA4" class="headerlink" title="RESTful 的謬誤"></a>RESTful 的謬誤</h2><ul>
+<li><p>server side 需要 stateless</p>
+<ul>
+<li>解1: 不需要 server side stateless</li>
+<li>解2: 只要求 Application Server 是 stateless，Server Side 其他部份是可以 stateful 的</li>
+</ul>
+</li>
+<li><p>一定需要用上 GET, PUT/PATCH, POST, DELETE</p>
+<ul>
+<li>解: 可以使用其他技術實作統一介面</li>
+</ul>
+</li>
+</ul>
+<h2 id="RESTful__u7684_u8981_u6C42"><a href="#RESTful__u7684_u8981_u6C42" class="headerlink" title="RESTful 的要求"></a>RESTful 的要求</h2><ul>
+<li>Client-Server 架構</li>
+<li>Cacheable 快取機制</li>
+<li><code>Stateless Protocol</code> 無狀態性的通訊協定 (這個最最重要！)</li>
+<li>Uniform inerface 統一介面</li>
+</ul>
+<h2 id="RESTful_API__u8A2D_u8A08_u539F_u5247_-__u7DB2_u8DEF_u7684_u4E0D_u7A69_u5B9A_u6027"><a href="#RESTful_API__u8A2D_u8A08_u539F_u5247_-__u7DB2_u8DEF_u7684_u4E0D_u7A69_u5B9A_u6027" class="headerlink" title="RESTful API 設計原則 - 網路的不穩定性"></a>RESTful API 設計原則 - 網路的不穩定性</h2><ul>
+<li>隨時可能斷線！往往看起來正常，其實已經斷線。</li>
+<li>使用 API 時，連線可能在信號送達 server 前斷線</li>
+<li>也可能正要回 API 結果時斷線</li>
+<li>也可能次序錯亂，先發出的 req 1 反而比晚發出的 req 2 更晚到達 Server。</li>
+<li><code>總之，到處都可能會出錯</code></li>
+</ul>
+<h2 id="RESTful_API__u8A2D_u8A08_u539F_u5247_-_Stateless__28_u901A_u8A0A_u5354_u5B9A_u7684_u7121_u72C0_u614B_u6027_29"><a href="#RESTful_API__u8A2D_u8A08_u539F_u5247_-_Stateless__28_u901A_u8A0A_u5354_u5B9A_u7684_u7121_u72C0_u614B_u6027_29" class="headerlink" title="RESTful API 設計原則 - Stateless (通訊協定的無狀態性)"></a>RESTful API 設計原則 - Stateless (通訊協定的無狀態性)</h2><ul>
+<li>ex: 可以把 login 狀態存在短期資料庫，如 Redis</li>
+<li>簡單說 RESTful 不能用 session_start (for PHP)</li>
+<li>ex:<ul>
+<li>#1 加入 Product A 到 Cart</li>
+<li>#2 加入 Product B 到 Cart</li>
+<li>#3 結帳</li>
+</ul>
+</li>
+<li>如果 #3 比 #2 更快到 Server，就買不到 Product B 了。</li>
+<li><p>這樣就是有狀態性，因為請求需要符合系統順序</p>
+</li>
+<li><p><code>解： RESTful 服務應該直接以 (Product A, Product B) 作為結算內容，而不用 session 去暫存。</code></p>
+</li>
+</ul>
+<h2 id="RESTful_API__u8A2D_u8A08_u539F_u5247_-_Atomic__28_u539F_u5B50_u6027_29"><a href="#RESTful_API__u8A2D_u8A08_u539F_u5247_-_Atomic__28_u539F_u5B50_u6027_29" class="headerlink" title="RESTful API 設計原則 - Atomic (原子性)"></a>RESTful API 設計原則 - Atomic (原子性)</h2><ul>
+<li>不能用兩個(或以上)的 API 呼叫去完成一個「動作」。</li>
+<li>每一個動作都必需是 atomic。一個完整執行後的 API call 不能讓伺服器端數據停留在不一致的狀態。</li>
+<li><p>Ex:</p>
+<ul>
+<li>User A 轉帳 100 給 User B</li>
+<li>付錢買火車票</li>
+</ul>
+</li>
+<li><p>符合 Atomic 的範例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST_DATA =</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"from_user_id"</span>: <span class="string">"A"</span>,</span><br><span class="line">    <span class="string">"to_user_id"</span> : <span class="string">"B"</span>,</span><br><span class="line">    <span class="string">"amount"</span> : <span class="number">100</span>,</span><br><span class="line">    <span class="string">"create_time"</span> : <span class="string">"2014-07-05T17:37:21"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 如果當機的話，只要再執行一次這個 API Call 即可！</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="RESTful_API__u8A2D_u8A08_u539F_u5247_-__u8DB3_u5920_u5B8C_u6574_u7684_u8CC7_u6599"><a href="#RESTful_API__u8A2D_u8A08_u539F_u5247_-__u8DB3_u5920_u5B8C_u6574_u7684_u8CC7_u6599" class="headerlink" title="RESTful API 設計原則 - 足夠完整的資料"></a>RESTful API 設計原則 - 足夠完整的資料</h2><ul>
+<li>炮二平五 -&gt; 客戶端不該知道伺服器端的狀態！</li>
+<li>利用 step_id<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/chinese_chess_game/&#123;game_id&#125; (PUT)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"step_id"</span> : <span class="number">31</span>,</span><br><span class="line">    <span class="string">"action"</span> : <span class="string">"炮二平五"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="RESTful_API__u8A2D_u8A08_u539F_u5247_-_Idempotence__28_u91CD_u65B0_u547C_u53EB_29"><a href="#RESTful_API__u8A2D_u8A08_u539F_u5247_-_Idempotence__28_u91CD_u65B0_u547C_u53EB_29" class="headerlink" title="RESTful API 設計原則 - Idempotence (重新呼叫)"></a>RESTful API 設計原則 - Idempotence (重新呼叫)</h2><ul>
+<li>在客戶端，任何未成功的 API 呼叫，只要重新呼叫一次就行了。</li>
+<li>伺服器端要懂如何處理重複的 request</li>
+<li><code>用 POST 建立新物件時，把客戶端的 timestamp 也放進 API request 中！</code> 就可以讓伺服器端辨別是不是收到重複的 HTTP POST</li>
+</ul>
+<h2 id="RESTful_API__u8A2D_u8A08_u539F_u5247_-_Uniform_Interface__28_u7D71_u4E00_u4ECB_u9762_29"><a href="#RESTful_API__u8A2D_u8A08_u539F_u5247_-_Uniform_Interface__28_u7D71_u4E00_u4ECB_u9762_29" class="headerlink" title="RESTful API 設計原則 - Uniform Interface (統一介面)"></a>RESTful API 設計原則 - Uniform Interface (統一介面)</h2><ul>
+<li>所有 URL 應該基於物件，而不是行動</li>
+<li>一個物件有正常有4種行動： CRUD<ul>
+<li>POST : Create</li>
+<li>GET : Read</li>
+<li>PUT/PATCH : Update</li>
+<li>DELETE : Delete</li>
+</ul>
+</li>
+</ul>
+<h2 id="Q"><a href="#Q" class="headerlink" title="Q"></a>Q</h2><ol>
+<li>how to design login API (stateless)<ul>
+<li>JWT - Json Web Token<ol>
+<li>payload (ex: user id)</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"userId"</span> : <span class="number">9527</span>,</span><br><span class="line">    <span class="string">"expiration"</span> : <span class="string">"2015-11-09T12:12:14"</span></span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"signature"</span> :  <span class="string">""</span>  <span class="comment">// 相當於 token，用 userId encrypt 之後 hash 出來的，用 service side 的 private key 加密</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 每次都把 token 放進 header 的 auth 資訊中，用 server 的 public key 去解密，看有沒有 match</span></span><br><span class="line"><span class="comment">// User 不能改動 expiration，不然 signature 會不一樣</span></span><br><span class="line"><span class="comment">// 每次 request 就 update token，將 expiration 設為該 req 之後的 30 min。</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>post timestamp 也是要存進 redis 或資料庫中囉？ Yes, 放 Redis 就行了，設個 5 分鐘即可。也不用開保護，通常真的遺失也沒關係。</p>
+</li>
+<li><p>如何測試 atomic api -&gt; 應該是由商業邏輯來定義，所以在談 user requirement 中，會需要不斷的問客戶問題！ex: 轉帳轉到一半斷線的話怎麼辦？</p>
+</li>
+</ol>
+<h2 id="IDEAs"><a href="#IDEAs" class="headerlink" title="IDEAs"></a>IDEAs</h2><ul>
+<li>做 /test/users/9527 做 mock API，之後 test 改成 v1 即可！</li>
+</ul>
+<ul>
+<li>一定要學怎麼用 Redis 了！</li>
+</ul>
+<h2 id="u8B1B_u8005_u8AC7_Open_Source"><a href="#u8B1B_u8005_u8AC7_Open_Source" class="headerlink" title="講者談 Open Source"></a>講者談 Open Source</h2><ul>
+<li>幫助別人，幫助自己</li>
+<li>守護自由，保護自己</li>
+</ul>
+<blockquote>
+<ul>
+<li>最差的開發者不是寫了爛程式碼的人，而是 <em>不知道自己有多爛的人</em>。</li>
+<li>多一個人懂 RESTful，未來我接手的爛專案的可能性就少一點。</li>
+<li>越多人使用 RESTful，便有越多需要 RESTful 技能的專案，那我便有更多工作機會。</li>
+</ul>
+</blockquote>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/筆記/">筆記</a><a href="/tags/講座/">講座</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.dj1020.net/真。淺談_RESTful_API_by_Triton_Ho/" data-title="真。淺談 RESTful API by Triton Ho | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/Laradiner_2015-11-12_Ricky_BoBo_Sam/" title="Laradiner 11-12 線上聊天室、鴻森Live Demo、BoBo">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Laradiner 11-12 線上聊天室、鴻森Live Demo、BoBo</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/TDD-實戰與自動測試-91-哥-Day-3/"  title="TDD 實戰與自動測試 (91 哥) - Day 3">
+ <strong>下一篇：</strong><br/> 
+ <span>TDD 實戰與自動測試 (91 哥) - Day 3
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目錄</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u6DFA_u8AC7_HTTP"><span class="toc-number">1.</span> <span class="toc-text">淺談 HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GET_method"><span class="toc-number">1.1.</span> <span class="toc-text">GET method</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DELETE_method"><span class="toc-number">1.2.</span> <span class="toc-text">DELETE method</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POST_method"><span class="toc-number">1.3.</span> <span class="toc-text">POST method</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PATCH_method"><span class="toc-number">1.4.</span> <span class="toc-text">PATCH method</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PUT_method"><span class="toc-number">1.5.</span> <span class="toc-text">PUT method</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OPTIONS_method"><span class="toc-number">1.6.</span> <span class="toc-text">OPTIONS method</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5E38_u7528_u7684_HTTP_Response_Code"><span class="toc-number">1.7.</span> <span class="toc-text">常用的 HTTP Response Code</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#200__28OK_29"><span class="toc-number">1.7.0.1.</span> <span class="toc-text">200 (OK)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#204__28No_Content_29"><span class="toc-number">1.7.0.2.</span> <span class="toc-text">204 (No Content)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#202__28Accepted_29"><span class="toc-number">1.7.0.3.</span> <span class="toc-text">202 (Accepted)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#304__28Not_Modified_29"><span class="toc-number">1.7.0.4.</span> <span class="toc-text">304 (Not Modified)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#400__28Bad_Request_29"><span class="toc-number">1.7.0.5.</span> <span class="toc-text">400 (Bad Request)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#401__28Unauthorized_29"><span class="toc-number">1.7.0.6.</span> <span class="toc-text">401 (Unauthorized)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#403__28Forbidden_29"><span class="toc-number">1.7.0.7.</span> <span class="toc-text">403 (Forbidden)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#404__28Not_Found_29"><span class="toc-number">1.7.0.8.</span> <span class="toc-text">404 (Not Found)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#409__28Conflict_29"><span class="toc-number">1.7.0.9.</span> <span class="toc-text">409 (Conflict)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#500__28Internal_Server_Error_29"><span class="toc-number">1.7.0.10.</span> <span class="toc-text">500 (Internal Server Error)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#502__28Bad_Gateway_29"><span class="toc-number">1.7.0.11.</span> <span class="toc-text">502 (Bad Gateway)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#503__28Service_Unavailable_29"><span class="toc-number">1.7.0.12.</span> <span class="toc-text">503 (Service Unavailable)</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u70BA_u4EC0_u9EBC_u8981_u91CD_u8996_API__u8A2D_u8A08"><span class="toc-number">2.</span> <span class="toc-text">為什麼要重視 API 設計</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#API__u8A2D_u8A08_u91CD_u9EDE"><span class="toc-number">2.0.1.</span> <span class="toc-text">API 設計重點</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u50B3_u7D71_u7DB2_u9801_u7684_Render__u6D41_u7A0B"><span class="toc-number">3.</span> <span class="toc-text">傳統網頁的 Render 流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528_Async_Request__u7684_u597D_u8655"><span class="toc-number">4.</span> <span class="toc-text">使用 Async Request 的好處</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RESTful_API__u8A2D_u8A08"><span class="toc-number">5.</span> <span class="toc-text">RESTful API 設計</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RESTful__u7684_u8B2C_u8AA4"><span class="toc-number">6.</span> <span class="toc-text">RESTful 的謬誤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RESTful__u7684_u8981_u6C42"><span class="toc-number">7.</span> <span class="toc-text">RESTful 的要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RESTful_API__u8A2D_u8A08_u539F_u5247_-__u7DB2_u8DEF_u7684_u4E0D_u7A69_u5B9A_u6027"><span class="toc-number">8.</span> <span class="toc-text">RESTful API 設計原則 - 網路的不穩定性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RESTful_API__u8A2D_u8A08_u539F_u5247_-_Stateless__28_u901A_u8A0A_u5354_u5B9A_u7684_u7121_u72C0_u614B_u6027_29"><span class="toc-number">9.</span> <span class="toc-text">RESTful API 設計原則 - Stateless (通訊協定的無狀態性)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RESTful_API__u8A2D_u8A08_u539F_u5247_-_Atomic__28_u539F_u5B50_u6027_29"><span class="toc-number">10.</span> <span class="toc-text">RESTful API 設計原則 - Atomic (原子性)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RESTful_API__u8A2D_u8A08_u539F_u5247_-__u8DB3_u5920_u5B8C_u6574_u7684_u8CC7_u6599"><span class="toc-number">11.</span> <span class="toc-text">RESTful API 設計原則 - 足夠完整的資料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RESTful_API__u8A2D_u8A08_u539F_u5247_-_Idempotence__28_u91CD_u65B0_u547C_u53EB_29"><span class="toc-number">12.</span> <span class="toc-text">RESTful API 設計原則 - Idempotence (重新呼叫)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RESTful_API__u8A2D_u8A08_u539F_u5247_-_Uniform_Interface__28_u7D71_u4E00_u4ECB_u9762_29"><span class="toc-number">13.</span> <span class="toc-text">RESTful API 設計原則 - Uniform Interface (統一介面)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q"><span class="toc-number">14.</span> <span class="toc-text">Q</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IDEAs"><span class="toc-number">15.</span> <span class="toc-text">IDEAs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u8B1B_u8005_u8AC7_Open_Source"><span class="toc-number">16.</span> <span class="toc-text">講者談 Open Source</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分類</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Hexo-筆記/" title="Hexo 筆記">Hexo 筆記<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程式筆記/" title="程式筆記">程式筆記<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/筆記/" title="筆記">筆記<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP-Conf/" title="PHP Conf">PHP Conf<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Bootstrap/" title="Bootstrap">Bootstrap<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP也有Day/" title="PHP也有Day">PHP也有Day<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TDD/" title="TDD">TDD<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner讀書會/" title="Laradiner讀書會">Laradiner讀書會<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程式學習/" title="程式學習">程式學習<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/設計模式/" title="設計模式">設計模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner/" title="Laradiner">Laradiner<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/講座/" title="講座">講座<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Install/" title="Install">Install<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/curl/" title="curl">curl<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情鏈接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://oomusou.io/" target="_blank" title="Sam&#39;s 點燈坊">Sam&#39;s 點燈坊</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://jaceju.net/" target="_blank" title="鐵哥 JaceJu&#39;s Blog">鐵哥 JaceJu&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Ken Lin in Cloud Interactive. <br/>
+			This is my blog, believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="閃亮亮dj">閃亮亮dj</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

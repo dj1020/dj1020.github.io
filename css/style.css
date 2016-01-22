@@ -1056,11 +1056,18 @@ article .article-content ul li {
   list-style: disc;
   text-align: match-parent;
 }
+article .article-content ul li ul li {
+  list-style: circle;
+  text-align: match-parent;
+}
 article .article-content ol li {
   list-style-type: decimal;
 }
 article .article-content dl dt {
   font-weight: blod;
+}
+article .article-content pre {
+  line-height: 2em;
 }
 article .article-content ul li>code,
 article .article-content ol li>code,

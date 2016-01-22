@@ -50,7 +50,7 @@
 				<h1 class="site-name"><a href="/" title="閃亮亮大師之路">閃亮亮大師之路</a></h1>
 				<h2 class="blog-motto">程式學習心得筆記</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -89,7 +89,7 @@
 		<a href="/about" title="閃亮亮dj" target="_blank" itemprop="author">閃亮亮dj</a>
 		
   <p class="article-time">
-    <time datetime="2015-09-28T08:00:16.000Z" itemprop="datePublished"> 发表于 2015-09-28</time>
+    <time datetime="2015-09-28T08:00:16.000Z" itemprop="datePublished"> 發表於 2015-09-28</time>
   </p>
 
   
@@ -104,15 +104,15 @@
 </header>
 	<div class="article-content">
 		
-		<h2 id="假設你已經買好_GoDaddy_的網域，而且設定好_CNAME">假設你已經買好 GoDaddy 的網域，而且設定好 CNAME</h2><p>簡單提一下設定 CNAME 的流程，如果你買的網域叫 <code>super383838.com</code><br>登入 GoDaddy，<br>在你的網域按 <code>Manage</code> 按鈕，<br>到 <code>DNS Zone File</code>，<br>然後 <code>Add Record</code>，<br>選 <code>CNAME</code>，<br>Host 欄填 <code>blog</code> 的話，你的部落格的網址就會是 <a href="http://blog.super383838.com" target="_blank" rel="external">http://blog.super383838.com</a><br>Points To 欄填 <code>{username}.github.io</code> 把 {username} 換成你的 github 帳號，<br>完成後記得 <code>Save Changes</code>。</p>
+		<h2 id="u5047_u8A2D_u4F60_u5DF2_u7D93_u8CB7_u597D_GoDaddy__u7684_u7DB2_u57DF_uFF0C_u800C_u4E14_u8A2D_u5B9A_u597D_CNAME"><a href="#u5047_u8A2D_u4F60_u5DF2_u7D93_u8CB7_u597D_GoDaddy__u7684_u7DB2_u57DF_uFF0C_u800C_u4E14_u8A2D_u5B9A_u597D_CNAME" class="headerlink" title="假設你已經買好 GoDaddy 的網域，而且設定好 CNAME"></a>假設你已經買好 GoDaddy 的網域，而且設定好 CNAME</h2><p>簡單提一下設定 CNAME 的流程，如果你買的網域叫 <code>super383838.com</code><br>登入 GoDaddy，<br>在你的網域按 <code>Manage</code> 按鈕，<br>到 <code>DNS Zone File</code>，<br>然後 <code>Add Record</code>，<br>選 <code>CNAME</code>，<br>Host 欄填 <code>blog</code> 的話，你的部落格的網址就會是 <a href="http://blog.super383838.com" target="_blank" rel="external">http://blog.super383838.com</a><br>Points To 欄填 <code>{username}.github.io</code> 把 {username} 換成你的 github 帳號，<br>完成後記得 <code>Save Changes</code>。</p>
 <p>此後，連到 <code>http://blog.super383838.com</code> 就跟連到 <code>http://{username}.github.io</code> 是一樣的了。</p>
 <p><img src="https://lh3.googleusercontent.com/-Atx4VH3XbWI/VgkMLv5hviI/AAAAAAABW10/9IrJIKRkeWQ/s800-Ic42/Screen%252520Shot%2525202015-09-28%252520at%2525204.12.55%252520PM.png"></p>
-<h2 id="設定_GitHub_CNAME_踩雷心得">設定 GitHub CNAME 踩雷心得</h2><p>我按照 <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/" target="_blank" rel="external">GitHub 官網指示</a>，加了一個叫 <code>CNAME</code> 的檔案(無副檔名)在 master branch 的根目錄裡，檔案內容只有一行：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">blog<span class="class">.dj1020</span><span class="class">.net</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="u8A2D_u5B9A_GitHub_CNAME__u8E29_u96F7_u5FC3_u5F97"><a href="#u8A2D_u5B9A_GitHub_CNAME__u8E29_u96F7_u5FC3_u5F97" class="headerlink" title="設定 GitHub CNAME 踩雷心得"></a>設定 GitHub CNAME 踩雷心得</h2><p>我按照 <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/" target="_blank" rel="external">GitHub 官網指示</a>，加了一個叫 <code>CNAME</code> 的檔案(無副檔名)在 master branch 的根目錄裡，檔案內容只有一行：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">blog<span class="class">.dj1020</span><span class="class">.net</span></span><br></pre></td></tr></table></figure></p>
 <p>也就是我想要的部落格網域，所以別人就可以連到 <a href="http://blog.dj1020.net">http://blog.dj1020.net</a> 看到我的部落格。</p>
 <p>加完這個檔案，一切順利正常，<a href="http://blog.dj1020.net">http://blog.dj1020.net</a> 馬上可以正常顯示，而且如果連到原本的 <a href="http://{username}.github.io" target="_blank" rel="external">http://{username}.github.io</a> 要看部落格，還會被 GitHub 自動導向 <a href="http://blog.dj1020.net">http://blog.dj1020.net</a> 這樣很好！</p>
 <p>問題在於，<code>CNAME</code> 這個檔案是由我手動在 GitHub 上產生，但是 Hexo 並不知道，所以一旦 Hexo deploy 之後，<code>CNAME</code> 就被蓋掉了。所以再打開 <a href="http://blog.dj1020.net">http://blog.dj1020.net</a> 就出現這樣的畫面：</p>
 <p><img src="https://lh3.googleusercontent.com/-U576bunblGQ/VgkMKxJW-ZI/AAAAAAABW1s/CQPr3wxN_6I/s800-Ic42/Screen%252520Shot%2525202015-09-28%252520at%2525204.30.58%252520PM.png"></p>
-<h2 id="解法：安裝_hexo-generator-cname">解法：安裝 hexo-generator-cname</h2><p>這個外掛會幫你產生 <code>CNAME</code> 檔，並且在 deploy 時一同 push 到 GitHub 上。安裝也很簡單，不用任何設定，我想它是去抓 _config.yml 裡的 url 設定值。</p>
+<h2 id="u89E3_u6CD5_uFF1A_u5B89_u88DD_hexo-generator-cname"><a href="#u89E3_u6CD5_uFF1A_u5B89_u88DD_hexo-generator-cname" class="headerlink" title="解法：安裝 hexo-generator-cname"></a>解法：安裝 hexo-generator-cname</h2><p>這個外掛會幫你產生 <code>CNAME</code> 檔，並且在 deploy 時一同 push 到 GitHub 上。安裝也很簡單，不用任何設定，我想它是去抓 _config.yml 裡的 url 設定值。</p>
 <ol>
 <li><code>$ npm install hexo-generator-cname --save</code></li>
 <li>重新 deploy <code>$ hexo deploy -g</code></li>
@@ -175,22 +175,22 @@
 	
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">文章目錄</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#假設你已經買好_GoDaddy_的網域，而且設定好_CNAME"><span class="toc-number">1.</span> <span class="toc-text">假設你已經買好 GoDaddy 的網域，而且設定好 CNAME</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#設定_GitHub_CNAME_踩雷心得"><span class="toc-number">2.</span> <span class="toc-text">設定 GitHub CNAME 踩雷心得</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解法：安裝_hexo-generator-cname"><span class="toc-number">3.</span> <span class="toc-text">解法：安裝 hexo-generator-cname</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u5047_u8A2D_u4F60_u5DF2_u7D93_u8CB7_u597D_GoDaddy__u7684_u7DB2_u57DF_uFF0C_u800C_u4E14_u8A2D_u5B9A_u597D_CNAME"><span class="toc-number">1.</span> <span class="toc-text">假設你已經買好 GoDaddy 的網域，而且設定好 CNAME</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u8A2D_u5B9A_GitHub_CNAME__u8E29_u96F7_u5FC3_u5F97"><span class="toc-number">2.</span> <span class="toc-text">設定 GitHub CNAME 踩雷心得</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u89E3_u6CD5_uFF1A_u5B89_u88DD_hexo-generator-cname"><span class="toc-number">3.</span> <span class="toc-text">解法：安裝 hexo-generator-cname</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分类</p>
+	<p class="asidetitle">分類</p>
 		<ul>
 		
 		  
@@ -207,8 +207,16 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/筆記/" title="筆記">筆記<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP-Conf/" title="PHP Conf">PHP Conf<sup>8</sup></a></li>
+			
 		
 			
 				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>4</sup></a></li>
@@ -219,23 +227,19 @@
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+				<li><a href="/tags/PHP也有Day/" title="PHP也有Day">PHP也有Day<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/curl/" title="curl">curl<sup>1</sup></a></li>
+				<li><a href="/tags/TDD/" title="TDD">TDD<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+				<li><a href="/tags/Laradiner讀書會/" title="Laradiner讀書會">Laradiner讀書會<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/筆記/" title="筆記">筆記<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/PHP也有Day/" title="PHP也有Day">PHP也有Day<sup>1</sup></a></li>
+				<li><a href="/tags/程式學習/" title="程式學習">程式學習<sup>2</sup></a></li>
 			
 		
 			
@@ -243,7 +247,27 @@
 			
 		
 			
+				<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner/" title="Laradiner">Laradiner<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/講座/" title="講座">講座<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Install/" title="Install">Install<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/curl/" title="curl">curl<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -251,7 +275,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">友情鏈接</p>
     <ul>
         
           <li>
@@ -273,7 +297,7 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
 </div>
 
 </aside>
@@ -308,7 +332,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
 		
 		<a href="/about" target="_blank" title="閃亮亮dj">閃亮亮dj</a>
 		
@@ -486,7 +510,7 @@ $(document).ready(function(){
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

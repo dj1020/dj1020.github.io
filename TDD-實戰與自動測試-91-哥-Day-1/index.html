@@ -1,0 +1,635 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>TDD 實戰與自動測試 (91 哥) - Day 1 | 閃亮亮大師之路</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="閃亮亮dj">
+    
+
+    
+    <meta name="description" content="TDD 開發實務問題
+改贈品價格，結果全部產品停售，缺少迴歸測試，改 A 錯 B
+正式環境的 API 沒辦法直接連接測試，要上線才知道問題
+和同事之間介接 API 要等同事寫好才能測試自己的 Code 是否正常 (平行開發)
+1 + 1 + 1 + 1 + 1 的例子 -&amp;gt; 不要猜，寫程式去證實
+哪裡錯了？測過哪些？
+
+沒有人會刻意寫有 bug 的程式
+Unit Test - 確保程式寫的跟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TDD 實戰與自動測試 (91 哥) - Day 1">
+<meta property="og:url" content="http://blog.dj1020.net/TDD-實戰與自動測試-91-哥-Day-1/index.html">
+<meta property="og:site_name" content="閃亮亮大師之路">
+<meta property="og:description" content="TDD 開發實務問題
+改贈品價格，結果全部產品停售，缺少迴歸測試，改 A 錯 B
+正式環境的 API 沒辦法直接連接測試，要上線才知道問題
+和同事之間介接 API 要等同事寫好才能測試自己的 Code 是否正常 (平行開發)
+1 + 1 + 1 + 1 + 1 的例子 -&amp;gt; 不要猜，寫程式去證實
+哪裡錯了？測過哪些？
+
+沒有人會刻意寫有 bug 的程式
+Unit Test - 確保程式寫的跟">
+<meta property="og:updated_time" content="2015-10-18T05:04:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TDD 實戰與自動測試 (91 哥) - Day 1">
+<meta name="twitter:description" content="TDD 開發實務問題
+改贈品價格，結果全部產品停售，缺少迴歸測試，改 A 錯 B
+正式環境的 API 沒辦法直接連接測試，要上線才知道問題
+和同事之間介接 API 要等同事寫好才能測試自己的 Code 是否正常 (平行開發)
+1 + 1 + 1 + 1 + 1 的例子 -&amp;gt; 不要猜，寫程式去證實
+哪裡錯了？測過哪些？
+
+沒有人會刻意寫有 bug 的程式
+Unit Test - 確保程式寫的跟">
+
+    
+    <link rel="alternative" href="/atom.xml" title="閃亮亮大師之路" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="閃亮亮大師之路" title="閃亮亮大師之路"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="閃亮亮大師之路">閃亮亮大師之路</a></h1>
+				<h2 class="blog-motto">程式學習心得筆記</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.dj1020.net">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/TDD-實戰與自動測試-91-哥-Day-1/" title="TDD 實戰與自動測試 (91 哥) - Day 1" itemprop="url">TDD 實戰與自動測試 (91 哥) - Day 1</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="閃亮亮dj" target="_blank" itemprop="author">閃亮亮dj</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-17T01:54:27.000Z" itemprop="datePublished"> 發表於 2015-10-17</time>
+  </p>
+
+  
+    <div class="article-share clearfix" id="share">
+    
+      <div data-url="http://blog.dj1020.net/TDD-實戰與自動測試-91-哥-Day-1/" data-title="TDD 實戰與自動測試 (91 哥) - Day 1 | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+      </div>
+    
+    </div>
+  
+
+</header>
+	<div class="article-content">
+		
+		<h2 id="TDD__u958B_u767C_u5BE6_u52D9_u554F_u984C"><a href="#TDD__u958B_u767C_u5BE6_u52D9_u554F_u984C" class="headerlink" title="TDD 開發實務問題"></a>TDD 開發實務問題</h2><ol>
+<li>改贈品價格，結果全部產品停售，缺少迴歸測試，改 A 錯 B</li>
+<li>正式環境的 API 沒辦法直接連接測試，要上線才知道問題</li>
+<li>和同事之間介接 API 要等同事寫好才能測試自己的 Code 是否正常 (平行開發)</li>
+<li>1 + 1 + 1 + 1 + 1 的例子 -&gt; 不要猜，寫程式去證實</li>
+<li>哪裡錯了？測過哪些？</li>
+</ol>
+<h2 id="u6C92_u6709_u4EBA_u6703_u523B_u610F_u5BEB_u6709_bug__u7684_u7A0B_u5F0F"><a href="#u6C92_u6709_u4EBA_u6703_u523B_u610F_u5BEB_u6709_bug__u7684_u7A0B_u5F0F" class="headerlink" title="沒有人會刻意寫有 bug 的程式"></a>沒有人會刻意寫有 bug 的程式</h2><ol>
+<li>Unit Test - 確保程式寫的跟你想的一樣，特別容易出現問題在判斷式</li>
+<li>TDD</li>
+<li>BDD</li>
+</ol>
+<h2 id="u4EC0_u9EBC_u662F_Unit_Test"><a href="#u4EC0_u9EBC_u662F_Unit_Test" class="headerlink" title="什麼是 Unit Test"></a>什麼是 Unit Test</h2><ol>
+<li>最小的測試單位</li>
+<li>外部相依性為零</li>
+<li>不具備商業邏輯</li>
+<li>測試案例之間相依性為零 (獨立性)</li>
+<li>一個測試案例只測一件事</li>
+</ol>
+<h2 id="Unit_Test_vs_Integration_Test_vs_Acceptance_Tetst"><a href="#Unit_Test_vs_Integration_Test_vs_Acceptance_Tetst" class="headerlink" title="Unit Test vs Integration Test vs Acceptance Tetst"></a>Unit Test vs Integration Test vs Acceptance Tetst</h2><ol>
+<li>粒度 A &gt; I &gt; U</li>
+<li>A -&gt; 接近使用者，不知道錯在哪</li>
+<li>U -&gt; 接近系統，知道錯在哪</li>
+</ol>
+<h2 id="u597D_u7684_Unit_Test__u7279_u6027_uFF1A_FIRST"><a href="#u597D_u7684_Unit_Test__u7279_u6027_uFF1A_FIRST" class="headerlink" title="好的 Unit Test 特性： FIRST"></a>好的 Unit Test 特性： FIRST</h2><ol>
+<li>Fast，ex: 1 unit test &lt; 500ms</li>
+<li>Independent，ex: 不相依資料庫，不相依網路</li>
+<li>Repeatable，ex: 最常出現問題，新增 Account，Email 不能重複的情況</li>
+<li>Self-Validating，ex: (反例) 測試跑完，眼睛去看資料庫對不對</li>
+<li>Timely，ex: Production Code 寫完當下，測試程式就寫好了 (TDD)</li>
+</ol>
+<h2 id="u5C0E_u5165_u6E2C_u8A66_u5DE5_u5177"><a href="#u5C0E_u5165_u6E2C_u8A66_u5DE5_u5177" class="headerlink" title="導入測試工具"></a>導入測試工具</h2><ol>
+<li>給大家測試規範，class 命名、測試案例名稱、資料夾結構</li>
+<li>利用 Test Generator 降低第一步的門檻</li>
+</ol>
+<h2 id="u65B0_u89C0_u5FF5_u548C_u5F85_u67E5_for_PHP"><a href="#u65B0_u89C0_u5FF5_u548C_u5F85_u67E5_for_PHP" class="headerlink" title="新觀念和待查 for PHP"></a>新觀念和待查 for PHP</h2><ol>
+<li>查如何一行檢測 Object 相等，並能 assert 顯示不相等的 properties</li>
+<li>查如何一行檢測 Collection(Array) 相等，並能 assert 不相等的 element</li>
+<li>承3，可以不管順序檢測相等</li>
+<li>可以檢測 Object 部份 properties 相等</li>
+<li>可以檢測 Composite Object 相等</li>
+</ol>
+<h2 id="Stub"><a href="#Stub" class="headerlink" title="Stub"></a>Stub</h2><ol>
+<li>Stbu 的目的？ 注入一個假物件到測試目標，去控制流程中的 path</li>
+<li>怎麼初始化 Stub 物件？ ex: NSubstitude</li>
+<li>如何決定 Stub 物件回傳值？ ex: NSubstitude</li>
+</ol>
+<h2 id="Mock"><a href="#Mock" class="headerlink" title="Mock"></a>Mock</h2><ol>
+<li>Mock 的目的？ 用來 assert，例如驗證 mock 物件中某方法被執行幾次，0次、1次、多次</li>
+<li><p>Mock 怎麼使用？</p>
+<ul>
+<li><p>怎麼初始化 mock 物件？</p>
+  <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ILog log = Substitude.For&lt;ILog&gt;();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>怎麼驗證互動次數與傳入參數？</p>
+  <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 確定 log.Save() 只被執行一次，而且傳入 Save() 的參數中要含有 "login failed" 字串</span></span><br><span class="line">log.Received(<span class="number">1</span>).Save(Arg.Is&lt;<span class="keyword">string</span>&gt;(x =&gt; x.Contains(<span class="string">"login failed"</span>)));</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="Why_IoC"><a href="#Why_IoC" class="headerlink" title="Why IoC"></a>Why IoC</h2><ol>
+<li>為了測試？<ul>
+<li>為了 <code>產品程式碼的擴充性</code> ！</li>
+</ul>
+</li>
+</ol>
+<h2 id="u55AE_u5143_u6E2C_u8A66_u8207_u7269_u4EF6_u5C0E_u5411_u5C01_u88DD_u7684_u672C_u8CEA"><a href="#u55AE_u5143_u6E2C_u8A66_u8207_u7269_u4EF6_u5C0E_u5411_u5C01_u88DD_u7684_u672C_u8CEA" class="headerlink" title="單元測試與物件導向封裝的本質"></a>單元測試與物件導向封裝的本質</h2><ol>
+<li>單元測試的意義<ul>
+<li>模擬”外部”如何使用目標物件，測試並驗證其行為是否符合預期</li>
+</ul>
+</li>
+<li>封裝原則<ul>
+<li>定義「物件的邊界」</li>
+<li>封裝物件實作細節，有時是為了可讀性</li>
+<li>封裝變化</li>
+</ul>
+</li>
+</ol>
+<h2 id="u76F4_u63A5_u6E2C_u8A66_u975E_Public__u65B9_u6CD5_uFF0C_u6709_u4EC0_u9EBC_u554F_u984C_uFF1F"><a href="#u76F4_u63A5_u6E2C_u8A66_u975E_Public__u65B9_u6CD5_uFF0C_u6709_u4EC0_u9EBC_u554F_u984C_uFF1F" class="headerlink" title="直接測試非 Public 方法，有什麼問題？"></a>直接測試非 Public 方法，有什麼問題？</h2><ol>
+<li>為了測試而測試，而<code>不是以需求為出發點</code></li>
+<li>導致測試失去<code>健壯性</code>，原本被封裝的變化，現在被測試程式碼相依，維護成本非常高。</li>
+</ol>
+<h2 id="Internal__u8A72_u5982_u4F55_u6E2C_u8A66_uFF1F"><a href="#Internal__u8A72_u5982_u4F55_u6E2C_u8A66_uFF1F" class="headerlink" title="Internal 該如何測試？"></a>Internal 該如何測試？</h2><ol>
+<li><p>Why Internal？</p>
+<ul>
+<li>有很多 interface 只有內部在用，如果開 public interface 的話，外面就有人用，結果改了 interface 後，外面的程式就壞了。</li>
+</ul>
+</li>
+<li><p>用 [assembly:InternalsVisibleTo(“待測專案名稱”)] 讓測試碼可以和 production code 「在同一個房間」(same namespace)</p>
+<ul>
+<li>ex: [assembly:InternalsVisibleTo(“MyLib.Test”)]</li>
+<li>For Mock - ex: [assembly:InternalsVisibleTo(“DynamicProxyGenAssembly2”)]</li>
+</ul>
+</li>
+</ol>
+<h2 id="u6E2C_u8A66_u6DB5_u84CB_u7387_u7684_u610F_u7FA9"><a href="#u6E2C_u8A66_u6DB5_u84CB_u7387_u7684_u610F_u7FA9" class="headerlink" title="測試涵蓋率的意義"></a>測試涵蓋率的意義</h2><ol>
+<li>測試涵蓋率不足，代表兩種意義：<ul>
+<li>目前的測試案例不足以呈現與說明，產品程式碼的所有功能</li>
+<li>存在與需求無關的程式碼</li>
+</ul>
+</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/TDD/">TDD</a><a href="/tags/筆記/">筆記</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.dj1020.net/TDD-實戰與自動測試-91-哥-Day-1/" data-title="TDD 實戰與自動測試 (91 哥) - Day 1 | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/PHP也有Day-20-Laravel-React-謝士揚/" title="PHP 也有 Day #20 - Laravel + React (謝士揚)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  PHP 也有 Day #20 - Laravel + React (謝士揚)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015-PHP-Conf-筆記(4) - Enterprise Architecture Case in PHP (曾義峰 Ant)/"  title="2015 PHP Conf 筆記 (4) - Enterprise Architecture Case in PHP (曾義峰 Ant)">
+ <strong>下一篇：</strong><br/> 
+ <span>2015 PHP Conf 筆記 (4) - Enterprise Architecture Case in PHP (曾義峰 Ant)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目錄</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TDD__u958B_u767C_u5BE6_u52D9_u554F_u984C"><span class="toc-number">1.</span> <span class="toc-text">TDD 開發實務問題</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6C92_u6709_u4EBA_u6703_u523B_u610F_u5BEB_u6709_bug__u7684_u7A0B_u5F0F"><span class="toc-number">2.</span> <span class="toc-text">沒有人會刻意寫有 bug 的程式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4EC0_u9EBC_u662F_Unit_Test"><span class="toc-number">3.</span> <span class="toc-text">什麼是 Unit Test</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Unit_Test_vs_Integration_Test_vs_Acceptance_Tetst"><span class="toc-number">4.</span> <span class="toc-text">Unit Test vs Integration Test vs Acceptance Tetst</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u597D_u7684_Unit_Test__u7279_u6027_uFF1A_FIRST"><span class="toc-number">5.</span> <span class="toc-text">好的 Unit Test 特性： FIRST</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5C0E_u5165_u6E2C_u8A66_u5DE5_u5177"><span class="toc-number">6.</span> <span class="toc-text">導入測試工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u65B0_u89C0_u5FF5_u548C_u5F85_u67E5_for_PHP"><span class="toc-number">7.</span> <span class="toc-text">新觀念和待查 for PHP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stub"><span class="toc-number">8.</span> <span class="toc-text">Stub</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mock"><span class="toc-number">9.</span> <span class="toc-text">Mock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why_IoC"><span class="toc-number">10.</span> <span class="toc-text">Why IoC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u55AE_u5143_u6E2C_u8A66_u8207_u7269_u4EF6_u5C0E_u5411_u5C01_u88DD_u7684_u672C_u8CEA"><span class="toc-number">11.</span> <span class="toc-text">單元測試與物件導向封裝的本質</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u76F4_u63A5_u6E2C_u8A66_u975E_Public__u65B9_u6CD5_uFF0C_u6709_u4EC0_u9EBC_u554F_u984C_uFF1F"><span class="toc-number">12.</span> <span class="toc-text">直接測試非 Public 方法，有什麼問題？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Internal__u8A72_u5982_u4F55_u6E2C_u8A66_uFF1F"><span class="toc-number">13.</span> <span class="toc-text">Internal 該如何測試？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6E2C_u8A66_u6DB5_u84CB_u7387_u7684_u610F_u7FA9"><span class="toc-number">14.</span> <span class="toc-text">測試涵蓋率的意義</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分類</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Hexo-筆記/" title="Hexo 筆記">Hexo 筆記<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程式筆記/" title="程式筆記">程式筆記<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/筆記/" title="筆記">筆記<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP-Conf/" title="PHP Conf">PHP Conf<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Bootstrap/" title="Bootstrap">Bootstrap<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP也有Day/" title="PHP也有Day">PHP也有Day<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TDD/" title="TDD">TDD<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner讀書會/" title="Laradiner讀書會">Laradiner讀書會<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程式學習/" title="程式學習">程式學習<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/設計模式/" title="設計模式">設計模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner/" title="Laradiner">Laradiner<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/講座/" title="講座">講座<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Install/" title="Install">Install<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/curl/" title="curl">curl<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情鏈接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://oomusou.io/" target="_blank" title="Sam&#39;s 點燈坊">Sam&#39;s 點燈坊</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://jaceju.net/" target="_blank" title="鐵哥 JaceJu&#39;s Blog">鐵哥 JaceJu&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Ken Lin in Cloud Interactive. <br/>
+			This is my blog, believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="閃亮亮dj">閃亮亮dj</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

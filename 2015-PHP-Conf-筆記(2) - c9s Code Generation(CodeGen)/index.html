@@ -1,0 +1,575 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>2015 PHP Conf 筆記 (2) - c9s Code Generation(CodeGen) | 閃亮亮大師之路</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="閃亮亮dj">
+    
+
+    
+    <meta name="description" content="要解決的問題
+magic method 如 __call()，不支援 IDE autocompletion 而且跑起來很慢
+
+Framework Getting Bigger消耗很多 Code 在 Detecting Env
+Ex: production/local/staging 各種環境下要跑不同的 Code，偵測 env 的程式碼到處都是
+Ex: 偵測某套件有沒有被安裝, 像 yaml, m">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2015 PHP Conf 筆記 (2) - c9s Code Generation(CodeGen)">
+<meta property="og:url" content="http://blog.dj1020.net/2015-PHP-Conf-筆記(2) - c9s Code Generation(CodeGen)/index.html">
+<meta property="og:site_name" content="閃亮亮大師之路">
+<meta property="og:description" content="要解決的問題
+magic method 如 __call()，不支援 IDE autocompletion 而且跑起來很慢
+
+Framework Getting Bigger消耗很多 Code 在 Detecting Env
+Ex: production/local/staging 各種環境下要跑不同的 Code，偵測 env 的程式碼到處都是
+Ex: 偵測某套件有沒有被安裝, 像 yaml, m">
+<meta property="og:updated_time" content="2015-10-09T07:55:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2015 PHP Conf 筆記 (2) - c9s Code Generation(CodeGen)">
+<meta name="twitter:description" content="要解決的問題
+magic method 如 __call()，不支援 IDE autocompletion 而且跑起來很慢
+
+Framework Getting Bigger消耗很多 Code 在 Detecting Env
+Ex: production/local/staging 各種環境下要跑不同的 Code，偵測 env 的程式碼到處都是
+Ex: 偵測某套件有沒有被安裝, 像 yaml, m">
+
+    
+    <link rel="alternative" href="/atom.xml" title="閃亮亮大師之路" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="閃亮亮大師之路" title="閃亮亮大師之路"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="閃亮亮大師之路">閃亮亮大師之路</a></h1>
+				<h2 class="blog-motto">程式學習心得筆記</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.dj1020.net">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015-PHP-Conf-筆記(2) - c9s Code Generation(CodeGen)/" title="2015 PHP Conf 筆記 (2) - c9s Code Generation(CodeGen)" itemprop="url">2015 PHP Conf 筆記 (2) - c9s Code Generation(CodeGen)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="閃亮亮dj" target="_blank" itemprop="author">閃亮亮dj</a>
+		
+  <p class="article-time">
+    <time datetime="2015-10-09T01:33:08.000Z" itemprop="datePublished"> 發表於 2015-10-09</time>
+  </p>
+
+  
+    <div class="article-share clearfix" id="share">
+    
+      <div data-url="http://blog.dj1020.net/2015-PHP-Conf-筆記(2) - c9s Code Generation(CodeGen)/" data-title="2015 PHP Conf 筆記 (2) - c9s Code Generation(CodeGen) | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+      </div>
+    
+    </div>
+  
+
+</header>
+	<div class="article-content">
+		
+		<h2 id="u8981_u89E3_u6C7A_u7684_u554F_u984C"><a href="#u8981_u89E3_u6C7A_u7684_u554F_u984C" class="headerlink" title="要解決的問題"></a>要解決的問題</h2><ul>
+<li>magic method 如 __call()，不支援 IDE autocompletion 而且跑起來很慢</li>
+</ul>
+<h2 id="Framework_Getting_Bigger"><a href="#Framework_Getting_Bigger" class="headerlink" title="Framework Getting Bigger"></a>Framework Getting Bigger</h2><h4 id="u6D88_u8017_u5F88_u591A_Code__u5728_Detecting_Env"><a href="#u6D88_u8017_u5F88_u591A_Code__u5728_Detecting_Env" class="headerlink" title="消耗很多 Code 在 Detecting Env"></a>消耗很多 Code 在 Detecting Env</h4><ul>
+<li>Ex: production/local/staging 各種環境下要跑不同的 Code，偵測 env 的程式碼到處都是</li>
+<li>Ex: 偵測某套件有沒有被安裝, 像 yaml, mongodb</li>
+</ul>
+<h4 id="Magic_Setters/Getters"><a href="#Magic_Setters/Getters" class="headerlink" title="Magic Setters/Getters"></a>Magic Setters/Getters</h4><ul>
+<li><p><code>__set</code>, <code>__get</code> 的使用，無法知道目前有哪些 key 可以用</p>
+  <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public <span class="keyword">function</span> __get() &#123;</span><br><span class="line">    return <span class="variable">$this-</span>&gt;data[ <span class="variable">$key</span> ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Doctrine 會自己有 getter/setter (應該用的是 magic 方式)</p>
+</li>
+</ul>
+<h2 id="Types_Of_Code_Generation"><a href="#Types_Of_Code_Generation" class="headerlink" title="Types Of Code Generation"></a>Types Of Code Generation</h2><ul>
+<li>JIT (just-in-time)</li>
+<li>PHP to PHP</li>
+</ul>
+<h2 id="Why_Types_Are_Important_to_the_Runtime_System"><a href="#Why_Types_Are_Important_to_the_Runtime_System" class="headerlink" title="Why Types Are Important to the Runtime System"></a>Why Types Are Important to the Runtime System</h2><ul>
+<li><p>以相加為例，不指定類型</p>
+  <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> add(<span class="variable">$a</span>, <span class="variable">$b</span>) &#123;</span><br><span class="line">    return <span class="variable">$a</span> + <span class="variable">$b</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果指定 Variable Type，Compile 出來的機器碼可以少也許 50% 以上</p>
+  <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> add(int <span class="variable">$a</span>, int <span class="variable">$b</span>) : int &#123;</span><br><span class="line">    return <span class="variable">$a</span> + <span class="variable">$b</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="libjit_-_Just-In-Time_compiler"><a href="#libjit_-_Just-In-Time_compiler" class="headerlink" title="libjit - Just-In-Time compiler"></a><a href="https://www.gnu.org/software/libjit/" target="_blank" rel="external">libjit</a> - Just-In-Time compiler</h4><ul>
+<li>講者應該是利用這個 lib 做優化？</li>
+</ul>
+<h4 id="jitfu_php_extension"><a href="#jitfu_php_extension" class="headerlink" title="jitfu php extension"></a><a href="/">jitfu php extension</a></h4><ul>
+<li>可以用 phpbrew 來裝相關 jit 程式庫</li>
+</ul>
+<h2 id="LLVM_vs_LIBJIT__3F"><a href="#LLVM_vs_LIBJIT__3F" class="headerlink" title="LLVM vs LIBJIT ?"></a>LLVM vs LIBJIT ?</h2><ul>
+<li>slides 會上傳，再去找 link 來看，有人分享</li>
+</ul>
+<h2 id="PHP_to_PHP"><a href="#PHP_to_PHP" class="headerlink" title="PHP to PHP"></a>PHP to PHP</h2><ul>
+<li>ex: PyPy</li>
+<li>c9s 就寫了一個 PHPPHP 叫 CodeGen，概念就是用 PHP 把 PHP source 轉成更快的 PHP Code</li>
+<li>Bootstrap 的環境偵測 Code 約 ~1000 ~ 3000 lines，每次 http req 都要跑一遍其實很傷效能。 ex: Laravel Bootstraper 等。</li>
+<li>CodeGen 會把這些 conditions 都移除掉，例如: 搶在 spl前直接 load classes</li>
+</ul>
+<h4 id="u5C0E_u5165_PHP-Parser"><a href="#u5C0E_u5165_PHP-Parser" class="headerlink" title="導入 PHP-Parser"></a>導入 PHP-Parser</h4><ul>
+<li>PHP 5.2~5.6，產生 AST (Abstract Source Tree)，轉成很漂亮的 php code</li>
+<li>把 Condition 移除，等於是先偵測好環境，就不用每次偵測。</li>
+</ul>
+<h2 id="Generating_CRUD_Handler_-_ActionKit"><a href="#Generating_CRUD_Handler_-_ActionKit" class="headerlink" title="Generating CRUD Handler - ActionKit"></a>Generating CRUD Handler - ActionKit</h2><ul>
+<li>利用 SPL 去自動產生 CRUD 的 class</li>
+</ul>
+<h2 id="ConfigKit_-__u81EA_u52D5_u7522_u751F_class_loader"><a href="#ConfigKit_-__u81EA_u52D5_u7522_u751F_class_loader" class="headerlink" title="ConfigKit - 自動產生 class loader"></a>ConfigKit - 自動產生 class loader</h2><ul>
+<li>避免判斷。</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/PHP-Conf/">PHP Conf</a><a href="/tags/筆記/">筆記</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.dj1020.net/2015-PHP-Conf-筆記(2) - c9s Code Generation(CodeGen)/" data-title="2015 PHP Conf 筆記 (2) - c9s Code Generation(CodeGen) | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015-PHP-Conf-筆記(8) - High Performance Solution for PHP (@Laruence)/" title="2015 PHP Conf 筆記 (8) - High Performance Solution for PHP (@Laruence)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  2015 PHP Conf 筆記 (8) - High Performance Solution for PHP (@Laruence)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/用-curl-抓-JSON-response-好用小技巧-python-m-json-tool/"  title="用 curl 抓 JSON response 好用小技巧 - python -m json.tool">
+ <strong>下一篇：</strong><br/> 
+ <span>用 curl 抓 JSON response 好用小技巧 - python -m json.tool
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目錄</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u8981_u89E3_u6C7A_u7684_u554F_u984C"><span class="toc-number">1.</span> <span class="toc-text">要解決的問題</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Framework_Getting_Bigger"><span class="toc-number">2.</span> <span class="toc-text">Framework Getting Bigger</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u6D88_u8017_u5F88_u591A_Code__u5728_Detecting_Env"><span class="toc-number">2.0.1.</span> <span class="toc-text">消耗很多 Code 在 Detecting Env</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Magic_Setters/Getters"><span class="toc-number">2.0.2.</span> <span class="toc-text">Magic Setters/Getters</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Types_Of_Code_Generation"><span class="toc-number">3.</span> <span class="toc-text">Types Of Code Generation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why_Types_Are_Important_to_the_Runtime_System"><span class="toc-number">4.</span> <span class="toc-text">Why Types Are Important to the Runtime System</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#libjit_-_Just-In-Time_compiler"><span class="toc-number">4.0.1.</span> <span class="toc-text">libjit - Just-In-Time compiler</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#jitfu_php_extension"><span class="toc-number">4.0.2.</span> <span class="toc-text">jitfu php extension</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LLVM_vs_LIBJIT__3F"><span class="toc-number">5.</span> <span class="toc-text">LLVM vs LIBJIT ?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP_to_PHP"><span class="toc-number">6.</span> <span class="toc-text">PHP to PHP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u5C0E_u5165_PHP-Parser"><span class="toc-number">6.0.1.</span> <span class="toc-text">導入 PHP-Parser</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generating_CRUD_Handler_-_ActionKit"><span class="toc-number">7.</span> <span class="toc-text">Generating CRUD Handler - ActionKit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ConfigKit_-__u81EA_u52D5_u7522_u751F_class_loader"><span class="toc-number">8.</span> <span class="toc-text">ConfigKit - 自動產生 class loader</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分類</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Hexo-筆記/" title="Hexo 筆記">Hexo 筆記<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程式筆記/" title="程式筆記">程式筆記<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/筆記/" title="筆記">筆記<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP-Conf/" title="PHP Conf">PHP Conf<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Bootstrap/" title="Bootstrap">Bootstrap<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP也有Day/" title="PHP也有Day">PHP也有Day<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TDD/" title="TDD">TDD<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner讀書會/" title="Laradiner讀書會">Laradiner讀書會<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程式學習/" title="程式學習">程式學習<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/設計模式/" title="設計模式">設計模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner/" title="Laradiner">Laradiner<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/講座/" title="講座">講座<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Install/" title="Install">Install<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/curl/" title="curl">curl<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情鏈接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://oomusou.io/" target="_blank" title="Sam&#39;s 點燈坊">Sam&#39;s 點燈坊</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://jaceju.net/" target="_blank" title="鐵哥 JaceJu&#39;s Blog">鐵哥 JaceJu&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Ken Lin in Cloud Interactive. <br/>
+			This is my blog, believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="閃亮亮dj">閃亮亮dj</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
