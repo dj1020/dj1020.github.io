@@ -4,7 +4,7 @@
   <subtitle><![CDATA[程式學習心得筆記]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.dj1020.net/"/>
-  <updated>2016-01-22T07:34:09.000Z</updated>
+  <updated>2016-03-03T09:43:54.000Z</updated>
   <id>http://blog.dj1020.net/</id>
   
   <author>
@@ -15,17 +15,253 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Laradiner 讀書會 - SOLID 原則 (2) Open Closed Principle 開放封閉原則 導讀心得整理筆記]]></title>
+    <link href="http://blog.dj1020.net/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83-SOLID-%E5%8E%9F%E5%89%87(2)-Open-Closed-2016-03-03/"/>
+    <id>http://blog.dj1020.net/Laradiner讀書會-SOLID-原則(2)-Open-Closed-2016-03-03/</id>
+    <published>2016-03-03T11:30:59.000Z</published>
+    <updated>2016-03-03T09:43:54.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="u6848_u4F8B_u524D_u7F6E_u4F5C_u696D"><a href="#u6848_u4F8B_u524D_u7F6E_u4F5C_u696D" class="headerlink" title="案例前置作業"></a>案例前置作業</h2><h4 id="u6309_u6B64__u67E5_u770B_u5DF2_u5B8C_u6210_u7684_Git__u6E90_u78BC_uFF0C_u904E_u7A0B_u6709_u554F_u984C_u53EF_u5230_Laravel__u53F0_u7063__u767C_u554F"><a href="#u6309_u6B64__u67E5_u770B_u5DF2_u5B8C_u6210_u7684_Git__u6E90_u78BC_uFF0C_u904E_u7A0B_u6709_u554F_u984C_u53EF_u5230_Laravel__u53F0_u7063__u767C_u554F" class="headerlink" title="按此 查看已完成的 Git 源碼，過程有問題可到 Laravel 台灣 發問"></a><a href="https://github.com/dj1020/CH9_Open_Closed_Principle_Demo" target="_blank" rel="external">按此</a> 查看已完成的 Git 源碼，過程有問題可到 <a href="https://www.facebook.com/groups/laravel.tw/" target="_blank" rel="external">Laravel 台灣</a> 發問</h4><ol>
+<li>建立專案 <code>git clone https://github.com/dj1020/CH8_Single_Responsitory_Principle_Demo.git ch9_OpenClose_demo</code></li>
+<li>進入專案目錄 <code>cd ch9_OpenClose_demo</code></li>
+<li>安裝相依套件 <code>composer install</code>，完成後執行 <code>php artisan</code> 如果沒報錯就是好了。</li>
+<li>編輯 .env 設定資料庫帳密，如果 .env 不存在，利用 <code>cp .env.example .env</code> 來建立一個後修改。</li>
+<li>執行 <code>php artisan key:generate</code></li>
+<li>利用 migrate 測試資料庫設定 <code>php artisan migrate</code>，成功的話同時會建立三個 tables: <code>accounts</code>, <code>orders</code>, <code>products</code></li>
+<li>使用 <code>php artisan serve</code> 開啟一個 web host</li>
+<li>用瀏覽器打開 <code>http://localhost:8000/</code> 應該可以看到 Laravel 5 字樣的 welcome page</li>
+<li>用瀏覽器打開 <code>http://localhost:8000/checkout</code> 應該可以看到一個假的購物車準備結帳</li>
+<li>按下提交訂單，會再 <code>orders</code> table 加入一筆訂單資料，去資料庫查看一下有沒有加入。</li>
+<li>Done.</li>
+</ol>
+<h2 id="u958B_u653E_u5C01_u9589_u539F_u5247__28Open_Closed_Principle_29"><a href="#u958B_u653E_u5C01_u9589_u539F_u5247__28Open_Closed_Principle_29" class="headerlink" title="開放封閉原則 (Open Closed Principle)"></a>開放封閉原則 (Open Closed Principle)</h2><p>所謂開放封閉原則(OCP)，按照英文原文是「Code is open for extension but closed for modification.」直接翻譯「<em>程式碼應該要開放使得它可以被擴充，但也要封閉以避免不必要的修改</em>」想必大家還是不了解是什麼意思，如果用閃亮亮的話來說，就是</p>
+<blockquote>
+<font size="+2">新增/變更邏輯判斷時，不用修改使用該邏輯的 caller 的程式碼</font>
+
+</blockquote>
+<p>也可以說</p>
+
+<blockquote>
+<font size="+2">不必要修改 Client 端程式，就可以擴充新功能，或改變業務邏輯。</font>
+
+</blockquote>
+<p>舉例來說，</p>
+<ul>
+<li><strong>如果你寫的是購物網站，你能不能「新增一種付款方式」，可新增 class，但幾乎不用修改原本已經上線的程式碼？</strong></li>
+<li><strong>如果你在會員註冊時的密碼驗證邏輯原本只有「密碼不能少於6個字元」，你能不能增加「密碼中需含大、小寫英文字母」的邏輯，但幾乎不用修改原本已經上線的程式碼？</strong></li>
+<li><strong>以書中的例子來說，它想修改驗證是否為「合法訂單」的驗證邏輯，要怎麼架構你的程式，才能讓以後新增/變更驗證邏輯時，不用修改 caller 的程式？</strong></li>
+</ul>
+<p>讓我們延續之前 <a href="http://blog.dj1020.net/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83-SOLID-%E5%8E%9F%E5%89%87-2016-01-21/">Laradiner 讀書會 - SOLID 原則 (1) Single Responsibility Principle 單一職責原則 導讀心得整理筆記 | 閃亮亮大師之路</a> 的例子：</p>
+<h4 id="u6848_u4F8B_3A"><a href="#u6848_u4F8B_3A" class="headerlink" title="案例:"></a>案例:</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrderProcessor</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$orders</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * OrderProcessor constructor.</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(BillerInterface <span class="variable">$biller</span>, OrderRepository <span class="variable">$orders</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;biller = <span class="variable">$biller</span>;</span><br><span class="line">        <span class="variable">$this</span>-&gt;orders = <span class="variable">$orders</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">process</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$recent</span> = <span class="variable">$this</span>-&gt;orders-&gt;getRecentOrderCount(<span class="variable">$order</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$recent</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">'Duplicate order likely.'</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$this</span>-&gt;biller-&gt;bill(<span class="variable">$order</span>-&gt;getAccount()-&gt;id, <span class="variable">$order</span>-&gt;getAmount());</span><br><span class="line"></span><br><span class="line">        <span class="variable">$id</span> = <span class="variable">$this</span>-&gt;orders-&gt;logOrder(<span class="variable">$order</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$id</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="u8ACB_u95DC_u6CE8_u9019_u4E00_u6BB5_u5224_u65B7_u908F_u8F2F_uFF1A"><a href="#u8ACB_u95DC_u6CE8_u9019_u4E00_u6BB5_u5224_u65B7_u908F_u8F2F_uFF1A" class="headerlink" title="請關注這一段判斷邏輯："></a>請關注這一段判斷邏輯：</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrderProcessor</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">process</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="variable">$recent</span> = <span class="variable">$this</span>-&gt;orders-&gt;getRecentOrderCount(<span class="variable">$order</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$recent</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">'Duplicate order likely.'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="u6848_u4F8B_u7814_u8A0E_uFF1A"><a href="#u6848_u4F8B_u7814_u8A0E_uFF1A" class="headerlink" title="案例研討："></a>案例研討：</h4><h4 id="1-__u9019_u4E00_u6BB5_u5224_u65B7_u7684_u908F_u8F2F_u5728_u300C_u505A_u4EC0_u9EBC_u4E8B_uFF1F_u300D"><a href="#1-__u9019_u4E00_u6BB5_u5224_u65B7_u7684_u908F_u8F2F_u5728_u300C_u505A_u4EC0_u9EBC_u4E8B_uFF1F_u300D" class="headerlink" title="1. 這一段判斷的邏輯在「做什麼事？」"></a>1. 這一段判斷的邏輯在「做什麼事？」</h4><h4 id="2-__u9019_u4E00_u6BB5_u908F_u8F2F_u7684_u5BEB_u6CD5_u300C_u597D_u5728_u54EA_u88E1_u300D_uFF1F"><a href="#2-__u9019_u4E00_u6BB5_u908F_u8F2F_u7684_u5BEB_u6CD5_u300C_u597D_u5728_u54EA_u88E1_u300D_uFF1F" class="headerlink" title="2. 這一段邏輯的寫法「好在哪裡」？"></a>2. 這一段邏輯的寫法「好在哪裡」？</h4><h4 id="3-__u9019_u4E00_u6BB5_u908F_u8F2F_u7684_u5BEB_u6CD5_uFF0C_u4EE5_u5F8C_u5728_u7DAD_u8B77_u5C08_u6848_u6642_u6703_u9020_u6210_u4EC0_u9EBC_u554F_u984C_uFF1F"><a href="#3-__u9019_u4E00_u6BB5_u908F_u8F2F_u7684_u5BEB_u6CD5_uFF0C_u4EE5_u5F8C_u5728_u7DAD_u8B77_u5C08_u6848_u6642_u6703_u9020_u6210_u4EC0_u9EBC_u554F_u984C_uFF1F" class="headerlink" title="3. 這一段邏輯的寫法，以後在維護專案時會造成什麼問題？"></a>3. 這一段邏輯的寫法，以後在維護專案時會造成什麼問題？</h4><p><br><br><br><br><br><br><br><br><!-- ========= 我是分隔線 ========== 我是分隔線 ========== 我是分隔線 ========== --></p>
+<hr style="border: 0; height: 0; box-shadow: 0 0 10px 1px black;">
+
+<h4 id="u9019_u4E00_u6BB5_u908F_u8F2F_u505A_u4EC0_u9EBC_u4E8B_uFF1F"><a href="#u9019_u4E00_u6BB5_u908F_u8F2F_u505A_u4EC0_u9EBC_u4E8B_uFF1F" class="headerlink" title="這一段邏輯做什麼事？"></a>這一段邏輯做什麼事？</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrderProcessor</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">process</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="variable">$recent</span> = <span class="variable">$this</span>-&gt;orders-&gt;getRecentOrderCount(<span class="variable">$order</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$recent</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">'Duplicate order likely.'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>驗證是否為「重複訂單」</p>
+<h4 id="u597D_u5728_u54EA_u88E1_uFF1F"><a href="#u597D_u5728_u54EA_u88E1_uFF1F" class="headerlink" title="好在哪裡？"></a>好在哪裡？</h4><ul>
+<li>可讀性佳</li>
+<li>可測試性佳，因為使用了依賴注入(Dependency Injection)，注入 orders 這個 repository 來取得 order count，讓我們可以方便使用 mock 技巧寫測試程式。<br><br></li>
+</ul>
+<h4 id="u4EE5_u5F8C_u5728_u7DAD_u8B77_u5C08_u6848_u6642_u6703_u9020_u6210_u4EC0_u9EBC_u554F_u984C_uFF1F"><a href="#u4EE5_u5F8C_u5728_u7DAD_u8B77_u5C08_u6848_u6642_u6703_u9020_u6210_u4EC0_u9EBC_u554F_u984C_uFF1F" class="headerlink" title="以後在維護專案時會造成什麼問題？"></a>以後在維護專案時會造成什麼問題？</h4><ul>
+<li><p>問題一：<code>驗證訂單</code>的邏輯是要換了怎麼辦？<br>ex: 我不想用「重複訂單」做為判斷該訂單是否合法(valid)的依據的話呢？</p>
+</li>
+<li><p>問題二：我們要怎麼新增<code>驗證訂單</code>的邏輯？<br>ex: 除了驗證「重複訂單」我還想驗證「訂購者的帳戶必須沒有被中止」才能成立訂單。</p>
+</li>
+<li><p>問題三：如果新增一個邏輯還好，要是新增「很多」驗證邏輯的話，怎麼避免 process 裡的程式迅速變成 spaghetti(義大利麵)？</p>
+</li>
+<li><p>問題四：新增「很多」驗證邏輯後，怎麼測試這些驗證邏輯有沒有正確運作？<br><br></p>
+</li>
+</ul>
+<h4 id="u7D50_u8AD6_uFF1A_u9019_u6BB5_u908F_u8F2F_u88AB_u5BEB_u5728_process_28_29__u4E2D_uFF0C_u9055_u53CD_u4E86_u958B_u653E_u5C01_u9589_u539F_u5247__28OCP_29"><a href="#u7D50_u8AD6_uFF1A_u9019_u6BB5_u908F_u8F2F_u88AB_u5BEB_u5728_process_28_29__u4E2D_uFF0C_u9055_u53CD_u4E86_u958B_u653E_u5C01_u9589_u539F_u5247__28OCP_29" class="headerlink" title="結論：這段邏輯被寫在 process() 中，違反了開放封閉原則 (OCP)"></a>結論：這段邏輯被寫在 process() 中，違反了開放封閉原則 (OCP)</h4><p>因為這段邏輯被寫在 process() 中，所以每次邏輯要修改都要變更 process()，使得 process() 本身違反了「開放封閉原則(OCP)」。我們希望 process() 這段程式是 open for extension，不是 open for modification。</p>
+<p>然而，對於呼叫 process() 的 caller <code>CheckoutController@checkout</code> 來說，checkout() 就沒有違反 OCP，不管 process() 怎麼變動，checkout() 裡的程式都不用改變，只要 process() 最後會回傳訂單 id 給 checkout() 就行。</p>
+<p><br><br></p>
+<h2 id="u5BE6_u6230_Demo_Solution"><a href="#u5BE6_u6230_Demo_Solution" class="headerlink" title="實戰 Demo Solution"></a>實戰 Demo Solution</h2><p>三個問題，一次解決：</p>
+<ul>
+<li><p>問題一：<code>驗證訂單</code>的邏輯是要換了怎麼辦？<br>ex: 我不想用「重複訂單」做為判斷該訂單是否合法(valid)的依據的話呢？</p>
+</li>
+<li><p>問題二：我們要怎麼新增<code>驗證訂單</code>的邏輯？<br>ex: 除了驗證「重複訂單」我還想驗證「訂購者的帳戶必須沒有被中止」才能成立訂單。</p>
+</li>
+<li><p>問題三：如果新增一個邏輯還好，要是新增「很多」驗證邏輯的話，怎麼避免 process 裡的程式迅速變成 spaghetti(義大利麵)？</p>
+</li>
+<li><p>問題四：新增「很多」驗證邏輯後，怎麼測試這些驗證邏輯有沒有正確運作？</p>
+</li>
+</ul>
+<h4 id="Step_1_-__u5B9A_u7FA9_OrderValidator_Interface"><a href="#Step_1_-__u5B9A_u7FA9_OrderValidator_Interface" class="headerlink" title="Step 1 - 定義 OrderValidator Interface"></a>Step 1 - 定義 OrderValidator Interface</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">OrderValidatorInterface</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">validate</span><span class="params">(Order <span class="variable">$order</span>)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Step_2_-__u5C07_Validator__u7528_u53C3_u6578_u50B3_u5165_OrderProcessor__u4E26_u547C_u53EB_u6BCF_u500B_u50B3_u5165_u7684_u9A57_u8B49_u908F_u8F2F"><a href="#Step_2_-__u5C07_Validator__u7528_u53C3_u6578_u50B3_u5165_OrderProcessor__u4E26_u547C_u53EB_u6BCF_u500B_u50B3_u5165_u7684_u9A57_u8B49_u908F_u8F2F" class="headerlink" title="Step 2 - 將 Validator 用參數傳入 OrderProcessor 並呼叫每個傳入的驗證邏輯"></a>Step 2 - 將 Validator 用參數傳入 OrderProcessor 並呼叫每個傳入的驗證邏輯</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrderProcessor</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$orders</span>;</span><br><span class="line">    <span class="keyword">private</span>   <span class="variable">$validators</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * OrderProcessor constructor.</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(</span><br><span class="line">        BillerInterface <span class="variable">$biller</span>,</span><br><span class="line">        OrderRepository <span class="variable">$orders</span>,</span><br><span class="line">        array <span class="variable">$validators</span> = []</span><br><span class="line">    )</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;biller = <span class="variable">$biller</span>;</span><br><span class="line">        <span class="variable">$this</span>-&gt;orders = <span class="variable">$orders</span>;</span><br><span class="line">        <span class="variable">$this</span>-&gt;validators = <span class="variable">$validators</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">process</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="comment">// 呼叫每個驗證邏輯</span></span><br><span class="line">        <span class="keyword">foreach</span> (<span class="variable">$this</span>-&gt;validators <span class="keyword">as</span> <span class="variable">$validator</span>) &#123;</span><br><span class="line">            <span class="variable">$validator</span>-&gt;validate(<span class="variable">$order</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$this</span>-&gt;biller-&gt;bill(<span class="variable">$order</span>-&gt;getAccount()-&gt;id, <span class="variable">$order</span>-&gt;getAmount());</span><br><span class="line"></span><br><span class="line">        <span class="variable">$id</span> = <span class="variable">$this</span>-&gt;orders-&gt;logOrder(<span class="variable">$order</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$id</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Step_3_-__u9A57_u8B49_u300C_u91CD_u8907_u8A02_u55AE_u300D_u5BE6_u4F5C_OrderValidator_Interface"><a href="#Step_3_-__u9A57_u8B49_u300C_u91CD_u8907_u8A02_u55AE_u300D_u5BE6_u4F5C_OrderValidator_Interface" class="headerlink" title="Step 3 - 驗證「重複訂單」實作 OrderValidator Interface"></a>Step 3 - 驗證「重複訂單」實作 OrderValidator Interface</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RecentOrderValidator</span> <span class="keyword">implements</span> <span class="title">OrderValidatorInterface</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$orders</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(OrderRepository <span class="variable">$orders</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;orders = <span class="variable">$orders</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">validate</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$recent</span> = <span class="variable">$this</span>-&gt;orders-&gt;getRecentOrderCount(<span class="variable">$order</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$recent</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">'Duplicate order likely.'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Step_4_-__u9A57_u8B49_u300C_u8A02_u8CFC_u8005_u7684_u5E33_u6236_u5FC5_u9808_u6C92_u6709_u88AB_u4E2D_u6B62_u300D_u5BE6_u4F5C_OrderValidator_Interface"><a href="#Step_4_-__u9A57_u8B49_u300C_u8A02_u8CFC_u8005_u7684_u5E33_u6236_u5FC5_u9808_u6C92_u6709_u88AB_u4E2D_u6B62_u300D_u5BE6_u4F5C_OrderValidator_Interface" class="headerlink" title="Step 4 - 驗證「訂購者的帳戶必須沒有被中止」實作 OrderValidator Interface"></a>Step 4 - 驗證「訂購者的帳戶必須沒有被中止」實作 OrderValidator Interface</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SuspendedOrderValidator</span> <span class="keyword">implements</span> <span class="title">OrderValidatorInterface</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$orders</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(OrderRepository <span class="variable">$orders</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;orders = <span class="variable">$orders</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">validate</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$order</span>-&gt;getAccount()-&gt;isSuspended()) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">'Suspended account may not order.'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Step_5_-__u5229_u7528_Laravel__u63D0_u4F9B_u7684_IoC_Container__u62BD_u8C61_u5316_u521D_u59CB_OrderProcessor__u7684_u6D41_u7A0B"><a href="#Step_5_-__u5229_u7528_Laravel__u63D0_u4F9B_u7684_IoC_Container__u62BD_u8C61_u5316_u521D_u59CB_OrderProcessor__u7684_u6D41_u7A0B" class="headerlink" title="Step 5 - 利用 Laravel 提供的 IoC Container 抽象化初始 OrderProcessor 的流程"></a>Step 5 - 利用 Laravel 提供的 IoC Container 抽象化初始 OrderProcessor 的流程</h4><ul>
+<li>可以先寫在 app/Providers/AppServiceProvider.php 的 boot() 裡面</li>
+<li>如果以後要 bind 的東西太多，可以再拆到別的 Provider 的檔案中。</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// app/Providers/AppServiceProvider.php</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppServiceProvider</span> <span class="keyword">extends</span> <span class="title">ServiceProvider</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">boot</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        app()-&gt;bind(<span class="string">'BillerInterface'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> CreditCardBiller();</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        app()-&gt;bind(<span class="string">'OrderProcessor'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> OrderProcessor(</span><br><span class="line">                app()-&gt;make(<span class="string">'BillerInterface'</span>),   <span class="comment">// 運用上面的 bind 來取得 CreditCardBiller 實體</span></span><br><span class="line">                app()-&gt;make(OrderRepository::class),</span><br><span class="line">                [</span><br><span class="line">                    app()-&gt;make(RecentOrderValidator::class),</span><br><span class="line">                    app()-&gt;make(SuspendedOrderValidator::class)</span><br><span class="line">                ]</span><br><span class="line">            );</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>這段程式會在 Laravel 啟動時就執行，作用是註冊一個 keyword 叫 <code>&#39;OrderProcessor&#39;</code> 在 container 中。</p>
+<p>之後，當你使用 <code>App::make(&#39;OrderProcessor&#39;)</code> 時，便會執行 bind 中的 function。</p>
+<p>最後會把兩個 validators 都初始化(instanciate) 好，塞(inject)到 new 出來的 OrderProcessor 實體(instance)中，並且回傳。</p>
+<h4 id="Step_6_-__u6539_u7528_App_3A_3Amake__u4F86_u521D_u59CB_u5316_OrderProcessor_uFF0C_u53D6_u4EE3_u4E4B_u524D_u7684_new_OrderProcessor_28_29"><a href="#Step_6_-__u6539_u7528_App_3A_3Amake__u4F86_u521D_u59CB_u5316_OrderProcessor_uFF0C_u53D6_u4EE3_u4E4B_u524D_u7684_new_OrderProcessor_28_29" class="headerlink" title="Step 6 - 改用 App::make 來初始化 OrderProcessor，取代之前的 new OrderProcessor()"></a>Step 6 - 改用 App::make 來初始化 OrderProcessor，取代之前的 new OrderProcessor()</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// app/Http/Controllers/CheckoutController.php</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CheckoutController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">checkout</span><span class="params">(Request <span class="variable">$request</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="comment">// 建立訂單 ...</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 處理訂單，之前是用 $orderProcessor = new OrderProcessor(...);</span></span><br><span class="line">        <span class="variable">$orderProcessor</span> = app()-&gt;make(<span class="string">'OrderProcessor'</span>);</span><br><span class="line"></span><br><span class="line">        <span class="variable">$orderId</span> = <span class="variable">$orderProcessor</span>-&gt;process(<span class="variable">$order</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">            <span class="string">"&lt;h2&gt;Done, 訂單 ID: "</span> . <span class="variable">$orderId</span> . <span class="string">"&lt;/h2&gt;"</span> .</span><br><span class="line">            <span class="string">"&lt;h2&gt;&#123;$order-&gt;getAccount()-&gt;name&#125;&lt;/h2&gt;"</span> .</span><br><span class="line">            <span class="string">"&lt;h2&gt;&#123;$order-&gt;getAmount()&#125;&lt;/h2&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>客倌們看到這邊，有沒有發現之後要新增、調整訂單驗證邏輯，只要修改這一段，就可以自己新增或拿掉某個驗證規則了：</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">app()-&gt;bind(<span class="string">'OrderProcessor'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> OrderProcessor(</span><br><span class="line">        app()-&gt;make(<span class="string">'BillerInterface'</span>),</span><br><span class="line">        app()-&gt;make(OrderRepository::class),</span><br><span class="line">        [</span><br><span class="line">            app()-&gt;make(RecentOrderValidator::class),</span><br><span class="line">            app()-&gt;make(SuspendedOrderValidator::class),</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 新增更多證驗規則 ...</span></span><br><span class="line">            <span class="comment">//</span></span><br><span class="line"></span><br><span class="line">        ]</span><br><span class="line">    );</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="u8A73_u7D30_u904E_u7A0B_u8ACB_u770B_Git_Repo_Here_uFF0C_u6216_u8ACB_u5230_u5230_Laradiner__u8B80_u66F8_u6703__u4F86_u770B_u9583_u4EAE_u4EAE_Live_Coding_u3002"><a href="#u8A73_u7D30_u904E_u7A0B_u8ACB_u770B_Git_Repo_Here_uFF0C_u6216_u8ACB_u5230_u5230_Laradiner__u8B80_u66F8_u6703__u4F86_u770B_u9583_u4EAE_u4EAE_Live_Coding_u3002" class="headerlink" title="詳細過程請看 Git Repo Here，或請到到 Laradiner 讀書會 來看閃亮亮 Live Coding。"></a>詳細過程請看 <a href="https://github.com/dj1020/CH9_Open_Closed_Principle_Demo" target="_blank" rel="external">Git Repo Here</a>，或請到到 <a href="https://www.facebook.com/groups/laravel.tw/" target="_blank" rel="external">Laradiner 讀書會</a> 來看閃亮亮 Live Coding。</h4><h2 id="u9583_u4EAE_u4EAE_u5C0F_u7D50"><a href="#u9583_u4EAE_u4EAE_u5C0F_u7D50" class="headerlink" title="閃亮亮小結"></a>閃亮亮小結</h2><p>其實只要你時時想著 SRP(單一職責原則)，不知不覺中程式很容易就符合 OCP(開放封閉原則)。但程式不必要太早優化，要是你的證驗邏輯永遠只有「驗證近期重複訂單」這一條的話，搞一堆 interface、validator、provider、bind 等等，反而是將解法複雜化，用牛刀來殺雞。</p>
+<p>然而，一旦當需求有變，或是需求本身開始複雜化時，運用 Open Closed 原則來重構程式，會讓你的程式維護之路好走很多！如果一開始沒做這件事，之後的「破窗效應」很容易讓整個專案死掉，再也改不動，讓你的 application 從一個「軟體」變成「硬體」。謹記啊~</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="u6848_u4F8B_u524D_u7F6E_u4F5C_u696D"><a href="#u6848_u4F8B_u524D_u7F6E_u4F5C_u696D" class="headerlink" title="案例前置作業"></a>案例前置作業</h2]]>
+    </summary>
+    
+      <category term="Laradiner讀書會" scheme="http://blog.dj1020.net/tags/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83/"/>
+    
+      <category term="程式學習" scheme="http://blog.dj1020.net/tags/%E7%A8%8B%E5%BC%8F%E5%AD%B8%E7%BF%92/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[PHP 也有 Day #22 - PHPUnit 到 CI 持續整合]]></title>
+    <link href="http://blog.dj1020.net/PHP%E4%B9%9F%E6%9C%89day-22_PHPUNIT_%E5%88%B0_CI%E6%8C%81%E7%BA%8C%E6%95%B4%E5%90%88/"/>
+    <id>http://blog.dj1020.net/PHP也有day-22_PHPUNIT_到_CI持續整合/</id>
+    <published>2016-02-25T11:30:34.000Z</published>
+    <updated>2016-02-26T01:17:29.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="CI_u3001CD"><a href="#CI_u3001CD" class="headerlink" title="CI、CD"></a>CI、CD</h2><ul>
+<li>持續整合</li>
+<li>持續交付</li>
+</ul>
+<h2 id="u81EA_u52D5_u5316_u6E2C_u8A66_u3001_u5831_u544A_u3001_u4F48_u7F72"><a href="#u81EA_u52D5_u5316_u6E2C_u8A66_u3001_u5831_u544A_u3001_u4F48_u7F72" class="headerlink" title="自動化測試、報告、佈署"></a>自動化測試、報告、佈署</h2><ul>
+<li>避免</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="CI_u3001CD"><a href="#CI_u3001CD" class="headerlink" title="CI、CD"></a>CI、CD</h2><ul>
+<li>持續整合</li>
+<li>持續交付</li>
+</ul>
+<h2 id="u81E]]>
+    </summary>
+    
+      <category term="PHP也有Day" scheme="http://blog.dj1020.net/tags/PHP%E4%B9%9F%E6%9C%89Day/"/>
+    
+      <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Test Corner 講座#2 - 談 Mutation Testing@Mozilla]]></title>
+    <link href="http://blog.dj1020.net/Test-Corner-%E8%AC%9B%E5%BA%A7-2-%E8%AB%87-Mutation-Testing-Mozilla/"/>
+    <id>http://blog.dj1020.net/Test-Corner-講座-2-談-Mutation-Testing-Mozilla/</id>
+    <published>2016-02-02T09:57:16.000Z</published>
+    <updated>2016-02-03T01:07:10.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="Mutation_Testing_-_Mike_Lien"><a href="#Mutation_Testing_-_Mike_Lien" class="headerlink" title="Mutation Testing - Mike Lien"></a>Mutation Testing - Mike Lien</h1><h2 id="History"><a href="#History" class="headerlink" title="History"></a>History</h2><ul>
+<li>1971 提出</li>
+<li>用來判斷你寫的測試程式的品質</li>
+<li>因為計算能力不足，所以議題淡化</li>
+</ul>
+<h2 id="Code_Coverge_Analysis"><a href="#Code_Coverge_Analysis" class="headerlink" title="Code Coverge Analysis"></a>Code Coverge Analysis</h2><ul>
+<li>Full covered via analyses != good testing</li>
+<li>Code coverge = Tell us lines tested</li>
+<li><code>Code not covered -&gt; Using mutation testing</code></li>
+</ul>
+<h2 id="Step_1_3A_Generate_the_Mutation"><a href="#Step_1_3A_Generate_the_Mutation" class="headerlink" title="Step 1: Generate the Mutation"></a>Step 1: Generate the Mutation</h2><ul>
+<li>故意 inject 一些錯誤的 code，讓跑測試時產生 error</li>
+<li>definition: 當故意塞 error 進去時，就是 mutation</li>
+<li>每次只改一個小判斷，稱為一個 mutant</li>
+<li>每次只改一個小判斷，造成太過大量的測試，以及 compile 時間 -&gt; 解法：改 compiled code</li>
+</ul>
+<h2 id="Step_2_3A_Mutation_Testing"><a href="#Step_2_3A_Mutation_Testing" class="headerlink" title="Step 2: Mutation Testing"></a>Step 2: Mutation Testing</h2><ul>
+<li>Stop when a test fails 不用整個 suite 跑完</li>
+<li>Choose your tests</li>
+<li>利用 version control，只測相關連的 code</li>
+</ul>
+<h2 id="Step_3_3A_Kill_or_Leave"><a href="#Step_3_3A_Kill_or_Leave" class="headerlink" title="Step 3: Kill or Leave"></a>Step 3: Kill or Leave</h2><ul>
+<li>Kill the mutation when test failed</li>
+<li>Leave mutation when all tests are passed</li>
+</ul>
+<h2 id="Step_4_3A_The_Results"><a href="#Step_4_3A_The_Results" class="headerlink" title="Step 4: The Results"></a>Step 4: The Results</h2><ul>
+<li>結果需要人工去看</li>
+<li>期望測試碼可以抓出 mutant</li>
+<li>結果分析：<ul>
+<li>Dead code</li>
+<li>Non-functional code</li>
+<li>不會跑到的 code</li>
+<li>無論怎麼改都不影響結果的 code ex: 迴圈少跑一個的例子</li>
+</ul>
+</li>
+<li>把 always pass 的地方補上測試，讓測試 fail，然後 kill mutation operator 讓測試 pass。</li>
+</ul>
+<h1 id="Data_Driven_Testing_in_Payment_System_-_Alan_Liu"><a href="#Data_Driven_Testing_in_Payment_System_-_Alan_Liu" class="headerlink" title="Data Driven Testing in Payment System - Alan Liu"></a>Data Driven Testing in Payment System - Alan Liu</h1><p>CyberSoft - 銀行的代工廠，金融產品</p>
+<h2 id="u7279_u6027"><a href="#u7279_u6027" class="headerlink" title="特性"></a>特性</h2><ul>
+<li>金融產品 Life Cycle 長，好的測試會讓公司省很多錢</li>
+<li>用 Data 來測系統，需很多測資保證系統正確</li>
+<li>帳務計算系統<ul>
+<li>一堆商業邏輯和運算及 query 一堆 tables</li>
+<li>每個特店還可能談出不同邏輯</li>
+<li>最重要就是算出來錢絕對不能錯！</li>
+<li>需要大量不同的測試資料，需要有各式組合的測資</li>
+</ul>
+</li>
+<li>以 Data Generator 產生各式不同的「帳務資料」測資</li>
+<li>以 Checker 來驗證算出來的結果</li>
+</ul>
+<h2 id="u67B6_u69CB"><a href="#u67B6_u69CB" class="headerlink" title="架構"></a>架構</h2><ul>
+<li>Testing framework: Robot framework 提供的 DDT approach</li>
+<li>DB data generator: sqlalchemy</li>
+<li>Checker: Robot 中的 keyword</li>
+</ul>
+<h2 id="Robot"><a href="#Robot" class="headerlink" title="Robot"></a>Robot</h2><ul>
+<li>利用 keyword driven 方式產生測資，同時設定 expected value</li>
+</ul>
+<h2 id="u4F7F_u7528_DDT__u5728_u9A57_u8B49_u91D1_u878D_u7522_u54C1_u7684_u597D_u8655"><a href="#u4F7F_u7528_DDT__u5728_u9A57_u8B49_u91D1_u878D_u7522_u54C1_u7684_u597D_u8655" class="headerlink" title="使用 DDT 在驗證金融產品的好處"></a>使用 DDT 在驗證金融產品的好處</h2><ul>
+<li>可以在短時間內完成大量不同的測試案例，只要商業邏輯不變動，即可大量提高 ROI</li>
+<li>可以專注在要用怎麼樣的資料來涵蓋測試範圍(這正是 data driven testing 帶來的好處)</li>
+<li>專心測商業邏輯，不用(少)管準備假資料/驗證資料的麻煩</li>
+</ul>
+<h2 id="u6311_u6230"><a href="#u6311_u6230" class="headerlink" title="挑戰"></a>挑戰</h2><ul>
+<li>繁瑣的資料產生邏輯</li>
+<li>如何對結果驗證，寫 Checker 程式</li>
+</ul>
+<h1 id="Xcode__u7684_u81EA_u52D5_u5316_u6E2C_u8A66_for_iOS_development"><a href="#Xcode__u7684_u81EA_u52D5_u5316_u6E2C_u8A66_for_iOS_development" class="headerlink" title="Xcode 的自動化測試 for iOS development"></a>Xcode 的自動化測試 for iOS development</h1><h2 id="Demo_1_-_UI_Recording_/_Playback"><a href="#Demo_1_-_UI_Recording_/_Playback" class="headerlink" title="Demo 1 - UI Recording / Playback"></a>Demo 1 - UI Recording / Playback</h2><ul>
+<li>開專案</li>
+<li>加入 target(package) 把 UI Testing bundle 加入專案</li>
+<li>可選 Swift / Object-C 推薦 Swift 語法較簡潔</li>
+<li>有 setUp/tearDown，每個測試以 test 為開頭</li>
+<li>直接操作模擬器就可以即時錄製！酷！</li>
+</ul>
+<h2 id="UI_Testing__u6D41_u7A0B"><a href="#UI_Testing__u6D41_u7A0B" class="headerlink" title="UI Testing 流程"></a>UI Testing 流程</h2><ul>
+<li>Locale Element &lt;—&gt; Operate Element &lt;–&gt; Verify</li>
+<li>Example:<ul>
+<li>// asseration</li>
+<li>XCAssertEqual();</li>
+</ul>
+</li>
+</ul>
+<h2 id="Demo_2"><a href="#Demo_2" class="headerlink" title="Demo 2 -"></a>Demo 2 -</h2><ul>
+<li><p>要設 [addBtn setAccessibilityIdentifier:@”Add”]; 以免呈現是多國語言的介面</p>
+</li>
+<li><p>需要 iOS 9 以上，搭配 OSX 10.11 才能跑</p>
+</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="Mutation_Testing_-_Mike_Lien"><a href="#Mutation_Testing_-_Mike_Lien" class="headerlink" title="Mutation Testing - Mike Lien"></a>Mu]]>
+    </summary>
+    
+      <category term="Test Corner" scheme="http://blog.dj1020.net/tags/Test-Corner/"/>
+    
+      <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Laradiner 讀書會 - SOLID 原則 (1) Single Responsibility Principle 單一職責原則 導讀心得整理筆記]]></title>
     <link href="http://blog.dj1020.net/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83-SOLID-%E5%8E%9F%E5%89%87-2016-01-21/"/>
     <id>http://blog.dj1020.net/Laradiner讀書會-SOLID-原則-2016-01-21/</id>
     <published>2016-01-18T12:17:59.000Z</published>
-    <updated>2016-01-22T07:34:09.000Z</updated>
+    <updated>2016-03-03T06:08:09.000Z</updated>
     <content type="html"><![CDATA[<h2 id="u6848_u4F8B_1__u524D_u7F6E_u4F5C_u696D"><a href="#u6848_u4F8B_1__u524D_u7F6E_u4F5C_u696D" class="headerlink" title="案例 1 前置作業"></a>案例 1 前置作業</h2><h4 id="u6309_u6B64_u67E5_u770B_Git__u6E90_u78BC"><a href="#u6309_u6B64_u67E5_u770B_Git__u6E90_u78BC" class="headerlink" title="按此查看 Git 源碼"></a><a href="https://github.com/dj1020/CH8_Single_Responsitory_Principle_Demo" target="_blank" rel="external">按此</a>查看 Git 源碼</h4><ol>
 <li>建立專案 <code>laravel new ch8_SRP_demo</code></li>
 <li>進入專案目錄 <code>cd ch8_SRP_demo</code></li>
 <li>安裝 Laravel 相依套件 <code>composer install</code></li>
 <li>編輯 .env 設定資料庫帳密，還有記得 <code>php artisan key:generate</code></li>
-<li>利用 migrate 測試資料庫設定 <code>php artisan migrate install</code></li>
+<li>利用 migrate 測試資料庫設定 <code>php artisan migrate:install</code></li>
 <li>建立 <code>Account</code> model 類別和對應的 table migration <code>php artisan make:model MyCart/Account -m</code></li>
 <li>同上，建立 <code>Order</code> model 類別和 table <code>php artisan make:model MyCart/Order -m</code></li>
 <li>同上，建立 <code>Product</code> model 類別和 table <code>php artisan make:model MyCart/Product -m</code></li>
@@ -1301,6 +1537,60 @@
   </entry>
   
   <entry>
+    <title><![CDATA[2015 PHP Conf 筆記 (5) - ORM 實戰效能 (sdPower)]]></title>
+    <link href="http://blog.dj1020.net/2015-PHP-Conf-%E7%AD%86%E8%A8%98(5)%20-%20ORM%20%E5%AF%A6%E6%88%B0%E6%95%88%E8%83%BD%20(sdPower)/"/>
+    <id>http://blog.dj1020.net/2015-PHP-Conf-筆記(5) - ORM 實戰效能 (sdPower)/</id>
+    <published>2015-10-09T01:33:08.000Z</published>
+    <updated>2015-10-09T07:55:15.000Z</updated>
+    <content type="html"><![CDATA[<p>info@sd.idv.tw</p>
+<h2 id="PhalconPHP"><a href="#PhalconPHP" class="headerlink" title="PhalconPHP"></a>PhalconPHP</h2><h2 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h2><ul>
+<li>參雜 SQL 的 funciton 維護不易，資料表欄位難變動</li>
+<li>Model 有分離 DB 和 Model 層，並有做一些些 Cache，六年前範例 Code，不過仍不好用</li>
+<li>ORM 基本使用介紹，跟 Laravel eloquent 差不多。</li>
+<li>Relations 幾乎跟 Laravel 一樣！？</li>
+</ul>
+<h2 id="ORM__u6E2C_u8A66_u554F_u984C"><a href="#ORM__u6E2C_u8A66_u554F_u984C" class="headerlink" title="ORM 測試問題"></a>ORM 測試問題</h2><ul>
+<li>Ex: Shopping Cart, 購物清單放 session</li>
+<li>寫測試，到底是測 Cart 還是測 session</li>
+<li>建議：<ul>
+<li>測 Controller</li>
+<li>hit db (Mocking 也行)</li>
+<li>用 migration 做 db 模擬測試</li>
+<li>Codeception BDD</li>
+</ul>
+</li>
+</ul>
+<h2 id="ORM__u5FEB_u53D6_u6A5F_u5236"><a href="#ORM__u5FEB_u53D6_u6A5F_u5236" class="headerlink" title="ORM 快取機制"></a>ORM 快取機制</h2><ul>
+<li>設定好 cache 就行了，設 lifetime 5 mins</li>
+<li>可以利用繼承，還決定該 Model 物件要使用的 Cache 方式 (File, memory, DB … )</li>
+<li>PHQL -&gt; 針對 SQL 做 Cache</li>
+</ul>
+<h2 id="ORM__u8CC7_u6599_u512A_u5316"><a href="#ORM__u8CC7_u6599_u512A_u5316" class="headerlink" title="ORM 資料優化"></a>ORM 資料優化</h2><ul>
+<li>PHP 不是高速運算設計的語言</li>
+<li>ex: 大量物件操作，操作 10000 筆資料，new 10000 個 instances -&gt; 不合理</li>
+</ul>
+<h2 id="ODM__28Object-Document_Model_29"><a href="#ODM__28Object-Document_Model_29" class="headerlink" title="ODM (Object-Document Model)"></a>ODM (Object-Document Model)</h2><ul>
+<li>其實就是 Laravel Collections ex: Collections</li>
+<li>還有一些參考連結 ActiveRecord -&gt; 和 ORM 不大一樣</li>
+<li>Sharding, 特殊的: MySQL sharding 到 Redis</li>
+</ul>
+<blockquote>
+<p>EXOSITE 的人，徵人中</p>
+</blockquote>
+<p>what!? EXOSITE</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>info@sd.idv.tw</p>
+<h2 id="PhalconPHP"><a href="#PhalconPHP" class="headerlink" title="PhalconPHP"></a>PhalconPHP</h2><h2 id="MVC"><a hre]]>
+    </summary>
+    
+      <category term="PHP Conf" scheme="http://blog.dj1020.net/tags/PHP-Conf/"/>
+    
+      <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[2015 PHP Conf 筆記 (3) - iNDIEVOX CTO 林志傑]]></title>
     <link href="http://blog.dj1020.net/2015-PHP-Conf-%E7%AD%86%E8%A8%98(3)%20-%20iNDIEVOX%20CTO%20%E6%9E%97%E5%BF%97%E5%82%91/"/>
     <id>http://blog.dj1020.net/2015-PHP-Conf-筆記(3) - iNDIEVOX CTO 林志傑/</id>
@@ -1430,60 +1720,6 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<h2 id="u552E_u7968_u91D1_u984D_u6025_u901F_u6210_u9577"><a href="#u552E_u7968_u91D1_u984D_u6025_u901F_u6210_u9577" class="headerlink" title]]>
-    </summary>
-    
-      <category term="PHP Conf" scheme="http://blog.dj1020.net/tags/PHP-Conf/"/>
-    
-      <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[2015 PHP Conf 筆記 (5) - ORM 實戰效能 (sdPower)]]></title>
-    <link href="http://blog.dj1020.net/2015-PHP-Conf-%E7%AD%86%E8%A8%98(5)%20-%20ORM%20%E5%AF%A6%E6%88%B0%E6%95%88%E8%83%BD%20(sdPower)/"/>
-    <id>http://blog.dj1020.net/2015-PHP-Conf-筆記(5) - ORM 實戰效能 (sdPower)/</id>
-    <published>2015-10-09T01:33:08.000Z</published>
-    <updated>2015-10-09T07:55:15.000Z</updated>
-    <content type="html"><![CDATA[<p>info@sd.idv.tw</p>
-<h2 id="PhalconPHP"><a href="#PhalconPHP" class="headerlink" title="PhalconPHP"></a>PhalconPHP</h2><h2 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h2><ul>
-<li>參雜 SQL 的 funciton 維護不易，資料表欄位難變動</li>
-<li>Model 有分離 DB 和 Model 層，並有做一些些 Cache，六年前範例 Code，不過仍不好用</li>
-<li>ORM 基本使用介紹，跟 Laravel eloquent 差不多。</li>
-<li>Relations 幾乎跟 Laravel 一樣！？</li>
-</ul>
-<h2 id="ORM__u6E2C_u8A66_u554F_u984C"><a href="#ORM__u6E2C_u8A66_u554F_u984C" class="headerlink" title="ORM 測試問題"></a>ORM 測試問題</h2><ul>
-<li>Ex: Shopping Cart, 購物清單放 session</li>
-<li>寫測試，到底是測 Cart 還是測 session</li>
-<li>建議：<ul>
-<li>測 Controller</li>
-<li>hit db (Mocking 也行)</li>
-<li>用 migration 做 db 模擬測試</li>
-<li>Codeception BDD</li>
-</ul>
-</li>
-</ul>
-<h2 id="ORM__u5FEB_u53D6_u6A5F_u5236"><a href="#ORM__u5FEB_u53D6_u6A5F_u5236" class="headerlink" title="ORM 快取機制"></a>ORM 快取機制</h2><ul>
-<li>設定好 cache 就行了，設 lifetime 5 mins</li>
-<li>可以利用繼承，還決定該 Model 物件要使用的 Cache 方式 (File, memory, DB … )</li>
-<li>PHQL -&gt; 針對 SQL 做 Cache</li>
-</ul>
-<h2 id="ORM__u8CC7_u6599_u512A_u5316"><a href="#ORM__u8CC7_u6599_u512A_u5316" class="headerlink" title="ORM 資料優化"></a>ORM 資料優化</h2><ul>
-<li>PHP 不是高速運算設計的語言</li>
-<li>ex: 大量物件操作，操作 10000 筆資料，new 10000 個 instances -&gt; 不合理</li>
-</ul>
-<h2 id="ODM__28Object-Document_Model_29"><a href="#ODM__28Object-Document_Model_29" class="headerlink" title="ODM (Object-Document Model)"></a>ODM (Object-Document Model)</h2><ul>
-<li>其實就是 Laravel Collections ex: Collections</li>
-<li>還有一些參考連結 ActiveRecord -&gt; 和 ORM 不大一樣</li>
-<li>Sharding, 特殊的: MySQL sharding 到 Redis</li>
-</ul>
-<blockquote>
-<p>EXOSITE 的人，徵人中</p>
-</blockquote>
-<p>what!? EXOSITE</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>info@sd.idv.tw</p>
-<h2 id="PhalconPHP"><a href="#PhalconPHP" class="headerlink" title="PhalconPHP"></a>PhalconPHP</h2><h2 id="MVC"><a hre]]>
     </summary>
     
       <category term="PHP Conf" scheme="http://blog.dj1020.net/tags/PHP-Conf/"/>
@@ -1782,130 +2018,6 @@
       <category term="PHP Conf" scheme="http://blog.dj1020.net/tags/PHP-Conf/"/>
     
       <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[2015 PHP Conf 筆記 (2) - c9s Code Generation(CodeGen)]]></title>
-    <link href="http://blog.dj1020.net/2015-PHP-Conf-%E7%AD%86%E8%A8%98(2)%20-%20c9s%20Code%20Generation(CodeGen)/"/>
-    <id>http://blog.dj1020.net/2015-PHP-Conf-筆記(2) - c9s Code Generation(CodeGen)/</id>
-    <published>2015-10-09T01:33:08.000Z</published>
-    <updated>2015-10-09T07:55:51.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="u8981_u89E3_u6C7A_u7684_u554F_u984C"><a href="#u8981_u89E3_u6C7A_u7684_u554F_u984C" class="headerlink" title="要解決的問題"></a>要解決的問題</h2><ul>
-<li>magic method 如 __call()，不支援 IDE autocompletion 而且跑起來很慢</li>
-</ul>
-<h2 id="Framework_Getting_Bigger"><a href="#Framework_Getting_Bigger" class="headerlink" title="Framework Getting Bigger"></a>Framework Getting Bigger</h2><h4 id="u6D88_u8017_u5F88_u591A_Code__u5728_Detecting_Env"><a href="#u6D88_u8017_u5F88_u591A_Code__u5728_Detecting_Env" class="headerlink" title="消耗很多 Code 在 Detecting Env"></a>消耗很多 Code 在 Detecting Env</h4><ul>
-<li>Ex: production/local/staging 各種環境下要跑不同的 Code，偵測 env 的程式碼到處都是</li>
-<li>Ex: 偵測某套件有沒有被安裝, 像 yaml, mongodb</li>
-</ul>
-<h4 id="Magic_Setters/Getters"><a href="#Magic_Setters/Getters" class="headerlink" title="Magic Setters/Getters"></a>Magic Setters/Getters</h4><ul>
-<li><p><code>__set</code>, <code>__get</code> 的使用，無法知道目前有哪些 key 可以用</p>
-  <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public <span class="keyword">function</span> __get() &#123;</span><br><span class="line">    return <span class="variable">$this-</span>&gt;data[ <span class="variable">$key</span> ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Doctrine 會自己有 getter/setter (應該用的是 magic 方式)</p>
-</li>
-</ul>
-<h2 id="Types_Of_Code_Generation"><a href="#Types_Of_Code_Generation" class="headerlink" title="Types Of Code Generation"></a>Types Of Code Generation</h2><ul>
-<li>JIT (just-in-time)</li>
-<li>PHP to PHP</li>
-</ul>
-<h2 id="Why_Types_Are_Important_to_the_Runtime_System"><a href="#Why_Types_Are_Important_to_the_Runtime_System" class="headerlink" title="Why Types Are Important to the Runtime System"></a>Why Types Are Important to the Runtime System</h2><ul>
-<li><p>以相加為例，不指定類型</p>
-  <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> add(<span class="variable">$a</span>, <span class="variable">$b</span>) &#123;</span><br><span class="line">    return <span class="variable">$a</span> + <span class="variable">$b</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果指定 Variable Type，Compile 出來的機器碼可以少也許 50% 以上</p>
-  <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> add(int <span class="variable">$a</span>, int <span class="variable">$b</span>) : int &#123;</span><br><span class="line">    return <span class="variable">$a</span> + <span class="variable">$b</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="libjit_-_Just-In-Time_compiler"><a href="#libjit_-_Just-In-Time_compiler" class="headerlink" title="libjit - Just-In-Time compiler"></a><a href="https://www.gnu.org/software/libjit/" target="_blank" rel="external">libjit</a> - Just-In-Time compiler</h4><ul>
-<li>講者應該是利用這個 lib 做優化？</li>
-</ul>
-<h4 id="jitfu_php_extension"><a href="#jitfu_php_extension" class="headerlink" title="jitfu php extension"></a><a href="/">jitfu php extension</a></h4><ul>
-<li>可以用 phpbrew 來裝相關 jit 程式庫</li>
-</ul>
-<h2 id="LLVM_vs_LIBJIT__3F"><a href="#LLVM_vs_LIBJIT__3F" class="headerlink" title="LLVM vs LIBJIT ?"></a>LLVM vs LIBJIT ?</h2><ul>
-<li>slides 會上傳，再去找 link 來看，有人分享</li>
-</ul>
-<h2 id="PHP_to_PHP"><a href="#PHP_to_PHP" class="headerlink" title="PHP to PHP"></a>PHP to PHP</h2><ul>
-<li>ex: PyPy</li>
-<li>c9s 就寫了一個 PHPPHP 叫 CodeGen，概念就是用 PHP 把 PHP source 轉成更快的 PHP Code</li>
-<li>Bootstrap 的環境偵測 Code 約 ~1000 ~ 3000 lines，每次 http req 都要跑一遍其實很傷效能。 ex: Laravel Bootstraper 等。</li>
-<li>CodeGen 會把這些 conditions 都移除掉，例如: 搶在 spl前直接 load classes</li>
-</ul>
-<h4 id="u5C0E_u5165_PHP-Parser"><a href="#u5C0E_u5165_PHP-Parser" class="headerlink" title="導入 PHP-Parser"></a>導入 PHP-Parser</h4><ul>
-<li>PHP 5.2~5.6，產生 AST (Abstract Source Tree)，轉成很漂亮的 php code</li>
-<li>把 Condition 移除，等於是先偵測好環境，就不用每次偵測。</li>
-</ul>
-<h2 id="Generating_CRUD_Handler_-_ActionKit"><a href="#Generating_CRUD_Handler_-_ActionKit" class="headerlink" title="Generating CRUD Handler - ActionKit"></a>Generating CRUD Handler - ActionKit</h2><ul>
-<li>利用 SPL 去自動產生 CRUD 的 class</li>
-</ul>
-<h2 id="ConfigKit_-__u81EA_u52D5_u7522_u751F_class_loader"><a href="#ConfigKit_-__u81EA_u52D5_u7522_u751F_class_loader" class="headerlink" title="ConfigKit - 自動產生 class loader"></a>ConfigKit - 自動產生 class loader</h2><ul>
-<li>避免判斷。</li>
-</ul>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="u8981_u89E3_u6C7A_u7684_u554F_u984C"><a href="#u8981_u89E3_u6C7A_u7684_u554F_u984C" class="headerlink" title="要解決的問題"></a>要解決的問題</h2]]>
-    </summary>
-    
-      <category term="PHP Conf" scheme="http://blog.dj1020.net/tags/PHP-Conf/"/>
-    
-      <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[用 curl 抓 JSON response 好用小技巧 - python -m json.tool]]></title>
-    <link href="http://blog.dj1020.net/%E7%94%A8-curl-%E6%8A%93-JSON-response-%E5%A5%BD%E7%94%A8%E5%B0%8F%E6%8A%80%E5%B7%A7-python-m-json-tool/"/>
-    <id>http://blog.dj1020.net/用-curl-抓-JSON-response-好用小技巧-python-m-json-tool/</id>
-    <published>2015-09-30T09:53:24.000Z</published>
-    <updated>2015-10-01T01:13:37.000Z</updated>
-    <content type="html"><![CDATA[<p>利用 curl 取回 JSON reponse，只要經過 pipe 給 python -m json.tool 就可以得到漂亮的 JSON 格式資料。</p>
-<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -s 是不要秀 Progress Bar 用的</span></span><br><span class="line"><span class="variable">$ </span>curl -s <span class="symbol">http:</span>/<span class="regexp">/jsonplaceholder.typicode.com/posts</span><span class="regexp">/1/comments</span> | python -m json.tool</span><br></pre></td></tr></table></figure>
-<p>結果：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">$ curl -s http://jsonplaceholder.typicode.com/posts/1/comments | python -m json.tool</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        "body": "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium",</span><br><span class="line">        "email": "Eliseo@gardner.biz",</span><br><span class="line">        "id": 1,</span><br><span class="line">        "name": "id labore ex et quam laborum",</span><br><span class="line">        "postId": 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        "body": "est natus enim nihil est dolore omnis voluptatem numquam\net omnis occaecati quod ullam at\nvoluptatem error expedita pariatur\nnihil sint nostrum voluptatem reiciendis et",</span><br><span class="line">        "email": "Jayne_Kuhic@sydney.com",</span><br><span class="line">        "id": 2,</span><br><span class="line">        "name": "quo vero reiciendis velit similique earum",</span><br><span class="line">        "postId": 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        "body": "quia molestiae reprehenderit quasi aspernatur\naut expedita occaecati aliquam eveniet laudantium\nomnis quibusdam delectus saepe quia accusamus maiores nam est\ncum et ducimus et vero voluptates excepturi deleniti ratione",</span><br><span class="line">        "email": "Nikita@garfield.biz",</span><br><span class="line">        "id": 3,</span><br><span class="line">        "name": "odio adipisci rerum aut animi",</span><br><span class="line">        "postId": 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        "body": "non et atque\noccaecati deserunt quas accusantium unde odit nobis qui voluptatem\nquia voluptas consequuntur itaque dolor\net qui rerum deleniti ut occaecati",</span><br><span class="line">        "email": "Lew@alysha.tv",</span><br><span class="line">        "id": 4,</span><br><span class="line">        "name": "alias odio sit",</span><br><span class="line">        "postId": 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        "body": "harum non quasi et ratione\ntempore iure ex voluptates in ratione\nharum architecto fugit inventore cupiditate\nvoluptates magni quo et",</span><br><span class="line">        "email": "Hayden@althea.biz",</span><br><span class="line">        "id": 5,</span><br><span class="line">        "name": "vero eaque aliquid doloribus et culpa",</span><br><span class="line">        "postId": 1</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>]]></content>
-    <summary type="html">
-    <![CDATA[<p>利用 curl 取回 JSON reponse，只要經過 pipe 給 python -m json.tool 就可以得到漂亮的 JSON 格式資料。</p>
-<figure class="highlight crystal"><table><tr><td class="g]]>
-    </summary>
-    
-      <category term="JSON" scheme="http://blog.dj1020.net/tags/JSON/"/>
-    
-      <category term="Linux" scheme="http://blog.dj1020.net/tags/Linux/"/>
-    
-      <category term="curl" scheme="http://blog.dj1020.net/tags/curl/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Hexo 發佈到 GitHub 自訂網域(網址)的方式，設 CNAME]]></title>
-    <link href="http://blog.dj1020.net/Hexo-%E7%99%BC%E4%BD%88%E5%88%B0-GitHub-%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%8C%E8%A8%AD-CNAME/"/>
-    <id>http://blog.dj1020.net/Hexo-發佈到-GitHub-的方式，設-CNAME/</id>
-    <published>2015-09-28T08:00:16.000Z</published>
-    <updated>2015-09-28T09:55:00.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="u5047_u8A2D_u4F60_u5DF2_u7D93_u8CB7_u597D_GoDaddy__u7684_u7DB2_u57DF_uFF0C_u800C_u4E14_u8A2D_u5B9A_u597D_CNAME"><a href="#u5047_u8A2D_u4F60_u5DF2_u7D93_u8CB7_u597D_GoDaddy__u7684_u7DB2_u57DF_uFF0C_u800C_u4E14_u8A2D_u5B9A_u597D_CNAME" class="headerlink" title="假設你已經買好 GoDaddy 的網域，而且設定好 CNAME"></a>假設你已經買好 GoDaddy 的網域，而且設定好 CNAME</h2><p>簡單提一下設定 CNAME 的流程，如果你買的網域叫 <code>super383838.com</code><br>登入 GoDaddy，<br>在你的網域按 <code>Manage</code> 按鈕，<br>到 <code>DNS Zone File</code>，<br>然後 <code>Add Record</code>，<br>選 <code>CNAME</code>，<br>Host 欄填 <code>blog</code> 的話，你的部落格的網址就會是 <a href="http://blog.super383838.com" target="_blank" rel="external">http://blog.super383838.com</a><br>Points To 欄填 <code>{username}.github.io</code> 把 {username} 換成你的 github 帳號，<br>完成後記得 <code>Save Changes</code>。</p>
-<p>此後，連到 <code>http://blog.super383838.com</code> 就跟連到 <code>http://{username}.github.io</code> 是一樣的了。</p>
-<p><img src="https://lh3.googleusercontent.com/-Atx4VH3XbWI/VgkMLv5hviI/AAAAAAABW10/9IrJIKRkeWQ/s800-Ic42/Screen%252520Shot%2525202015-09-28%252520at%2525204.12.55%252520PM.png"></p>
-<h2 id="u8A2D_u5B9A_GitHub_CNAME__u8E29_u96F7_u5FC3_u5F97"><a href="#u8A2D_u5B9A_GitHub_CNAME__u8E29_u96F7_u5FC3_u5F97" class="headerlink" title="設定 GitHub CNAME 踩雷心得"></a>設定 GitHub CNAME 踩雷心得</h2><p>我按照 <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/" target="_blank" rel="external">GitHub 官網指示</a>，加了一個叫 <code>CNAME</code> 的檔案(無副檔名)在 master branch 的根目錄裡，檔案內容只有一行：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">blog<span class="class">.dj1020</span><span class="class">.net</span></span><br></pre></td></tr></table></figure></p>
-<p>也就是我想要的部落格網域，所以別人就可以連到 <a href="http://blog.dj1020.net">http://blog.dj1020.net</a> 看到我的部落格。</p>
-<p>加完這個檔案，一切順利正常，<a href="http://blog.dj1020.net">http://blog.dj1020.net</a> 馬上可以正常顯示，而且如果連到原本的 <a href="http://{username}.github.io" target="_blank" rel="external">http://{username}.github.io</a> 要看部落格，還會被 GitHub 自動導向 <a href="http://blog.dj1020.net">http://blog.dj1020.net</a> 這樣很好！</p>
-<p>問題在於，<code>CNAME</code> 這個檔案是由我手動在 GitHub 上產生，但是 Hexo 並不知道，所以一旦 Hexo deploy 之後，<code>CNAME</code> 就被蓋掉了。所以再打開 <a href="http://blog.dj1020.net">http://blog.dj1020.net</a> 就出現這樣的畫面：</p>
-<p><img src="https://lh3.googleusercontent.com/-U576bunblGQ/VgkMKxJW-ZI/AAAAAAABW1s/CQPr3wxN_6I/s800-Ic42/Screen%252520Shot%2525202015-09-28%252520at%2525204.30.58%252520PM.png"></p>
-<h2 id="u89E3_u6CD5_uFF1A_u5B89_u88DD_hexo-generator-cname"><a href="#u89E3_u6CD5_uFF1A_u5B89_u88DD_hexo-generator-cname" class="headerlink" title="解法：安裝 hexo-generator-cname"></a>解法：安裝 hexo-generator-cname</h2><p>這個外掛會幫你產生 <code>CNAME</code> 檔，並且在 deploy 時一同 push 到 GitHub 上。安裝也很簡單，不用任何設定，我想它是去抓 _config.yml 裡的 url 設定值。</p>
-<ol>
-<li><code>$ npm install hexo-generator-cname --save</code></li>
-<li>重新 deploy <code>$ hexo deploy -g</code></li>
-<li>Done</li>
-</ol>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="u5047_u8A2D_u4F60_u5DF2_u7D93_u8CB7_u597D_GoDaddy__u7684_u7DB2_u57DF_uFF0C_u800C_u4E14_u8A2D_u5B9A_u597D_CNAME"><a href="#u5047_u8A2]]>
-    </summary>
-    
-      <category term="Bootstrap" scheme="http://blog.dj1020.net/tags/Bootstrap/"/>
-    
-      <category term="Hexo" scheme="http://blog.dj1020.net/tags/Hexo/"/>
-    
-      <category term="Hexo 筆記" scheme="http://blog.dj1020.net/categories/Hexo-%E7%AD%86%E8%A8%98/"/>
     
   </entry>
   

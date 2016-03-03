@@ -4,47 +4,38 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Hexo 添加 RSS | 閃亮亮大師之路</title>
+    <title>PHP 也有 Day #22 - PHPUnit 到 CI 持續整合 | 閃亮亮大師之路</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="閃亮亮dj">
     
 
     
-    <meta name="description" content="添加 RSS
-安裝 RSS plugin
-1$ npm install hexo-generator-feed --save
+    <meta name="description" content="CI、CD
+持續整合
+持續交付
 
-在 _config.yml 裡使用 RSS plugin  這個不用，加了反而不能用。
-
-在 … 設定 Rss: /atom.xml，以 Jacman 來說，預設就設好了
-
-參考 hexo-generator-feed的github說明，在 _config.yml 設定：">
+自動化測試、報告、佈署
+避免">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo 添加 RSS">
-<meta property="og:url" content="http://blog.dj1020.net/Hexo-添加-RSS/index.html">
+<meta property="og:title" content="PHP 也有 Day #22 - PHPUnit 到 CI 持續整合">
+<meta property="og:url" content="http://blog.dj1020.net/PHP也有day-22_PHPUNIT_到_CI持續整合/index.html">
 <meta property="og:site_name" content="閃亮亮大師之路">
-<meta property="og:description" content="添加 RSS
-安裝 RSS plugin
-1$ npm install hexo-generator-feed --save
+<meta property="og:description" content="CI、CD
+持續整合
+持續交付
 
-在 _config.yml 裡使用 RSS plugin  這個不用，加了反而不能用。
-
-在 … 設定 Rss: /atom.xml，以 Jacman 來說，預設就設好了
-
-參考 hexo-generator-feed的github說明，在 _config.yml 設定：">
-<meta property="og:updated_time" content="2015-09-24T02:37:44.000Z">
+自動化測試、報告、佈署
+避免">
+<meta property="og:updated_time" content="2016-02-26T01:17:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo 添加 RSS">
-<meta name="twitter:description" content="添加 RSS
-安裝 RSS plugin
-1$ npm install hexo-generator-feed --save
+<meta name="twitter:title" content="PHP 也有 Day #22 - PHPUnit 到 CI 持續整合">
+<meta name="twitter:description" content="CI、CD
+持續整合
+持續交付
 
-在 _config.yml 裡使用 RSS plugin  這個不用，加了反而不能用。
-
-在 … 設定 Rss: /atom.xml，以 Jacman 來說，預設就設好了
-
-參考 hexo-generator-feed的github說明，在 _config.yml 設定：">
+自動化測試、報告、佈署
+避免">
 
     
     <link rel="alternative" href="/atom.xml" title="閃亮亮大師之路" type="application/atom+xml">
@@ -104,20 +95,20 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/Hexo-添加-RSS/" title="Hexo 添加 RSS" itemprop="url">Hexo 添加 RSS</a>
+      <a href="/PHP也有day-22_PHPUNIT_到_CI持續整合/" title="PHP 也有 Day #22 - PHPUnit 到 CI 持續整合" itemprop="url">PHP 也有 Day #22 - PHPUnit 到 CI 持續整合</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="閃亮亮dj" target="_blank" itemprop="author">閃亮亮dj</a>
 		
   <p class="article-time">
-    <time datetime="2015-09-24T02:13:34.000Z" itemprop="datePublished"> 發表於 2015-09-24</time>
+    <time datetime="2016-02-25T11:30:34.000Z" itemprop="datePublished"> 發表於 2016-02-25</time>
   </p>
 
   
     <div class="article-share clearfix" id="share">
     
-      <div data-url="http://blog.dj1020.net/Hexo-添加-RSS/" data-title="Hexo 添加 RSS | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+      <div data-url="http://blog.dj1020.net/PHP也有day-22_PHPUNIT_到_CI持續整合/" data-title="PHP 也有 Day #22 - PHPUnit 到 CI 持續整合 | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
       </div>
     
     </div>
@@ -126,34 +117,22 @@
 </header>
 	<div class="article-content">
 		
-		<h2 id="u6DFB_u52A0_RSS"><a href="#u6DFB_u52A0_RSS" class="headerlink" title="添加 RSS"></a>添加 RSS</h2><ol>
-<li><p>安裝 RSS plugin</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm <span class="operator"><span class="keyword">install</span> hexo-generator-feed <span class="comment">--save</span></span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><del>在 _config.yml 裡使用 RSS plugin</del>  這個不用，加了反而不能用。</p>
-</li>
-<li><p>在 … 設定 Rss: /atom.xml，以 Jacman 來說，預設就設好了</p>
-</li>
-<li><p>參考 <a href="https://github.com/hexojs/hexo-generator-feed" target="_blank" rel="external">hexo-generator-feed的github說明</a>，在 _config.yml 設定：</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">feed:</span><br><span class="line">  <span class="operator">type</span>: atom</span><br><span class="line">  path: atom.<span class="keyword">xml</span></span><br><span class="line">  <span class="title">limit</span>: <span class="number">20</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重新 generate 頁面和 RSS feed <code>$ hexo clean &amp;&amp; hexo generate</code></p>
-</li>
-</ol>
+		<h2 id="CI_u3001CD"><a href="#CI_u3001CD" class="headerlink" title="CI、CD"></a>CI、CD</h2><ul>
+<li>持續整合</li>
+<li>持續交付</li>
+</ul>
+<h2 id="u81EA_u52D5_u5316_u6E2C_u8A66_u3001_u5831_u544A_u3001_u4F48_u7F72"><a href="#u81EA_u52D5_u5316_u6E2C_u8A66_u3001_u5831_u544A_u3001_u4F48_u7F72" class="headerlink" title="自動化測試、報告、佈署"></a>自動化測試、報告、佈署</h2><ul>
+<li>避免</li>
+</ul>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Hexo-筆記/">Hexo 筆記</a>
-</div>
-
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Bootstrap/">Bootstrap</a><a href="/tags/Hexo/">Hexo</a>
+  <span></span> <a href="/tags/PHP也有Day/">PHP也有Day</a><a href="/tags/筆記/">筆記</a>
   </div>
 
 </div>
@@ -162,7 +141,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://blog.dj1020.net/Hexo-添加-RSS/" data-title="Hexo 添加 RSS | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+	  <div data-url="http://blog.dj1020.net/PHP也有day-22_PHPUNIT_到_CI持續整合/" data-title="PHP 也有 Day #22 - PHPUnit 到 CI 持續整合 | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -176,18 +155,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/PHP也有Day-19-從實例學習設計模式-by-大澤木小鐵/" title="[筆記] PHP也有Day #19 - 從實例學習設計模式 by 大澤木小鐵">
+ <a href="/Laradiner讀書會-SOLID-原則(2)-Open-Closed-2016-03-03/" title="Laradiner 讀書會 - SOLID 原則 (2) Open Closed Principle 開放封閉原則 導讀心得整理筆記">
   <strong>上一篇：</strong><br/>
   <span>
-  [筆記] PHP也有Day #19 - 從實例學習設計模式 by 大澤木小鐵</span>
+  Laradiner 讀書會 - SOLID 原則 (2) Open Closed Principle 開放封閉原則 導讀心得整理筆記</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/Hexo-Jacman-主題換作者頭像照片/"  title="Hexo Jacman 主題換作者頭像照片、Logo、FavIcon">
+<a href="/Test-Corner-講座-2-談-Mutation-Testing-Mozilla/"  title="Test Corner 講座#2 - 談 Mutation Testing@Mozilla">
  <strong>下一篇：</strong><br/> 
- <span>Hexo Jacman 主題換作者頭像照片、Logo、FavIcon
+ <span>Test Corner 講座#2 - 談 Mutation Testing@Mozilla
 </span>
 </a>
 </div>
@@ -202,7 +181,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目錄</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u6DFB_u52A0_RSS"><span class="toc-number">1.</span> <span class="toc-text">添加 RSS</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CI_u3001CD"><span class="toc-number">1.</span> <span class="toc-text">CI、CD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u81EA_u52D5_u5316_u6E2C_u8A66_u3001_u5831_u544A_u3001_u4F48_u7F72"><span class="toc-number">2.</span> <span class="toc-text">自動化測試、報告、佈署</span></a></li></ol>
  
   </div>
 

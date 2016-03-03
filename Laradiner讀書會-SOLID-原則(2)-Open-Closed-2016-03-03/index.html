@@ -1,0 +1,599 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Laradiner 讀書會 - SOLID 原則 (2) Open Closed Principle 開放封閉原則 導讀心得整理筆記 | 閃亮亮大師之路</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="閃亮亮dj">
+    
+
+    
+    <meta name="description" content="案例前置作業按此 查看已完成的 Git 源碼，過程有問題可到 Laravel 台灣 發問
+建立專案 git clone https://github.com/dj1020/CH8_Single_Responsitory_Principle_Demo.git ch9_OpenClose_demo
+進入專案目錄 cd ch9_OpenClose_demo
+安裝相依套件 composer install">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Laradiner 讀書會 - SOLID 原則 (2) Open Closed Principle 開放封閉原則 導讀心得整理筆記">
+<meta property="og:url" content="http://blog.dj1020.net/Laradiner讀書會-SOLID-原則(2)-Open-Closed-2016-03-03/index.html">
+<meta property="og:site_name" content="閃亮亮大師之路">
+<meta property="og:description" content="案例前置作業按此 查看已完成的 Git 源碼，過程有問題可到 Laravel 台灣 發問
+建立專案 git clone https://github.com/dj1020/CH8_Single_Responsitory_Principle_Demo.git ch9_OpenClose_demo
+進入專案目錄 cd ch9_OpenClose_demo
+安裝相依套件 composer install">
+<meta property="og:updated_time" content="2016-03-03T09:43:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Laradiner 讀書會 - SOLID 原則 (2) Open Closed Principle 開放封閉原則 導讀心得整理筆記">
+<meta name="twitter:description" content="案例前置作業按此 查看已完成的 Git 源碼，過程有問題可到 Laravel 台灣 發問
+建立專案 git clone https://github.com/dj1020/CH8_Single_Responsitory_Principle_Demo.git ch9_OpenClose_demo
+進入專案目錄 cd ch9_OpenClose_demo
+安裝相依套件 composer install">
+
+    
+    <link rel="alternative" href="/atom.xml" title="閃亮亮大師之路" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="閃亮亮大師之路" title="閃亮亮大師之路"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="閃亮亮大師之路">閃亮亮大師之路</a></h1>
+				<h2 class="blog-motto">程式學習心得筆記</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.dj1020.net">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/Laradiner讀書會-SOLID-原則(2)-Open-Closed-2016-03-03/" title="Laradiner 讀書會 - SOLID 原則 (2) Open Closed Principle 開放封閉原則 導讀心得整理筆記" itemprop="url">Laradiner 讀書會 - SOLID 原則 (2) Open Closed Principle 開放封閉原則 導讀心得整理筆記</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="閃亮亮dj" target="_blank" itemprop="author">閃亮亮dj</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-03T11:30:59.000Z" itemprop="datePublished"> 發表於 2016-03-03</time>
+  </p>
+
+  
+    <div class="article-share clearfix" id="share">
+    
+      <div data-url="http://blog.dj1020.net/Laradiner讀書會-SOLID-原則(2)-Open-Closed-2016-03-03/" data-title="Laradiner 讀書會 - SOLID 原則 (2) Open Closed Principle 開放封閉原則 導讀心得整理筆記 | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+      </div>
+    
+    </div>
+  
+
+</header>
+	<div class="article-content">
+		
+		<h2 id="u6848_u4F8B_u524D_u7F6E_u4F5C_u696D"><a href="#u6848_u4F8B_u524D_u7F6E_u4F5C_u696D" class="headerlink" title="案例前置作業"></a>案例前置作業</h2><h4 id="u6309_u6B64__u67E5_u770B_u5DF2_u5B8C_u6210_u7684_Git__u6E90_u78BC_uFF0C_u904E_u7A0B_u6709_u554F_u984C_u53EF_u5230_Laravel__u53F0_u7063__u767C_u554F"><a href="#u6309_u6B64__u67E5_u770B_u5DF2_u5B8C_u6210_u7684_Git__u6E90_u78BC_uFF0C_u904E_u7A0B_u6709_u554F_u984C_u53EF_u5230_Laravel__u53F0_u7063__u767C_u554F" class="headerlink" title="按此 查看已完成的 Git 源碼，過程有問題可到 Laravel 台灣 發問"></a><a href="https://github.com/dj1020/CH9_Open_Closed_Principle_Demo" target="_blank" rel="external">按此</a> 查看已完成的 Git 源碼，過程有問題可到 <a href="https://www.facebook.com/groups/laravel.tw/" target="_blank" rel="external">Laravel 台灣</a> 發問</h4><ol>
+<li>建立專案 <code>git clone https://github.com/dj1020/CH8_Single_Responsitory_Principle_Demo.git ch9_OpenClose_demo</code></li>
+<li>進入專案目錄 <code>cd ch9_OpenClose_demo</code></li>
+<li>安裝相依套件 <code>composer install</code>，完成後執行 <code>php artisan</code> 如果沒報錯就是好了。</li>
+<li>編輯 .env 設定資料庫帳密，如果 .env 不存在，利用 <code>cp .env.example .env</code> 來建立一個後修改。</li>
+<li>執行 <code>php artisan key:generate</code></li>
+<li>利用 migrate 測試資料庫設定 <code>php artisan migrate</code>，成功的話同時會建立三個 tables: <code>accounts</code>, <code>orders</code>, <code>products</code></li>
+<li>使用 <code>php artisan serve</code> 開啟一個 web host</li>
+<li>用瀏覽器打開 <code>http://localhost:8000/</code> 應該可以看到 Laravel 5 字樣的 welcome page</li>
+<li>用瀏覽器打開 <code>http://localhost:8000/checkout</code> 應該可以看到一個假的購物車準備結帳</li>
+<li>按下提交訂單，會再 <code>orders</code> table 加入一筆訂單資料，去資料庫查看一下有沒有加入。</li>
+<li>Done.</li>
+</ol>
+<h2 id="u958B_u653E_u5C01_u9589_u539F_u5247__28Open_Closed_Principle_29"><a href="#u958B_u653E_u5C01_u9589_u539F_u5247__28Open_Closed_Principle_29" class="headerlink" title="開放封閉原則 (Open Closed Principle)"></a>開放封閉原則 (Open Closed Principle)</h2><p>所謂開放封閉原則(OCP)，按照英文原文是「Code is open for extension but closed for modification.」直接翻譯「<em>程式碼應該要開放使得它可以被擴充，但也要封閉以避免不必要的修改</em>」想必大家還是不了解是什麼意思，如果用閃亮亮的話來說，就是</p>
+<blockquote>
+<font size="+2">新增/變更邏輯判斷時，不用修改使用該邏輯的 caller 的程式碼</font>
+
+</blockquote>
+<p>也可以說</p>
+
+<blockquote>
+<font size="+2">不必要修改 Client 端程式，就可以擴充新功能，或改變業務邏輯。</font>
+
+</blockquote>
+<p>舉例來說，</p>
+<ul>
+<li><strong>如果你寫的是購物網站，你能不能「新增一種付款方式」，可新增 class，但幾乎不用修改原本已經上線的程式碼？</strong></li>
+<li><strong>如果你在會員註冊時的密碼驗證邏輯原本只有「密碼不能少於6個字元」，你能不能增加「密碼中需含大、小寫英文字母」的邏輯，但幾乎不用修改原本已經上線的程式碼？</strong></li>
+<li><strong>以書中的例子來說，它想修改驗證是否為「合法訂單」的驗證邏輯，要怎麼架構你的程式，才能讓以後新增/變更驗證邏輯時，不用修改 caller 的程式？</strong></li>
+</ul>
+<p>讓我們延續之前 <a href="http://blog.dj1020.net/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83-SOLID-%E5%8E%9F%E5%89%87-2016-01-21/">Laradiner 讀書會 - SOLID 原則 (1) Single Responsibility Principle 單一職責原則 導讀心得整理筆記 | 閃亮亮大師之路</a> 的例子：</p>
+<h4 id="u6848_u4F8B_3A"><a href="#u6848_u4F8B_3A" class="headerlink" title="案例:"></a>案例:</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrderProcessor</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$orders</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * OrderProcessor constructor.</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(BillerInterface <span class="variable">$biller</span>, OrderRepository <span class="variable">$orders</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;biller = <span class="variable">$biller</span>;</span><br><span class="line">        <span class="variable">$this</span>-&gt;orders = <span class="variable">$orders</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">process</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$recent</span> = <span class="variable">$this</span>-&gt;orders-&gt;getRecentOrderCount(<span class="variable">$order</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$recent</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">'Duplicate order likely.'</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$this</span>-&gt;biller-&gt;bill(<span class="variable">$order</span>-&gt;getAccount()-&gt;id, <span class="variable">$order</span>-&gt;getAmount());</span><br><span class="line"></span><br><span class="line">        <span class="variable">$id</span> = <span class="variable">$this</span>-&gt;orders-&gt;logOrder(<span class="variable">$order</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$id</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="u8ACB_u95DC_u6CE8_u9019_u4E00_u6BB5_u5224_u65B7_u908F_u8F2F_uFF1A"><a href="#u8ACB_u95DC_u6CE8_u9019_u4E00_u6BB5_u5224_u65B7_u908F_u8F2F_uFF1A" class="headerlink" title="請關注這一段判斷邏輯："></a>請關注這一段判斷邏輯：</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrderProcessor</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">process</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="variable">$recent</span> = <span class="variable">$this</span>-&gt;orders-&gt;getRecentOrderCount(<span class="variable">$order</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$recent</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">'Duplicate order likely.'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="u6848_u4F8B_u7814_u8A0E_uFF1A"><a href="#u6848_u4F8B_u7814_u8A0E_uFF1A" class="headerlink" title="案例研討："></a>案例研討：</h4><h4 id="1-__u9019_u4E00_u6BB5_u5224_u65B7_u7684_u908F_u8F2F_u5728_u300C_u505A_u4EC0_u9EBC_u4E8B_uFF1F_u300D"><a href="#1-__u9019_u4E00_u6BB5_u5224_u65B7_u7684_u908F_u8F2F_u5728_u300C_u505A_u4EC0_u9EBC_u4E8B_uFF1F_u300D" class="headerlink" title="1. 這一段判斷的邏輯在「做什麼事？」"></a>1. 這一段判斷的邏輯在「做什麼事？」</h4><h4 id="2-__u9019_u4E00_u6BB5_u908F_u8F2F_u7684_u5BEB_u6CD5_u300C_u597D_u5728_u54EA_u88E1_u300D_uFF1F"><a href="#2-__u9019_u4E00_u6BB5_u908F_u8F2F_u7684_u5BEB_u6CD5_u300C_u597D_u5728_u54EA_u88E1_u300D_uFF1F" class="headerlink" title="2. 這一段邏輯的寫法「好在哪裡」？"></a>2. 這一段邏輯的寫法「好在哪裡」？</h4><h4 id="3-__u9019_u4E00_u6BB5_u908F_u8F2F_u7684_u5BEB_u6CD5_uFF0C_u4EE5_u5F8C_u5728_u7DAD_u8B77_u5C08_u6848_u6642_u6703_u9020_u6210_u4EC0_u9EBC_u554F_u984C_uFF1F"><a href="#3-__u9019_u4E00_u6BB5_u908F_u8F2F_u7684_u5BEB_u6CD5_uFF0C_u4EE5_u5F8C_u5728_u7DAD_u8B77_u5C08_u6848_u6642_u6703_u9020_u6210_u4EC0_u9EBC_u554F_u984C_uFF1F" class="headerlink" title="3. 這一段邏輯的寫法，以後在維護專案時會造成什麼問題？"></a>3. 這一段邏輯的寫法，以後在維護專案時會造成什麼問題？</h4><p><br><br><br><br><br><br><br><br><!-- ========= 我是分隔線 ========== 我是分隔線 ========== 我是分隔線 ========== --></p>
+<hr style="border: 0; height: 0; box-shadow: 0 0 10px 1px black;">
+
+<h4 id="u9019_u4E00_u6BB5_u908F_u8F2F_u505A_u4EC0_u9EBC_u4E8B_uFF1F"><a href="#u9019_u4E00_u6BB5_u908F_u8F2F_u505A_u4EC0_u9EBC_u4E8B_uFF1F" class="headerlink" title="這一段邏輯做什麼事？"></a>這一段邏輯做什麼事？</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrderProcessor</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">process</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="variable">$recent</span> = <span class="variable">$this</span>-&gt;orders-&gt;getRecentOrderCount(<span class="variable">$order</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$recent</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">'Duplicate order likely.'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>驗證是否為「重複訂單」</p>
+<h4 id="u597D_u5728_u54EA_u88E1_uFF1F"><a href="#u597D_u5728_u54EA_u88E1_uFF1F" class="headerlink" title="好在哪裡？"></a>好在哪裡？</h4><ul>
+<li>可讀性佳</li>
+<li>可測試性佳，因為使用了依賴注入(Dependency Injection)，注入 orders 這個 repository 來取得 order count，讓我們可以方便使用 mock 技巧寫測試程式。<br><br></li>
+</ul>
+<h4 id="u4EE5_u5F8C_u5728_u7DAD_u8B77_u5C08_u6848_u6642_u6703_u9020_u6210_u4EC0_u9EBC_u554F_u984C_uFF1F"><a href="#u4EE5_u5F8C_u5728_u7DAD_u8B77_u5C08_u6848_u6642_u6703_u9020_u6210_u4EC0_u9EBC_u554F_u984C_uFF1F" class="headerlink" title="以後在維護專案時會造成什麼問題？"></a>以後在維護專案時會造成什麼問題？</h4><ul>
+<li><p>問題一：<code>驗證訂單</code>的邏輯是要換了怎麼辦？<br>ex: 我不想用「重複訂單」做為判斷該訂單是否合法(valid)的依據的話呢？</p>
+</li>
+<li><p>問題二：我們要怎麼新增<code>驗證訂單</code>的邏輯？<br>ex: 除了驗證「重複訂單」我還想驗證「訂購者的帳戶必須沒有被中止」才能成立訂單。</p>
+</li>
+<li><p>問題三：如果新增一個邏輯還好，要是新增「很多」驗證邏輯的話，怎麼避免 process 裡的程式迅速變成 spaghetti(義大利麵)？</p>
+</li>
+<li><p>問題四：新增「很多」驗證邏輯後，怎麼測試這些驗證邏輯有沒有正確運作？<br><br></p>
+</li>
+</ul>
+<h4 id="u7D50_u8AD6_uFF1A_u9019_u6BB5_u908F_u8F2F_u88AB_u5BEB_u5728_process_28_29__u4E2D_uFF0C_u9055_u53CD_u4E86_u958B_u653E_u5C01_u9589_u539F_u5247__28OCP_29"><a href="#u7D50_u8AD6_uFF1A_u9019_u6BB5_u908F_u8F2F_u88AB_u5BEB_u5728_process_28_29__u4E2D_uFF0C_u9055_u53CD_u4E86_u958B_u653E_u5C01_u9589_u539F_u5247__28OCP_29" class="headerlink" title="結論：這段邏輯被寫在 process() 中，違反了開放封閉原則 (OCP)"></a>結論：這段邏輯被寫在 process() 中，違反了開放封閉原則 (OCP)</h4><p>因為這段邏輯被寫在 process() 中，所以每次邏輯要修改都要變更 process()，使得 process() 本身違反了「開放封閉原則(OCP)」。我們希望 process() 這段程式是 open for extension，不是 open for modification。</p>
+<p>然而，對於呼叫 process() 的 caller <code>CheckoutController@checkout</code> 來說，checkout() 就沒有違反 OCP，不管 process() 怎麼變動，checkout() 裡的程式都不用改變，只要 process() 最後會回傳訂單 id 給 checkout() 就行。</p>
+<p><br><br></p>
+<h2 id="u5BE6_u6230_Demo_Solution"><a href="#u5BE6_u6230_Demo_Solution" class="headerlink" title="實戰 Demo Solution"></a>實戰 Demo Solution</h2><p>三個問題，一次解決：</p>
+<ul>
+<li><p>問題一：<code>驗證訂單</code>的邏輯是要換了怎麼辦？<br>ex: 我不想用「重複訂單」做為判斷該訂單是否合法(valid)的依據的話呢？</p>
+</li>
+<li><p>問題二：我們要怎麼新增<code>驗證訂單</code>的邏輯？<br>ex: 除了驗證「重複訂單」我還想驗證「訂購者的帳戶必須沒有被中止」才能成立訂單。</p>
+</li>
+<li><p>問題三：如果新增一個邏輯還好，要是新增「很多」驗證邏輯的話，怎麼避免 process 裡的程式迅速變成 spaghetti(義大利麵)？</p>
+</li>
+<li><p>問題四：新增「很多」驗證邏輯後，怎麼測試這些驗證邏輯有沒有正確運作？</p>
+</li>
+</ul>
+<h4 id="Step_1_-__u5B9A_u7FA9_OrderValidator_Interface"><a href="#Step_1_-__u5B9A_u7FA9_OrderValidator_Interface" class="headerlink" title="Step 1 - 定義 OrderValidator Interface"></a>Step 1 - 定義 OrderValidator Interface</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">OrderValidatorInterface</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">validate</span><span class="params">(Order <span class="variable">$order</span>)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Step_2_-__u5C07_Validator__u7528_u53C3_u6578_u50B3_u5165_OrderProcessor__u4E26_u547C_u53EB_u6BCF_u500B_u50B3_u5165_u7684_u9A57_u8B49_u908F_u8F2F"><a href="#Step_2_-__u5C07_Validator__u7528_u53C3_u6578_u50B3_u5165_OrderProcessor__u4E26_u547C_u53EB_u6BCF_u500B_u50B3_u5165_u7684_u9A57_u8B49_u908F_u8F2F" class="headerlink" title="Step 2 - 將 Validator 用參數傳入 OrderProcessor 並呼叫每個傳入的驗證邏輯"></a>Step 2 - 將 Validator 用參數傳入 OrderProcessor 並呼叫每個傳入的驗證邏輯</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrderProcessor</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$orders</span>;</span><br><span class="line">    <span class="keyword">private</span>   <span class="variable">$validators</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * OrderProcessor constructor.</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(</span><br><span class="line">        BillerInterface <span class="variable">$biller</span>,</span><br><span class="line">        OrderRepository <span class="variable">$orders</span>,</span><br><span class="line">        array <span class="variable">$validators</span> = []</span><br><span class="line">    )</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;biller = <span class="variable">$biller</span>;</span><br><span class="line">        <span class="variable">$this</span>-&gt;orders = <span class="variable">$orders</span>;</span><br><span class="line">        <span class="variable">$this</span>-&gt;validators = <span class="variable">$validators</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">process</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="comment">// 呼叫每個驗證邏輯</span></span><br><span class="line">        <span class="keyword">foreach</span> (<span class="variable">$this</span>-&gt;validators <span class="keyword">as</span> <span class="variable">$validator</span>) &#123;</span><br><span class="line">            <span class="variable">$validator</span>-&gt;validate(<span class="variable">$order</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$this</span>-&gt;biller-&gt;bill(<span class="variable">$order</span>-&gt;getAccount()-&gt;id, <span class="variable">$order</span>-&gt;getAmount());</span><br><span class="line"></span><br><span class="line">        <span class="variable">$id</span> = <span class="variable">$this</span>-&gt;orders-&gt;logOrder(<span class="variable">$order</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$id</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Step_3_-__u9A57_u8B49_u300C_u91CD_u8907_u8A02_u55AE_u300D_u5BE6_u4F5C_OrderValidator_Interface"><a href="#Step_3_-__u9A57_u8B49_u300C_u91CD_u8907_u8A02_u55AE_u300D_u5BE6_u4F5C_OrderValidator_Interface" class="headerlink" title="Step 3 - 驗證「重複訂單」實作 OrderValidator Interface"></a>Step 3 - 驗證「重複訂單」實作 OrderValidator Interface</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RecentOrderValidator</span> <span class="keyword">implements</span> <span class="title">OrderValidatorInterface</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$orders</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(OrderRepository <span class="variable">$orders</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;orders = <span class="variable">$orders</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">validate</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$recent</span> = <span class="variable">$this</span>-&gt;orders-&gt;getRecentOrderCount(<span class="variable">$order</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$recent</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">'Duplicate order likely.'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Step_4_-__u9A57_u8B49_u300C_u8A02_u8CFC_u8005_u7684_u5E33_u6236_u5FC5_u9808_u6C92_u6709_u88AB_u4E2D_u6B62_u300D_u5BE6_u4F5C_OrderValidator_Interface"><a href="#Step_4_-__u9A57_u8B49_u300C_u8A02_u8CFC_u8005_u7684_u5E33_u6236_u5FC5_u9808_u6C92_u6709_u88AB_u4E2D_u6B62_u300D_u5BE6_u4F5C_OrderValidator_Interface" class="headerlink" title="Step 4 - 驗證「訂購者的帳戶必須沒有被中止」實作 OrderValidator Interface"></a>Step 4 - 驗證「訂購者的帳戶必須沒有被中止」實作 OrderValidator Interface</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SuspendedOrderValidator</span> <span class="keyword">implements</span> <span class="title">OrderValidatorInterface</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$orders</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(OrderRepository <span class="variable">$orders</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;orders = <span class="variable">$orders</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">validate</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$order</span>-&gt;getAccount()-&gt;isSuspended()) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">'Suspended account may not order.'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Step_5_-__u5229_u7528_Laravel__u63D0_u4F9B_u7684_IoC_Container__u62BD_u8C61_u5316_u521D_u59CB_OrderProcessor__u7684_u6D41_u7A0B"><a href="#Step_5_-__u5229_u7528_Laravel__u63D0_u4F9B_u7684_IoC_Container__u62BD_u8C61_u5316_u521D_u59CB_OrderProcessor__u7684_u6D41_u7A0B" class="headerlink" title="Step 5 - 利用 Laravel 提供的 IoC Container 抽象化初始 OrderProcessor 的流程"></a>Step 5 - 利用 Laravel 提供的 IoC Container 抽象化初始 OrderProcessor 的流程</h4><ul>
+<li>可以先寫在 app/Providers/AppServiceProvider.php 的 boot() 裡面</li>
+<li>如果以後要 bind 的東西太多，可以再拆到別的 Provider 的檔案中。</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// app/Providers/AppServiceProvider.php</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppServiceProvider</span> <span class="keyword">extends</span> <span class="title">ServiceProvider</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">boot</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        app()-&gt;bind(<span class="string">'BillerInterface'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> CreditCardBiller();</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        app()-&gt;bind(<span class="string">'OrderProcessor'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> OrderProcessor(</span><br><span class="line">                app()-&gt;make(<span class="string">'BillerInterface'</span>),   <span class="comment">// 運用上面的 bind 來取得 CreditCardBiller 實體</span></span><br><span class="line">                app()-&gt;make(OrderRepository::class),</span><br><span class="line">                [</span><br><span class="line">                    app()-&gt;make(RecentOrderValidator::class),</span><br><span class="line">                    app()-&gt;make(SuspendedOrderValidator::class)</span><br><span class="line">                ]</span><br><span class="line">            );</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>這段程式會在 Laravel 啟動時就執行，作用是註冊一個 keyword 叫 <code>&#39;OrderProcessor&#39;</code> 在 container 中。</p>
+<p>之後，當你使用 <code>App::make(&#39;OrderProcessor&#39;)</code> 時，便會執行 bind 中的 function。</p>
+<p>最後會把兩個 validators 都初始化(instanciate) 好，塞(inject)到 new 出來的 OrderProcessor 實體(instance)中，並且回傳。</p>
+<h4 id="Step_6_-__u6539_u7528_App_3A_3Amake__u4F86_u521D_u59CB_u5316_OrderProcessor_uFF0C_u53D6_u4EE3_u4E4B_u524D_u7684_new_OrderProcessor_28_29"><a href="#Step_6_-__u6539_u7528_App_3A_3Amake__u4F86_u521D_u59CB_u5316_OrderProcessor_uFF0C_u53D6_u4EE3_u4E4B_u524D_u7684_new_OrderProcessor_28_29" class="headerlink" title="Step 6 - 改用 App::make 來初始化 OrderProcessor，取代之前的 new OrderProcessor()"></a>Step 6 - 改用 App::make 來初始化 OrderProcessor，取代之前的 new OrderProcessor()</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// app/Http/Controllers/CheckoutController.php</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CheckoutController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">checkout</span><span class="params">(Request <span class="variable">$request</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="comment">// 建立訂單 ...</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 處理訂單，之前是用 $orderProcessor = new OrderProcessor(...);</span></span><br><span class="line">        <span class="variable">$orderProcessor</span> = app()-&gt;make(<span class="string">'OrderProcessor'</span>);</span><br><span class="line"></span><br><span class="line">        <span class="variable">$orderId</span> = <span class="variable">$orderProcessor</span>-&gt;process(<span class="variable">$order</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">            <span class="string">"&lt;h2&gt;Done, 訂單 ID: "</span> . <span class="variable">$orderId</span> . <span class="string">"&lt;/h2&gt;"</span> .</span><br><span class="line">            <span class="string">"&lt;h2&gt;&#123;$order-&gt;getAccount()-&gt;name&#125;&lt;/h2&gt;"</span> .</span><br><span class="line">            <span class="string">"&lt;h2&gt;&#123;$order-&gt;getAmount()&#125;&lt;/h2&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>客倌們看到這邊，有沒有發現之後要新增、調整訂單驗證邏輯，只要修改這一段，就可以自己新增或拿掉某個驗證規則了：</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">app()-&gt;bind(<span class="string">'OrderProcessor'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> OrderProcessor(</span><br><span class="line">        app()-&gt;make(<span class="string">'BillerInterface'</span>),</span><br><span class="line">        app()-&gt;make(OrderRepository::class),</span><br><span class="line">        [</span><br><span class="line">            app()-&gt;make(RecentOrderValidator::class),</span><br><span class="line">            app()-&gt;make(SuspendedOrderValidator::class),</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 新增更多證驗規則 ...</span></span><br><span class="line">            <span class="comment">//</span></span><br><span class="line"></span><br><span class="line">        ]</span><br><span class="line">    );</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="u8A73_u7D30_u904E_u7A0B_u8ACB_u770B_Git_Repo_Here_uFF0C_u6216_u8ACB_u5230_u5230_Laradiner__u8B80_u66F8_u6703__u4F86_u770B_u9583_u4EAE_u4EAE_Live_Coding_u3002"><a href="#u8A73_u7D30_u904E_u7A0B_u8ACB_u770B_Git_Repo_Here_uFF0C_u6216_u8ACB_u5230_u5230_Laradiner__u8B80_u66F8_u6703__u4F86_u770B_u9583_u4EAE_u4EAE_Live_Coding_u3002" class="headerlink" title="詳細過程請看 Git Repo Here，或請到到 Laradiner 讀書會 來看閃亮亮 Live Coding。"></a>詳細過程請看 <a href="https://github.com/dj1020/CH9_Open_Closed_Principle_Demo" target="_blank" rel="external">Git Repo Here</a>，或請到到 <a href="https://www.facebook.com/groups/laravel.tw/" target="_blank" rel="external">Laradiner 讀書會</a> 來看閃亮亮 Live Coding。</h4><h2 id="u9583_u4EAE_u4EAE_u5C0F_u7D50"><a href="#u9583_u4EAE_u4EAE_u5C0F_u7D50" class="headerlink" title="閃亮亮小結"></a>閃亮亮小結</h2><p>其實只要你時時想著 SRP(單一職責原則)，不知不覺中程式很容易就符合 OCP(開放封閉原則)。但程式不必要太早優化，要是你的證驗邏輯永遠只有「驗證近期重複訂單」這一條的話，搞一堆 interface、validator、provider、bind 等等，反而是將解法複雜化，用牛刀來殺雞。</p>
+<p>然而，一旦當需求有變，或是需求本身開始複雜化時，運用 Open Closed 原則來重構程式，會讓你的程式維護之路好走很多！如果一開始沒做這件事，之後的「破窗效應」很容易讓整個專案死掉，再也改不動，讓你的 application 從一個「軟體」變成「硬體」。謹記啊~</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Laradiner讀書會/">Laradiner讀書會</a><a href="/tags/程式學習/">程式學習</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.dj1020.net/Laradiner讀書會-SOLID-原則(2)-Open-Closed-2016-03-03/" data-title="Laradiner 讀書會 - SOLID 原則 (2) Open Closed Principle 開放封閉原則 導讀心得整理筆記 | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/PHP也有day-22_PHPUNIT_到_CI持續整合/"  title="PHP 也有 Day #22 - PHPUnit 到 CI 持續整合">
+ <strong>下一篇：</strong><br/> 
+ <span>PHP 也有 Day #22 - PHPUnit 到 CI 持續整合
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目錄</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u6848_u4F8B_u524D_u7F6E_u4F5C_u696D"><span class="toc-number">1.</span> <span class="toc-text">案例前置作業</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u6309_u6B64__u67E5_u770B_u5DF2_u5B8C_u6210_u7684_Git__u6E90_u78BC_uFF0C_u904E_u7A0B_u6709_u554F_u984C_u53EF_u5230_Laravel__u53F0_u7063__u767C_u554F"><span class="toc-number">1.0.1.</span> <span class="toc-text">按此 查看已完成的 Git 源碼，過程有問題可到 Laravel 台灣 發問</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u958B_u653E_u5C01_u9589_u539F_u5247__28Open_Closed_Principle_29"><span class="toc-number">2.</span> <span class="toc-text">開放封閉原則 (Open Closed Principle)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u6848_u4F8B_3A"><span class="toc-number">2.0.1.</span> <span class="toc-text">案例:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u8ACB_u95DC_u6CE8_u9019_u4E00_u6BB5_u5224_u65B7_u908F_u8F2F_uFF1A"><span class="toc-number">2.0.2.</span> <span class="toc-text">請關注這一段判斷邏輯：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u6848_u4F8B_u7814_u8A0E_uFF1A"><span class="toc-number">2.0.3.</span> <span class="toc-text">案例研討：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-__u9019_u4E00_u6BB5_u5224_u65B7_u7684_u908F_u8F2F_u5728_u300C_u505A_u4EC0_u9EBC_u4E8B_uFF1F_u300D"><span class="toc-number">2.0.4.</span> <span class="toc-text">1. 這一段判斷的邏輯在「做什麼事？」</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-__u9019_u4E00_u6BB5_u908F_u8F2F_u7684_u5BEB_u6CD5_u300C_u597D_u5728_u54EA_u88E1_u300D_uFF1F"><span class="toc-number">2.0.5.</span> <span class="toc-text">2. 這一段邏輯的寫法「好在哪裡」？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-__u9019_u4E00_u6BB5_u908F_u8F2F_u7684_u5BEB_u6CD5_uFF0C_u4EE5_u5F8C_u5728_u7DAD_u8B77_u5C08_u6848_u6642_u6703_u9020_u6210_u4EC0_u9EBC_u554F_u984C_uFF1F"><span class="toc-number">2.0.6.</span> <span class="toc-text">3. 這一段邏輯的寫法，以後在維護專案時會造成什麼問題？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u9019_u4E00_u6BB5_u908F_u8F2F_u505A_u4EC0_u9EBC_u4E8B_uFF1F"><span class="toc-number">2.0.7.</span> <span class="toc-text">這一段邏輯做什麼事？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u597D_u5728_u54EA_u88E1_uFF1F"><span class="toc-number">2.0.8.</span> <span class="toc-text">好在哪裡？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u4EE5_u5F8C_u5728_u7DAD_u8B77_u5C08_u6848_u6642_u6703_u9020_u6210_u4EC0_u9EBC_u554F_u984C_uFF1F"><span class="toc-number">2.0.9.</span> <span class="toc-text">以後在維護專案時會造成什麼問題？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u7D50_u8AD6_uFF1A_u9019_u6BB5_u908F_u8F2F_u88AB_u5BEB_u5728_process_28_29__u4E2D_uFF0C_u9055_u53CD_u4E86_u958B_u653E_u5C01_u9589_u539F_u5247__28OCP_29"><span class="toc-number">2.0.10.</span> <span class="toc-text">結論：這段邏輯被寫在 process() 中，違反了開放封閉原則 (OCP)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5BE6_u6230_Demo_Solution"><span class="toc-number">3.</span> <span class="toc-text">實戰 Demo Solution</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Step_1_-__u5B9A_u7FA9_OrderValidator_Interface"><span class="toc-number">3.0.1.</span> <span class="toc-text">Step 1 - 定義 OrderValidator Interface</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step_2_-__u5C07_Validator__u7528_u53C3_u6578_u50B3_u5165_OrderProcessor__u4E26_u547C_u53EB_u6BCF_u500B_u50B3_u5165_u7684_u9A57_u8B49_u908F_u8F2F"><span class="toc-number">3.0.2.</span> <span class="toc-text">Step 2 - 將 Validator 用參數傳入 OrderProcessor 並呼叫每個傳入的驗證邏輯</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step_3_-__u9A57_u8B49_u300C_u91CD_u8907_u8A02_u55AE_u300D_u5BE6_u4F5C_OrderValidator_Interface"><span class="toc-number">3.0.3.</span> <span class="toc-text">Step 3 - 驗證「重複訂單」實作 OrderValidator Interface</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step_4_-__u9A57_u8B49_u300C_u8A02_u8CFC_u8005_u7684_u5E33_u6236_u5FC5_u9808_u6C92_u6709_u88AB_u4E2D_u6B62_u300D_u5BE6_u4F5C_OrderValidator_Interface"><span class="toc-number">3.0.4.</span> <span class="toc-text">Step 4 - 驗證「訂購者的帳戶必須沒有被中止」實作 OrderValidator Interface</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step_5_-__u5229_u7528_Laravel__u63D0_u4F9B_u7684_IoC_Container__u62BD_u8C61_u5316_u521D_u59CB_OrderProcessor__u7684_u6D41_u7A0B"><span class="toc-number">3.0.5.</span> <span class="toc-text">Step 5 - 利用 Laravel 提供的 IoC Container 抽象化初始 OrderProcessor 的流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step_6_-__u6539_u7528_App_3A_3Amake__u4F86_u521D_u59CB_u5316_OrderProcessor_uFF0C_u53D6_u4EE3_u4E4B_u524D_u7684_new_OrderProcessor_28_29"><span class="toc-number">3.0.6.</span> <span class="toc-text">Step 6 - 改用 App::make 來初始化 OrderProcessor，取代之前的 new OrderProcessor()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u8A73_u7D30_u904E_u7A0B_u8ACB_u770B_Git_Repo_Here_uFF0C_u6216_u8ACB_u5230_u5230_Laradiner__u8B80_u66F8_u6703__u4F86_u770B_u9583_u4EAE_u4EAE_Live_Coding_u3002"><span class="toc-number">3.0.7.</span> <span class="toc-text">詳細過程請看 Git Repo Here，或請到到 Laradiner 讀書會 來看閃亮亮 Live Coding。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u9583_u4EAE_u4EAE_u5C0F_u7D50"><span class="toc-number">4.</span> <span class="toc-text">閃亮亮小結</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分類</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Hexo-筆記/" title="Hexo 筆記">Hexo 筆記<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程式筆記/" title="程式筆記">程式筆記<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/筆記/" title="筆記">筆記<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP-Conf/" title="PHP Conf">PHP Conf<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Bootstrap/" title="Bootstrap">Bootstrap<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP也有Day/" title="PHP也有Day">PHP也有Day<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner讀書會/" title="Laradiner讀書會">Laradiner讀書會<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程式學習/" title="程式學習">程式學習<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TDD/" title="TDD">TDD<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/設計模式/" title="設計模式">設計模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Test-Corner/" title="Test Corner">Test Corner<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner/" title="Laradiner">Laradiner<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/講座/" title="講座">講座<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Install/" title="Install">Install<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/curl/" title="curl">curl<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情鏈接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://oomusou.io/" target="_blank" title="Sam&#39;s 點燈坊">Sam&#39;s 點燈坊</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://jaceju.net/" target="_blank" title="鐵哥 JaceJu&#39;s Blog">鐵哥 JaceJu&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Ken Lin in Cloud Interactive. <br/>
+			This is my blog, believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="閃亮亮dj">閃亮亮dj</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -16,7 +16,7 @@
 進入專案目錄 cd ch8_SRP_demo
 安裝 Laravel 相依套件 composer install
 編輯 .env 設定資料庫帳密，還有記得 php artisan key:generate
-利用 migrate 測試資料庫設定 php artisan migrate install">
+利用 migrate 測試資料庫設定 php artisan migrate:install">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Laradiner 讀書會 - SOLID 原則 (1) Single Responsibility Principle 單一職責原則 導讀心得整理筆記">
 <meta property="og:url" content="http://blog.dj1020.net/Laradiner讀書會-SOLID-原則-2016-01-21/index.html">
@@ -26,8 +26,8 @@
 進入專案目錄 cd ch8_SRP_demo
 安裝 Laravel 相依套件 composer install
 編輯 .env 設定資料庫帳密，還有記得 php artisan key:generate
-利用 migrate 測試資料庫設定 php artisan migrate install">
-<meta property="og:updated_time" content="2016-01-22T07:34:09.000Z">
+利用 migrate 測試資料庫設定 php artisan migrate:install">
+<meta property="og:updated_time" content="2016-03-03T06:08:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Laradiner 讀書會 - SOLID 原則 (1) Single Responsibility Principle 單一職責原則 導讀心得整理筆記">
 <meta name="twitter:description" content="案例 1 前置作業按此查看 Git 源碼
@@ -35,7 +35,7 @@
 進入專案目錄 cd ch8_SRP_demo
 安裝 Laravel 相依套件 composer install
 編輯 .env 設定資料庫帳密，還有記得 php artisan key:generate
-利用 migrate 測試資料庫設定 php artisan migrate install">
+利用 migrate 測試資料庫設定 php artisan migrate:install">
 
     
     <link rel="alternative" href="/atom.xml" title="閃亮亮大師之路" type="application/atom+xml">
@@ -122,7 +122,7 @@
 <li>進入專案目錄 <code>cd ch8_SRP_demo</code></li>
 <li>安裝 Laravel 相依套件 <code>composer install</code></li>
 <li>編輯 .env 設定資料庫帳密，還有記得 <code>php artisan key:generate</code></li>
-<li>利用 migrate 測試資料庫設定 <code>php artisan migrate install</code></li>
+<li>利用 migrate 測試資料庫設定 <code>php artisan migrate:install</code></li>
 <li>建立 <code>Account</code> model 類別和對應的 table migration <code>php artisan make:model MyCart/Account -m</code></li>
 <li>同上，建立 <code>Order</code> model 類別和 table <code>php artisan make:model MyCart/Order -m</code></li>
 <li>同上，建立 <code>Product</code> model 類別和 table <code>php artisan make:model MyCart/Product -m</code></li>
@@ -207,6 +207,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/Test-Corner-講座-2-談-Mutation-Testing-Mozilla/" title="Test Corner 講座#2 - 談 Mutation Testing@Mozilla">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Test Corner 講座#2 - 談 Mutation Testing@Mozilla</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/Laravel-From-Apprentice-To-Artisan-Ch-6-Applied-Architecture-Decoupling-Handlers-解耦合處理程序/"  title="Laradiner 讀書會 - Laravel: From Apprentice To Artisan - Ch. 6 Applied Architecture: Decoupling Handlers (解耦合處理程序) 導讀心得整理筆記">
@@ -257,7 +265,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/筆記/" title="筆記">筆記<sup>16</sup></a></li>
+				<li><a href="/tags/筆記/" title="筆記">筆記<sup>18</sup></a></li>
 			
 		
 			
@@ -273,7 +281,15 @@
 			
 		
 			
-				<li><a href="/tags/PHP也有Day/" title="PHP也有Day">PHP也有Day<sup>3</sup></a></li>
+				<li><a href="/tags/PHP也有Day/" title="PHP也有Day">PHP也有Day<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner讀書會/" title="Laradiner讀書會">Laradiner讀書會<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程式學習/" title="程式學習">程式學習<sup>3</sup></a></li>
 			
 		
 			
@@ -281,11 +297,7 @@
 			
 		
 			
-				<li><a href="/tags/Laradiner讀書會/" title="Laradiner讀書會">Laradiner讀書會<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/程式學習/" title="程式學習">程式學習<sup>2</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
 			
 		
 			
@@ -297,7 +309,7 @@
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+				<li><a href="/tags/Test-Corner/" title="Test Corner">Test Corner<sup>1</sup></a></li>
 			
 		
 			
