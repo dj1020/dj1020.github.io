@@ -585,7 +585,7 @@
     <link href="http://blog.dj1020.net/%E7%9C%9F%E3%80%82%E6%B7%BA%E8%AB%87_RESTful_API_by_Triton_Ho/"/>
     <id>http://blog.dj1020.net/真。淺談_RESTful_API_by_Triton_Ho/</id>
     <published>2015-11-09T11:00:34.000Z</published>
-    <updated>2015-11-09T13:30:51.000Z</updated>
+    <updated>2016-03-07T13:45:07.000Z</updated>
     <content type="html"><![CDATA[<h2 id="u6DFA_u8AC7_HTTP"><a href="#u6DFA_u8AC7_HTTP" class="headerlink" title="淺談 HTTP"></a>淺談 HTTP</h2><ul>
 <li><p>HTTP 是通訊協定！</p>
 <ul>
@@ -804,17 +804,17 @@
 <ul>
 <li>一定要學怎麼用 Redis 了！</li>
 </ul>
-<h2 id="u8B1B_u8005_u8AC7_Open_Source"><a href="#u8B1B_u8005_u8AC7_Open_Source" class="headerlink" title="講者談 Open Source"></a>講者談 Open Source</h2><ul>
-<li>幫助別人，幫助自己</li>
-<li>守護自由，保護自己</li>
-</ul>
-<blockquote>
+<h2 id="u9583_u4EAE_u4EAE_u5FC3_u5F97_u5C0F_u7D50"><a href="#u9583_u4EAE_u4EAE_u5FC3_u5F97_u5C0F_u7D50" class="headerlink" title="閃亮亮心得小結"></a>閃亮亮心得小結</h2><blockquote>
 <ul>
 <li>最差的開發者不是寫了爛程式碼的人，而是 <em>不知道自己有多爛的人</em>。</li>
 <li>多一個人懂 RESTful，未來我接手的爛專案的可能性就少一點。</li>
 <li>越多人使用 RESTful，便有越多需要 RESTful 技能的專案，那我便有更多工作機會。</li>
 </ul>
 </blockquote>
+<ul>
+<li>幫助別人，幫助自己</li>
+<li>守護自由，保護自己</li>
+</ul>
 ]]></content>
     <summary type="html">
     <![CDATA[<h2 id="u6DFA_u8AC7_HTTP"><a href="#u6DFA_u8AC7_HTTP" class="headerlink" title="淺談 HTTP"></a>淺談 HTTP</h2><ul>
