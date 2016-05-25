@@ -4,7 +4,7 @@
   <subtitle><![CDATA[程式學習心得筆記]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.dj1020.net/"/>
-  <updated>2016-03-03T09:43:54.000Z</updated>
+  <updated>2016-05-25T15:48:04.000Z</updated>
   <id>http://blog.dj1020.net/</id>
   
   <author>
@@ -13,6 +13,233 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Laradiner讀書會 - SOLID 原則(3) Liskov Substitution Principle]]></title>
+    <link href="http://blog.dj1020.net/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83-SOLID-%E5%8E%9F%E5%89%87(3)-Liskov-Substitution-Principle-2016-05-26/"/>
+    <id>http://blog.dj1020.net/Laradiner讀書會-SOLID-原則(3)-Liskov-Substitution-Principle-2016-05-26/</id>
+    <published>2016-05-25T08:40:03.000Z</published>
+    <updated>2016-05-25T15:48:04.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="u6848_u4F8B_u524D_u7F6E_u4F5C_u696D"><a href="#u6848_u4F8B_u524D_u7F6E_u4F5C_u696D" class="headerlink" title="案例前置作業"></a>案例前置作業</h2><h4 id="u6309_u6B64__u67E5_u770B_u5DF2_u5B8C_u6210_u7684_Git__u6E90_u78BC_uFF0C_u904E_u7A0B_u6709_u554F_u984C_u53EF_u5230_Laravel__u53F0_u7063_u81C9_u66F8_u793E_u5718__u767C_u554F"><a href="#u6309_u6B64__u67E5_u770B_u5DF2_u5B8C_u6210_u7684_Git__u6E90_u78BC_uFF0C_u904E_u7A0B_u6709_u554F_u984C_u53EF_u5230_Laravel__u53F0_u7063_u81C9_u66F8_u793E_u5718__u767C_u554F" class="headerlink" title="按此 查看已完成的 Git 源碼，過程有問題可到 Laravel 台灣臉書社團 發問"></a><a href="https://github.com/dj1020/CH10_Liskov_Substitution_Principle_LSP_demo" target="_blank" rel="external">按此</a> 查看已完成的 Git 源碼，過程有問題可到 <a href="https://www.facebook.com/groups/laravel.tw/" target="_blank" rel="external">Laravel 台灣臉書社團</a> 發問</h4><ol>
+<li>建立專案資料夾 <code>mkdir ch10_LSP_demo</code>，<code>cd ch10_LSP_demo</code> 切到專案目錄下</li>
+<li>(optional) 初始化 git 做版本控制 <code>git init</code></li>
+<li>使用 Composer 建立 psr-4 開發環境，<code>comopser init</code>，並設定 <code>{ &quot;autoload&quot;: { &quot;psr-4&quot; : { &quot;Twk\\&quot; : &quot;src/&quot; } }</code></li>
+<li>建立 <code>src/index.php</code> 做為 client 進入點</li>
+<li>在 <code>index.php</code> 建立 <code>Main</code> class 並把書中範例程式碼實作，額外的程式只有實際需要才寫，好了記得 commit 一次。</li>
+<li>執行 <code>composer dump</code> (等同 <code>composer dumpautoload</code> or <code>composer dump-autoload</code>)，會產生 <code>vendor</code> 資料夾，及 <code>vendor/autoload.php</code> 檔。</li>
+<li>在 <code>index.php</code> 中 require <code>vendor/autoload.php</code>，即可使用所有 <code>composer require</code> 所安裝的套件。</li>
+<li>以解 bug 的方式，一步步來完成實作，執行 <code>php index.php</code> 或是以開網頁方式打開 <code>index.php</code> 皆可</li>
+<li>建立 <code>CsvOrderRepository</code> Class</li>
+<li>建立 <code>OrderRepositoryInterface</code>，並讓 <code>CsvOrderRepository</code> 繼承(implements) <code>OrderRepositoryInterface</code></li>
+<li>建立 <code>Order</code> class</li>
+<li>建立 <code>logOrder</code> method 在 <code>OrderRepositoryInterface</code>，並在 <code>CsvOrderRepository</code> 中實作</li>
+<li>其他詳細流程可以到 Laradiner 讀書會看閃亮亮 LiveDemo 或參考 GitHub 中的 <a href="https://github.com/dj1020/CH10_Liskov_Substitution_Principle_LSP_demo/commits/master" target="_blank" rel="external">commit history</a>，Done。</li>
+</ol>
+<h2 id="u91CC_u6C0F_u66FF_u63DB_u539F_u5247__28LSP_-_Liskov_Substitution_Principle_29"><a href="#u91CC_u6C0F_u66FF_u63DB_u539F_u5247__28LSP_-_Liskov_Substitution_Principle_29" class="headerlink" title="里氏替換原則 (LSP - Liskov Substitution Principle)"></a>里氏替換原則 (LSP - Liskov Substitution Principle)</h2><p>別擔心，LSP 原則沒有你想像的那麼複雜。簡單來說，就是你如果有一個類別(class)實作(implements)了一個介面(interface)，那任何使用這個介面(interface)的地方，底下的實作類別(class)應該都可以被抽換成另一個有實作(implements)該介面(interface)的類別(class)，而不需要修改原本的程式碼就能正常運作，這也同時符合了(OCP, Open Close Principle)原則。</p>
+<p>換句話說，你只要違反了 LSP，通常就表示你也違反了 OCP。這會讓你的程式碼很難維護，容易改東錯西。</p>
+<p>如果用 pseudo code 來表示，大概是像這樣：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Toy</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ToyCar</span> <span class="keyword">implements</span> <span class="title">Toy</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ToyCar runs</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ToyPlane</span> <span class="keyword">implements</span> <span class="title">Toy</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ToyPlane runs</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">play</span><span class="params">(Toy <span class="variable">$toy</span>)</span> </span>&#123;</span><br><span class="line">        <span class="variable">$toy</span>-&gt;run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$toyA</span> = <span class="keyword">new</span> ToyCar();</span><br><span class="line"><span class="variable">$toyB</span> = <span class="keyword">new</span> ToyPlane();</span><br><span class="line"></span><br><span class="line"><span class="variable">$child</span> = <span class="keyword">new</span> Child();</span><br><span class="line"><span class="variable">$child</span>-&gt;play(<span class="variable">$toyA</span>);</span><br></pre></td></tr></table></figure>
+<p>如果你寫的 code 完全有符合 LSP，<code>$toyA</code> 換成 <code>$toyB</code> 你的程式應該還是要能正常執行。</p>
+<p><br></p>
+<blockquote>
+<font size="+2">替換實作的類別時，不用修改使用該類別的 caller 的程式碼</font>
+
+</blockquote>
+<p><br></p>
+<h4 id="u6700_u5E38_u898B_u7684_u932F_u8AA4_uFF1A"><a href="#u6700_u5E38_u898B_u7684_u932F_u8AA4_uFF1A" class="headerlink" title="最常見的錯誤："></a>最常見的錯誤：</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Toy</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">on</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">off</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ToyCar</span> <span class="keyword">implements</span> <span class="title">Toy</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">on</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Turn ToyCar on</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">off</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Turn ToyCar off</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ToyCar runs</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ToyPlane</span> <span class="keyword">implements</span> <span class="title">Toy</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">on</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Turn ToyPlane on</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">off</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Turn ToyPlane off</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">fly</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ToyPlane flys</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">play</span><span class="params">(Toy <span class="variable">$toy</span>)</span> </span>&#123;</span><br><span class="line">        <span class="variable">$toy</span>-&gt;on();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ( <span class="variable">$toy</span> <span class="keyword">instanceof</span> ToyCar ) &#123;</span><br><span class="line">            <span class="variable">$toy</span>-&gt;run();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( <span class="variable">$toy</span> <span class="keyword">instanceof</span> ToyPlane ) &#123;</span><br><span class="line">            <span class="variable">$toy</span>-&gt;fly();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$toy</span>-&gt;off();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$toyA</span> = <span class="keyword">new</span> ToyCar();</span><br><span class="line"><span class="variable">$toyB</span> = <span class="keyword">new</span> ToyPlane();</span><br><span class="line"></span><br><span class="line"><span class="variable">$child</span> = <span class="keyword">new</span> Child();</span><br><span class="line"><span class="variable">$child</span>-&gt;play(<span class="variable">$toyA</span>);</span><br></pre></td></tr></table></figure>
+<p>你會說，這樣，我的 $toyA 換成 $toyB 完全沒有問題啊，我有符合 LSP。喔！不不不，那要是你再增加一種 $toyC 是會說話的玩具熊呢？</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ToyBear</span> <span class="keyword">implements</span> <span class="title">Toy</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">on</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Turn ToyBear on</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">off</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Turn ToyBear off</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">talk</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ToyBear talks</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>按照 LSP 原則，既然你的 $toyA, $toyB, $toyC 都實作了 Toy 介面，那麼這三個 instances 應該要可以互換，而且不影響到 Caller 也就是 Child Class 中的程式碼，就可以正常運作才是。很顯然地，你必需修改 Child Class 中的 play method 才能讓你的 child 可以玩玩具熊，那就是違反了 LSP。</p>
+<h4 id="u600E_u9EBC_u89E3_uFF1F"><a href="#u600E_u9EBC_u89E3_uFF1F" class="headerlink" title="怎麼解？"></a>怎麼解？</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Toy</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">on</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">off</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">start</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ToyCar</span> <span class="keyword">implements</span> <span class="title">Toy</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">on</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Turn ToyCar on</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">off</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Turn ToyCar off</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ToyCar runs</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ToyPlane</span> <span class="keyword">implements</span> <span class="title">Toy</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">on</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Turn ToyPlane on</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">off</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Turn ToyPlane off</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ToyPlane flys</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ToyBear</span> <span class="keyword">implements</span> <span class="title">Toy</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">on</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Turn ToyBear on</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">off</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Turn ToyBear off</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ToyBear talks</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">play</span><span class="params">(Toy <span class="variable">$toy</span>)</span> </span>&#123;</span><br><span class="line">        <span class="variable">$toy</span>-&gt;on();</span><br><span class="line">        <span class="variable">$toy</span>-&gt;start();</span><br><span class="line">        <span class="variable">$toy</span>-&gt;off();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$toyA</span> = <span class="keyword">new</span> ToyCar();</span><br><span class="line"><span class="variable">$toyB</span> = <span class="keyword">new</span> ToyPlane();</span><br><span class="line"><span class="variable">$toyC</span> = <span class="keyword">new</span> ToyBear();</span><br><span class="line"></span><br><span class="line"><span class="variable">$child</span> = <span class="keyword">new</span> Child();</span><br><span class="line"><span class="variable">$child</span>-&gt;play(<span class="variable">$toyA</span>);  <span class="comment">// 現在，可以換成 $toyB, $toyC 都還是能正常執行了。</span></span><br></pre></td></tr></table></figure>
+<h2 id="u73FE_u5728_u8B93_u6211_u5011_u56DE_u5230_u66F8_u4E2D_u7684_u7BC4_u4F8B_uFF1A"><a href="#u73FE_u5728_u8B93_u6211_u5011_u56DE_u5230_u66F8_u4E2D_u7684_u7BC4_u4F8B_uFF1A" class="headerlink" title="現在讓我們回到書中的範例："></a>現在讓我們回到書中的範例：</h2><p>這裡把一些書中沒有實作的部份都實作出來，目的不是給已經懂的人看，是給一些還沒辦法從書中不完整的範例想像整座森林的人，應該會有所幫助。這次就不用 Laravel 專案舉例，希望能更親切一些。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(OrderRepositoryInterface <span class="variable">$orders</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;orders = <span class="variable">$orders</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">process</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">       <span class="variable">$this</span>-&gt;orders-&gt;logOrder(<span class="variable">$order</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CsvOrderRepository</span> <span class="keyword">implements</span> <span class="title">OrderRepositoryInterface</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$logFile</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(<span class="variable">$logFile</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;logFile = <span class="keyword">__DIR__</span> . <span class="string">"/storage/$logFile"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">logOrder</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$fp</span> = fopen(<span class="variable">$this</span>-&gt;logFile, <span class="string">'a'</span>);</span><br><span class="line">        fputcsv(<span class="variable">$fp</span>, [</span><br><span class="line">            <span class="string">'id'</span> =&gt; <span class="variable">$order</span>-&gt;id,</span><br><span class="line">            <span class="string">'amount'</span> =&gt; <span class="variable">$order</span>-&gt;amount,</span><br><span class="line">        ]);</span><br><span class="line">        fclose(<span class="variable">$fp</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Order</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$id</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$amount</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(<span class="variable">$id</span>, <span class="variable">$amount</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;id = <span class="variable">$id</span>;</span><br><span class="line">        <span class="variable">$this</span>-&gt;amount = <span class="variable">$amount</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__get</span><span class="params">(<span class="variable">$property</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (property_exists(<span class="variable">$this</span>, <span class="variable">$property</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="variable">$this</span>-&gt;<span class="variable">$property</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">'No such property'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$orderRepository</span> = <span class="keyword">new</span> CsvOrderRepository(<span class="string">'orders.log'</span>);</span><br><span class="line"><span class="variable">$main</span> = <span class="keyword">new</span> Main(<span class="variable">$orderRepository</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$order</span> = <span class="keyword">new</span> Order(<span class="number">1</span>, <span class="number">100</span>);</span><br><span class="line"><span class="variable">$main</span>-&gt;process(<span class="variable">$order</span>);</span><br></pre></td></tr></table></figure>
+<p>書上提到，現在因為資料量的上升，所以只用 csv 來做為訂單的 Log 記錄已經不夠，所以需要把資料寫入資料庫中儲存，我們需要替換 <code>OrderRepositoryInterface</code> 的實作類別，所以寫了下面這些 Code，實作了 <code>DatabaseOrderRepository</code> 和 <code>DatabaseConnection</code> 類別。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DatabaseOrderRepository</span> <span class="keyword">implements</span> <span class="title">OrderRepositoryInterface</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$connection</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">connect</span><span class="params">(<span class="variable">$username</span>, <span class="variable">$password</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;connection = <span class="keyword">new</span> DatabaseConnection(<span class="variable">$username</span>, <span class="variable">$password</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">logOrder</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        var_dump(<span class="string">"Log order &#123;$order-&gt;id&#125; in database."</span>);</span><br><span class="line">        <span class="variable">$this</span>-&gt;connection-&gt;run(<span class="string">'insert into orders values (?, ?)'</span>, [</span><br><span class="line">            <span class="variable">$order</span>-&gt;id,</span><br><span class="line">            <span class="variable">$order</span>-&gt;amount,</span><br><span class="line">        ]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DatabaseConnection</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(<span class="variable">$username</span>, <span class="variable">$password</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="comment">// 略</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">(<span class="variable">$sql</span>, <span class="variable">$params</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        var_dump(<span class="string">"SQL: $sql\n, Parmas: "</span> . var_export(<span class="variable">$params</span>, <span class="keyword">true</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>並且準備替換原本的 <code>CsvOrderRepository</code> ，如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// $orderRepository = new CsvOrderRepository('orders.log');</span></span><br><span class="line"><span class="variable">$orderRepository</span> = <span class="keyword">new</span> DatabaseOrderRepository(<span class="string">'username'</span>, <span class="string">'password'</span>);</span><br><span class="line"><span class="variable">$main</span> = <span class="keyword">new</span> Main(<span class="variable">$orderRepository</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$order</span> = <span class="keyword">new</span> Order(<span class="number">1</span>, <span class="number">100</span>);</span><br><span class="line"><span class="variable">$main</span>-&gt;process(<span class="variable">$order</span>);</span><br></pre></td></tr></table></figure>
+<p>執行後馬上報錯：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Fatal error: <span class="operator"><span class="keyword">Call</span> <span class="keyword">to</span> a <span class="keyword">member</span> <span class="keyword">function</span> run() <span class="keyword">on</span> <span class="literal">null</span> <span class="keyword">in</span> /<span class="keyword">Users</span>/twinkledj/Projects/Laradiner/ch10_LSP_demo/src/DatabaseOrderRepository.php <span class="keyword">on</span> line <span class="number">15</span></span></span><br></pre></td></tr></table></figure>
+<p>原來是忘了呼叫 <code>DatabaseOrderRepository</code> 中的 <code>connect()</code> 來初始化資料庫連線，好，那我們為了符合 LSP 原則，我們就改成這樣：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 前同，略</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">process</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="comment">// 加入判斷是不是存到資料庫的 repository</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$order</span> <span class="keyword">instanceof</span> DatabaseOrderRepository) &#123;</span><br><span class="line">            <span class="variable">$order</span>-&gt;connect();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="variable">$this</span>-&gt;orders-&gt;logOrder(<span class="variable">$order</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$orderRepository</span> = <span class="keyword">new</span> DatabaseOrderRepository(<span class="string">'usernmae'</span>, <span class="string">'password'</span>);</span><br><span class="line"><span class="variable">$main</span> = <span class="keyword">new</span> Main(<span class="variable">$orderRepository</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$order</span> = <span class="keyword">new</span> Order(<span class="number">1</span>, <span class="number">100</span>);</span><br><span class="line"><span class="variable">$main</span>-&gt;process(<span class="variable">$order</span>);</span><br></pre></td></tr></table></figure>
+<p>這樣的話，不論使用 <code>CsvOrderRepository</code> 或 <code>DatabaseOrderRepository</code> 都可以了唷！好像完全符合了 LSP 對吧 …</p>
+<p><br></p>
+<blockquote>
+<font size="+2">悲劇，在你修改 Main Class 的那一瞬間，你就違反了 LSP 了！</font>
+
+</blockquote>
+<p><br></p>
+<p>不是說完全不能違反 LSP，我聽 Jeffrey Way 講他有時也會違反 LSP，但只有確定在好處多於壞處，或是你能確定某些特定的條件下才使用，有意識、有理由的違反 LSP。還不完全理解的話，先儘可能符合 LSP 吧！會讓你的程式碼維護之路好走上百倍。</p>
+<h2 id="u600E_u9EBC_u89E3_uFF1F_u89E3_u6CD5_u4E00_uFF1A"><a href="#u600E_u9EBC_u89E3_uFF1F_u89E3_u6CD5_u4E00_uFF1A" class="headerlink" title="怎麼解？解法一："></a>怎麼解？解法一：</h2><p>其實解法不是只有書中的一種，反正最高指導原則就是完全不要去碰 Main Class 的任何 Code，但畢竟資料庫連線還是要初始化啊！不然該怎麼辦？我想最簡單的方法應該是：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DatabaseOrderRepository</span> <span class="keyword">implements</span> <span class="title">OrderRepositoryInterface</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 前略</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">connect</span><span class="params">(<span class="variable">$username</span>, <span class="variable">$password</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;connection = <span class="keyword">new</span> DatabaseConnection(<span class="variable">$username</span>, <span class="variable">$password</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 後略</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(OrderRepositoryInterface <span class="variable">$orders</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;orders = <span class="variable">$orders</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">process</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;orders-&gt;logOrder(<span class="variable">$order</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$orderRepository</span> = (<span class="keyword">new</span> DatabaseOrderRepository(<span class="string">'usernmae'</span>, <span class="string">'password'</span>))-&gt;connect();</span><br><span class="line"><span class="variable">$main</span> = <span class="keyword">new</span> Main(<span class="variable">$orderRepository</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$order</span> = <span class="keyword">new</span> Order(<span class="number">1</span>, <span class="number">100</span>);</span><br><span class="line"><span class="variable">$main</span>-&gt;process(<span class="variable">$order</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="u6211_u628A_u521D_u59CB_u5316_u7684_u52D5_u4F5C_u5F80_u4E0A_u62C9_uFF0C_u5728_u4E00_u958B_u59CB_u5C31_u521D_u59CB_u5316_uFF0C_u518D_u50B3_u5165_Main__u4E2D_u3002_u641E_u5B9A_uFF01"><a href="#u6211_u628A_u521D_u59CB_u5316_u7684_u52D5_u4F5C_u5F80_u4E0A_u62C9_uFF0C_u5728_u4E00_u958B_u59CB_u5C31_u521D_u59CB_u5316_uFF0C_u518D_u50B3_u5165_Main__u4E2D_u3002_u641E_u5B9A_uFF01" class="headerlink" title="我把初始化的動作往上拉，在一開始就初始化，再傳入 Main 中。搞定！"></a>我把初始化的動作往上拉，在一開始就初始化，再傳入 Main 中。搞定！</h4><p>是不是一定要用書中的解法，我覺得不見得，看你有多少時間，還有需不需要吧。</p>
+<h2 id="u81F3_u65BC_u66F8_u4E2D_u89E3_u6CD5_u7684_u5B8C_u6574_u7BC4_u4F8B_u662F_u600E_u6A23_uFF1F_u89E3_u6CD5_u4E8C_uFF1A"><a href="#u81F3_u65BC_u66F8_u4E2D_u89E3_u6CD5_u7684_u5B8C_u6574_u7BC4_u4F8B_u662F_u600E_u6A23_uFF1F_u89E3_u6CD5_u4E8C_uFF1A" class="headerlink" title="至於書中解法的完整範例是怎樣？解法二："></a>至於書中解法的完整範例是怎樣？解法二：</h2><p>請大家看 Code，當然，有來讀書會的朋友才聽得到我揀重點講的部份，看文章的話就請自行細細品味囉~</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DatabaseOrderRepository</span> <span class="keyword">implements</span> <span class="title">OrderRepositoryInterface</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$connector</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(DatabaseConnector <span class="variable">$connector</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;connector = <span class="variable">$connector</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">connect</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$this</span>-&gt;connector-&gt;bootConnection();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">logOrder</span><span class="params">(Order <span class="variable">$order</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        var_dump(<span class="string">"Log order &#123;$order-&gt;id&#125; in database."</span>);</span><br><span class="line"></span><br><span class="line">        <span class="variable">$connection</span> = <span class="variable">$this</span>-&gt;connect();</span><br><span class="line"></span><br><span class="line">        <span class="variable">$connection</span>-&gt;run(<span class="string">'insert into orders values (?, ?)'</span>, [</span><br><span class="line">            <span class="variable">$order</span>-&gt;id,</span><br><span class="line">            <span class="variable">$order</span>-&gt;amount,</span><br><span class="line">        ]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="u600E_u9EBC_u5BE6_u4F5C_DatabaseConnector__u5462_uFF1F"><a href="#u600E_u9EBC_u5BE6_u4F5C_DatabaseConnector__u5462_uFF1F" class="headerlink" title="怎麼實作 DatabaseConnector 呢？"></a>怎麼實作 DatabaseConnector 呢？</h4><p>寫給大家參考參考，順便把前面寫的 <code>DatabaseConnection</code> 也拿來用。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DatabaseConnector</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$connection</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(<span class="variable">$username</span>, <span class="variable">$password</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;username = <span class="variable">$username</span>;</span><br><span class="line">        <span class="variable">$this</span>-&gt;password = <span class="variable">$password</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">bootConnection</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (is_null(<span class="variable">$this</span>-&gt;connection)) &#123;</span><br><span class="line">            <span class="variable">$this</span>-&gt;connection = <span class="variable">$this</span>-&gt;connect(<span class="variable">$this</span>-&gt;username, <span class="variable">$this</span>-&gt;password);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$this</span>-&gt;connection;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">connect</span><span class="params">(<span class="variable">$username</span>, <span class="variable">$password</span>)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DatabaseConnection(<span class="variable">$username</span>, <span class="variable">$password</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="u6700_u5F8C_u5C31_u662F_u600E_u9EBC_u547C_u53EB_u4F7F_u7528_uFF1F"><a href="#u6700_u5F8C_u5C31_u662F_u600E_u9EBC_u547C_u53EB_u4F7F_u7528_uFF1F" class="headerlink" title="最後就是怎麼呼叫使用？"></a>最後就是怎麼呼叫使用？</h4><p>這邊往往是新手比較無法自行想像，又找不到 google 可以問的部份，希望對你們有幫助，但其實真的不用想得太難，就這樣：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$orderRepository</span> = <span class="keyword">new</span> DatabaseOrderRepository(<span class="keyword">new</span> DatabaseConnector(<span class="string">'homestead'</span>, <span class="string">'secret'</span>));</span><br><span class="line"><span class="variable">$main</span> = <span class="keyword">new</span> Main(<span class="variable">$orderRepository</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$order</span> = <span class="keyword">new</span> Order(<span class="number">1</span>, <span class="number">100</span>);</span><br><span class="line"><span class="variable">$main</span>-&gt;process(<span class="variable">$order</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="u9583_u4EAE_u4EAE_u5C0F_u7D50"><a href="#u9583_u4EAE_u4EAE_u5C0F_u7D50" class="headerlink" title="閃亮亮小結"></a>閃亮亮小結</h2><p>書裡這個章節的末段提到的 <code>knowledge</code>，講得觀念其實就是 Law of Demeter 有人翻成「迪米特法則」，又稱「最小知識原則」，和 LSP 是有一定相關性的。像是一開始修改 Main Class 的時候這一段：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="variable">$order</span> <span class="keyword">instanceof</span> DatabaseOrderRepository) &#123;</span><br><span class="line">    <span class="variable">$order</span>-&gt;connect();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>這邊就是書中所謂的 “leaky abstrations”，這段程式碼向 <code>Main</code> Class 透露了它不需要知道的細節，也就是 判斷 <code>$order</code> 的實作類別是不是 <code>DatabaseOrderRepository</code> 的這件事，這 Main Class 應該根本不該去判斷，這就違反了 Law of Demeter (LoD) 原則。如何讓你的 Caller 儘可能少知道不需要的資訊，是寫程式的禪啊~~</p>
+<p>另外，用解法一的時候，<code>DatabaseOrderRepository</code> 還要負責進行資料庫的初始化連線，也有一點違反 SRP 單一職責原則的味道。總之，LSP 不是那麼難懂的東西，其實還有兩個例子可以講，是關於使用 Exception 違反 LSP 的例子和回傳值不一造成的 LSP violation，如果有時間的話再補上來吧，呵呵。看有沒有人要盯我補上的 …… 噗噗</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="u6848_u4F8B_u524D_u7F6E_u4F5C_u696D"><a href="#u6848_u4F8B_u524D_u7F6E_u4F5C_u696D" class="headerlink" title="案例前置作業"></a>案例前置作業</h2]]>
+    </summary>
+    
+      <category term="Laradiner讀書會" scheme="http://blog.dj1020.net/tags/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83/"/>
+    
+      <category term="程式學習" scheme="http://blog.dj1020.net/tags/%E7%A8%8B%E5%BC%8F%E5%AD%B8%E7%BF%92/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[鐵哥分享OO觀念_2016_0519]]></title>
+    <link href="http://blog.dj1020.net/%E9%90%B5%E5%93%A5%E5%88%86%E4%BA%ABOO%E8%A7%80%E5%BF%B5-2016-0519/"/>
+    <id>http://blog.dj1020.net/鐵哥分享OO觀念-2016-0519/</id>
+    <published>2016-05-19T11:41:05.000Z</published>
+    <updated>2016-05-19T13:36:18.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="u7269_u4EF6_u5C0E_u5411_u57FA_u790E_-__u7269_u4EF6_u5C0E_u5411_u8A2D_u8A08_u5165_u9580"><a href="#u7269_u4EF6_u5C0E_u5411_u57FA_u790E_-__u7269_u4EF6_u5C0E_u5411_u8A2D_u8A08_u5165_u9580" class="headerlink" title="物件導向基礎 - 物件導向設計入門"></a>物件導向基礎 - 物件導向設計入門</h1><h2 id="u7269_u4EF6_u5C0E_u5411_u7684_u7CBE_u795E"><a href="#u7269_u4EF6_u5C0E_u5411_u7684_u7CBE_u795E" class="headerlink" title="物件導向的精神"></a>物件導向的精神</h2><h3 id="u62BD_u8C61__28Abstraction_29_uFF1A"><a href="#u62BD_u8C61__28Abstraction_29_uFF1A" class="headerlink" title="抽象 (Abstraction)："></a>抽象 (Abstraction)：</h3><pre><code>- 抽離具體的形象，只留下特徵
+- 抽象不是簡化，而是外界對該事物的理解，用以定義「職責」
+- 抽象省略了細節，讓人們專注在需求的描述上，學用抽象的角度看待事物的互動
+- 過度抽象會導致錯誤的一致性，ex: 賽車手開賽車(競賽) -&gt; 簡化成人在開車，那情境特性就不對了！
+</code></pre><ul>
+<li>請你畫一個微笑：人會針對特徵去識別事物，類似藝術家，會識別特徵並誇大變成抽象畫</li>
+<li>ATM 提款畫，特徵：人，特徵：提款卡，特徵：ATM字樣的機器，特徵 $ 字號，箭頭表示提款的動作</li>
+</ul>
+<h3 id="u5C01_u88DD"><a href="#u5C01_u88DD" class="headerlink" title="封裝"></a>封裝</h3><pre><code>- 好的封裝：開放的越少越好，又缺一不可。(Law of Demeter, LoD)
+- 封裝讓物件負責維護自己的內部狀態。Ex: 你要跟我借錢，你會拿走我的錢包把錢拿走嗎？No, 請透過「介面」
+- 封裝的缺點：三個和尚沒水喝。因為類別或方法的職責不明確。Ex: getter 我覺得應該只是拿東西出來，但其實會存某些資料才吐值出來。
+</code></pre><ul>
+<li>Ex: 解鎖手機時需要知道手機是怎麼運作的嗎？只要手指放上去或是滑幾下就可以解鎖，不用知道裡面執行了些什麼。</li>
+<li>Ex: ATM 構造示意圖。我們不用知道ATM內部結構，只要知道它可以提錢就好。</li>
+</ul>
+<h3 id="u7E7C_u627F"><a href="#u7E7C_u627F" class="headerlink" title="繼承"></a>繼承</h3><pre><code>- 繼承是抽象的特例化。把它想成是行為的特例化。
+    + Ex: 車 -&gt; 卡車、賽車、三輪車
+- 繼承區分出抽象類別(車)與具象類別(F1賽車)。
+    + 讓抽象類別來定義外界如何理解行為，讓具象類別來實作行為。
+- 繼承不是重用程式碼！
+    + 是為了用戶端的一致性
+    + 能夠重用程式碼只是附加價值
+</code></pre><ul>
+<li>教授 (類別)<ul>
+<li>中文系教授 (特例化，給予特別職責 –&gt; 就是「繼承」)</li>
+<li>音樂系教授</li>
+</ul>
+</li>
+</ul>
+<h3 id="u591A_u578B"><a href="#u591A_u578B" class="headerlink" title="多型"></a>多型</h3><pre><code>- 每個物件對同一個訊息(message)會有自己的行為
+    + 需要繼承或實作介面來達成
+- 依賴在抽象介面
+    + …
+- 儘可能不要用鴨子類別 (Duck Typing)
+    + 會游泳、會飛、會呱呱叫的你就當成是鴨子
+    + …
+</code></pre><ul>
+<li>老闆只說「去做事」，但工程師、專案經理、設計師各會依自己的職責去做事</li>
+<li>以上三個角色都是員工(抽象類別)</li>
+</ul>
+<h2 id="u7269_u4EF6_u5C0E_u5411_u7684_u597D_u8655"><a href="#u7269_u4EF6_u5C0E_u5411_u7684_u597D_u8655" class="headerlink" title="物件導向的好處"></a>物件導向的好處</h2><ul>
+<li>Ex:<ul>
+<li>傳統 mysqli 的 insert 範例，程序化程式設計，加入兩個 users</li>
+<li>物件導向寫法 $user-&gt;save() 的例子，加入兩個 users</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>操作的是物件不是 mysqli library</li>
+<li>用戶不必知道 mysqli 的細節</li>
+<li>不需要曝露操作過程中的變數</li>
+<li>程式更加語意化</li>
+</ol>
+<ul>
+<li>用戶端程式只在乎他面對的物件是什麼？還有它能做什麼？</li>
+</ul>
+<h2 id="u7A0B_u5E8F_u5316_u601D_u7DAD_u8F49_u63DB_u5230_u7269_u4EF6_u5C0E_u5411_u601D_u7DAD"><a href="#u7A0B_u5E8F_u5316_u601D_u7DAD_u8F49_u63DB_u5230_u7269_u4EF6_u5C0E_u5411_u601D_u7DAD" class="headerlink" title="程序化思維轉換到物件導向思維"></a>程序化思維轉換到物件導向思維</h2><ul>
+<li>User Class 建立 demostration</li>
+<li>很簡單的方式把程序化程式轉化成物件的方式執行</li>
+<li>把職責隔離出來</li>
+<li>但有很多的雷區，新手會犯的錯</li>
+</ul>
+<h2 id="u65B0_u624B_u96F7_u5340_-__u5DF2_u7D93_u5728_u7528OO_uFF0C_u4F46_u7A0B_u5F0F_u78BC_u96E3_u4EE5_u7DAD_u8B77"><a href="#u65B0_u624B_u96F7_u5340_-__u5DF2_u7D93_u5728_u7528OO_uFF0C_u4F46_u7A0B_u5F0F_u78BC_u96E3_u4EE5_u7DAD_u8B77" class="headerlink" title="新手雷區 - 已經在用OO，但程式碼難以維護"></a>新手雷區 - 已經在用OO，但程式碼難以維護</h2><h4 id="u842C_u80FD_u985E_u5225_u6216_u65B9_u6CD5_uFF0CEx_3A__u8CFC_u7269_u8ECA_u985E_u5225_28ShoppingCart_29"><a href="#u842C_u80FD_u985E_u5225_u6216_u65B9_u6CD5_uFF0CEx_3A__u8CFC_u7269_u8ECA_u985E_u5225_28ShoppingCart_29" class="headerlink" title="萬能類別或方法，Ex: 購物車類別(ShoppingCart)"></a>萬能類別或方法，Ex: 購物車類別(ShoppingCart)</h4><pre><code>- addItem
+- getItems
+- calculateTotal
+- getTotal
+- getDiscount
+- getPayment
+- getShipment
+- checkout
+- getOrder
+- sendOrderMail
+- ... 天啊，一個類別把所有事做完，後面還有。一共幾千行的類別。甚至其中有一個「方法」就佔了一半。
+</code></pre><h4 id="u628A_u8077_u8CAC_u9694_u96E2_u51FA_u4F86_28ISP_29_uFF0C_u6BCF_u500B_u985E_u5225_u6709_u55AE_u7D14_u7684_u8077_u8CAC_uFF0C_u66F4_u5BB9_u6613_u7DAD_u8B77_u548C_u4FEE_u6539"><a href="#u628A_u8077_u8CAC_u9694_u96E2_u51FA_u4F86_28ISP_29_uFF0C_u6BCF_u500B_u985E_u5225_u6709_u55AE_u7D14_u7684_u8077_u8CAC_uFF0C_u66F4_u5BB9_u6613_u7DAD_u8B77_u548C_u4FEE_u6539" class="headerlink" title="把職責隔離出來(ISP)，每個類別有單純的職責，更容易維護和修改"></a>把職責隔離出來(ISP)，每個類別有單純的職責，更容易維護和修改</h4><pre><code>- Cart (add/get/calculateTotal/getTotal)
+- Order (setPayment/setShipment/getSenderMail)
+- Discount (getDiscount)
+- Mailer (send)
+</code></pre><h4 id="u5206_u4E0D_u6E05_u300C_u62BD_u8C61_u985E_u5225_u300D_u6216_u300C_u4ECB_u9762_u300D"><a href="#u5206_u4E0D_u6E05_u300C_u62BD_u8C61_u985E_u5225_u300D_u6216_u300C_u4ECB_u9762_u300D" class="headerlink" title="分不清「抽象類別」或「介面」"></a>分不清「抽象類別」或「介面」</h4><pre><code>- 有共用的行為 -&gt; *抽象類別*
+- 希望類別有多種行為，但又不想綁死在單一類別時，就用 -&gt; *介面*
+- 在 PHP 中，介面的實作可以搭配 Trait
+</code></pre><h4 id="u932F_u8AA4_u7684_u7E7C_u627F_u95DC_u4FC2"><a href="#u932F_u8AA4_u7684_u7E7C_u627F_u95DC_u4FC2" class="headerlink" title="錯誤的繼承關係"></a>錯誤的繼承關係</h4><pre><code>- Ex: Database(抽象類別) - connect/query/beginTransaction/commit
+- Ex: MySql extends Database
+- Ex: SQLite 因為為了要重用 MySql 中某些程式碼，SQLite extends MySql
+</code></pre><h4 id="u4E0D_u5FC5_u8981_u7684_u66DD_u9732"><a href="#u4E0D_u5FC5_u8981_u7684_u66DD_u9732" class="headerlink" title="不必要的曝露"></a>不必要的曝露</h4><pre><code>- 因為全部的方法都用 public，結果不敢拔掉它。因為不知道誰會去用…
+- 為了方便而曝露屬性
+    + 所有的屬性加上 setter / getter
+    + 錢包不要隨便丟在地上給人家撿
+</code></pre><h4 id="u2026__u8B8A_u6578_u50B3_u905E_u554F_u984C"><a href="#u2026__u8B8A_u6578_u50B3_u905E_u554F_u984C" class="headerlink" title="… 變數傳遞問題"></a>… 變數傳遞問題</h4><pre><code>- addItem($item, array $items)
+- calculateTotal(array $items)
+</code></pre><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$items</span> = loadItemsFromSession();</span><br><span class="line"><span class="variable">$cart</span> = <span class="keyword">new</span> Cart();</span><br><span class="line"><span class="variable">$cart</span>-&gt;addItem(<span class="variable">$item</span>, <span class="variable">$items</span>);</span><br><span class="line"><span class="variable">$cart</span>-&gt;calculateTotal(<span class="variable">$items</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 應該把 $items 封裝為物件的內部屬性</span></span><br></pre></td></tr></table></figure>
+<center><blockquote style="font-size: 2em; padding-bottom: 1em"><br>需求一定會變，程式一定會改。<br></blockquote></center>
+
+<h4 id="if__u2026_else__u6563_u843D_u5404_u8655_-_26gt_3B__u8ACB_u96C6_u4E2D_u5728_u540C_u4E00_u500B_u5730_u65B9"><a href="#if__u2026_else__u6563_u843D_u5404_u8655_-_26gt_3B__u8ACB_u96C6_u4E2D_u5728_u540C_u4E00_u500B_u5730_u65B9" class="headerlink" title="if … else 散落各處 -&gt; 請集中在同一個地方"></a>if … else 散落各處 -&gt; 請集中在同一個地方</h4><h2 id="u7269_u4EF6_u5C0E_u5411_u7A0B_u5F0F_u7684_u8A2D_u8A08"><a href="#u7269_u4EF6_u5C0E_u5411_u7A0B_u5F0F_u7684_u8A2D_u8A08" class="headerlink" title="物件導向程式的設計"></a>物件導向程式的設計</h2><h4 id="u6CE8_u610F_u975C_u614B_u65B9_u6CD5_u8207_u51FD_u5F0F_u7684_u4F7F_u7528_u6642_u6A5F__uFF1F_uFF1F_uFF1F_u8209_u4F8B_uFF1F"><a href="#u6CE8_u610F_u975C_u614B_u65B9_u6CD5_u8207_u51FD_u5F0F_u7684_u4F7F_u7528_u6642_u6A5F__uFF1F_uFF1F_uFF1F_u8209_u4F8B_uFF1F" class="headerlink" title="注意靜態方法與函式的使用時機 ？？？舉例？"></a>注意靜態方法與函式的使用時機 ？？？舉例？</h4><pre><code>- 函式不能封裝靜態屬性
+    + 函式只能透過傳參考或回傳變數來達到傳遞狀態的效果
+    + 類別本身能透過靜態屬性來連通所有靜態方法與生成的物件
+- 不需要多型的時候
+    + 用戶端直接依賴在抽象類別上
+    + 但注意會造成測試不易
+- Ex:
+</code></pre><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// 費弗那西數列</span><br><span class="line"><span class="keyword">function</span> f(<span class="variable">$n</span>) &#123;</span><br><span class="line">    if (<span class="variable">$n</span> &lt;= <span class="number">2</span>) &#123;</span><br><span class="line">        return <span class="variable">$n</span>;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return f(<span class="variable">$n</span> - <span class="number">1</span>) + f(<span class="variable">$n</span> - <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 費弗那西數列 ver <span class="number">2.0</span></span><br><span class="line"><span class="keyword">function</span> f(<span class="variable">$n</span>) &#123;</span><br><span class="line">    static result = [];</span><br><span class="line"></span><br><span class="line">    if (<span class="variable">$n</span> &lt;= <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="variable">$r</span> = <span class="variable">$n</span>;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        <span class="variable">$r</span> = f(<span class="variable">$n</span> - <span class="number">1</span>) + f(<span class="variable">$n</span> - <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    result[<span class="variable">$n</span>] = <span class="variable">$r</span>;</span><br><span class="line"></span><br><span class="line">    return <span class="variable">$r</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="u5F9E_u9700_u6C42_u51FA_u767C"><a href="#u5F9E_u9700_u6C42_u51FA_u767C" class="headerlink" title="從需求出發"></a>從需求出發</h4><pre><code>- 先關注需求要什麼，再談如何達成
+    + 先思考需求中的物件如何互動，以決定程式的架構
+    + 讓底層元件去組合出符合需求的程式碼
+- 從用戶端的角度去設計，不要從資料的角度去設計
+    + 不要一開始就想處理資料的演算法是什麼
+    + …
+</code></pre><h4 id="u5167_u805A_28Cohesion_29"><a href="#u5167_u805A_28Cohesion_29" class="headerlink" title="內聚(Cohesion)"></a>內聚(Cohesion)</h4><pre><code>- 內聚力越高越好
+    + 單一職責，每個方法、類別都有它的責任
+- …
+    + …
+</code></pre><h4 id="u8026_u5408_28Coupling_29"><a href="#u8026_u5408_28Coupling_29" class="headerlink" title="耦合(Coupling)"></a>耦合(Coupling)</h4><pre><code>- 耦合度越低越好
+    + 不會牽一髮而動全身
+    + OCP
+- 用戶端儘可能不要知道太多其他類別
+    + 讓底層改變的波動不會傳遞到用戶端
+    + 業務邏輯不要依賴在實作上，Ex: 訂單操作綁死金流或物流
+</code></pre><h4 id="u7E7C_u627F_u8A2D_u8A08"><a href="#u7E7C_u627F_u8A2D_u8A08" class="headerlink" title="繼承設計"></a>繼承設計</h4><pre><code>- 多用組合，少用繼承。需要多型的地方才用繼承
+- 繼承階層不要過深，通常不超過3層
+- 參考設計模式來使用繼承
+</code></pre><h4 id="u5206_u5C64_u8A2D_u8A08"><a href="#u5206_u5C64_u8A2D_u8A08" class="headerlink" title="分層設計"></a>分層設計</h4><pre><code>- 在關鍵點切開職責
+- 每層都是下一層的抽象，封裝下一層的細節
+    + 每一層有自己的職責，不要管下一層怎麼做
+    + 不允許跨層存取，例如 Service 層不直接使用 PDO 物件，而是透過 ORM 或 Repository
+- 越上層越靠近需求，越下層越靠近實作
+</code></pre><h3 id="u5BE6_u4F8B_u6F14_u7DF4"><a href="#u5BE6_u4F8B_u6F14_u7DF4" class="headerlink" title="實例演練"></a>實例演練</h3><p>用 Model 來抽象化之前 User Class，Database Class 來取代之前用 constructor 來初始化 DB connection。<br>Database &lt;- MysqliDriver<br>Model &lt;- User</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">User::setDb(<span class="keyword">new</span> MysqliDriver());</span><br><span class="line"><span class="variable">$user</span> = <span class="keyword">new</span> User([</span><br><span class="line">    <span class="string">'name'</span> =&gt; <span class="string">'John'</span>,</span><br><span class="line">    <span class="string">'email'</span> =&gt; <span class="string">'John@email.com'</span>,</span><br><span class="line">]);</span><br><span class="line"><span class="variable">$user</span>-&gt;save();</span><br></pre></td></tr></table></figure>
+<h4 id="u76F8_u95DC_u7684_class__u90FD_u5BEB_u5728_u540C_u4E00_u500B_u6A94_u6848_uFF0C_u8B1B_u89E3_u548C_u601D_u8DEF_u6703_u8B8A_u5F88_u6E05_u695A_uFF01_u4E0D_u7528_u8DF3_u4F86_u8DF3_u53BB_uFF0C_u64CD_u4F5C_u4E5F_u65B9_u4FBF_u3002"><a href="#u76F8_u95DC_u7684_class__u90FD_u5BEB_u5728_u540C_u4E00_u500B_u6A94_u6848_uFF0C_u8B1B_u89E3_u548C_u601D_u8DEF_u6703_u8B8A_u5F88_u6E05_u695A_uFF01_u4E0D_u7528_u8DF3_u4F86_u8DF3_u53BB_uFF0C_u64CD_u4F5C_u4E5F_u65B9_u4FBF_u3002" class="headerlink" title="相關的 class 都寫在同一個檔案，講解和思路會變很清楚！不用跳來跳去，操作也方便。"></a>相關的 class 都寫在同一個檔案，講解和思路會變很清楚！不用跳來跳去，操作也方便。</h4><h4 id="u6700_u57FA_u672C_u7684_u4E00_u500B_ORM"><a href="#u6700_u57FA_u672C_u7684_u4E00_u500B_ORM" class="headerlink" title="最基本的一個 ORM"></a>最基本的一個 ORM</h4><h3 id="u6A21_u5F0F_u7D44_u5408_u7BC4_u4F8B_-_Intervention_Image__u70BA_u4F8B"><a href="#u6A21_u5F0F_u7D44_u5408_u7BC4_u4F8B_-_Intervention_Image__u70BA_u4F8B" class="headerlink" title="模式組合範例 - Intervention Image 為例"></a>模式組合範例 - Intervention Image 為例</h3><ul>
+<li>看鐵哥的圖 …</li>
+</ul>
+<h2 id="u8FF7_u601D_uFF1A_u4EC0_u9EBC_u9700_u6C42_u90FD_u9069_u5408_u7528_u7269_u4EF6_u5C0E_u5411_u4F86_u5B8C_u6210_u55CE_uFF1F"><a href="#u8FF7_u601D_uFF1A_u4EC0_u9EBC_u9700_u6C42_u90FD_u9069_u5408_u7528_u7269_u4EF6_u5C0E_u5411_u4F86_u5B8C_u6210_u55CE_uFF1F" class="headerlink" title="迷思：什麼需求都適合用物件導向來完成嗎？"></a>迷思：什麼需求都適合用物件導向來完成嗎？</h2>]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="u7269_u4EF6_u5C0E_u5411_u57FA_u790E_-__u7269_u4EF6_u5C0E_u5411_u8A2D_u8A08_u5165_u9580"><a href="#u7269_u4EF6_u5C0E_u5411_u57FA_u790]]>
+    </summary>
+    
+      <category term="PHP也有Day" scheme="http://blog.dj1020.net/tags/PHP%E4%B9%9F%E6%9C%89Day/"/>
+    
+      <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
+    
+      <category term="設計模式" scheme="http://blog.dj1020.net/tags/%E8%A8%AD%E8%A8%88%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Laradiner 讀書會 - SOLID 原則 (2) Open Closed Principle 開放封閉原則 導讀心得整理筆記]]></title>
@@ -149,7 +376,7 @@
     <link href="http://blog.dj1020.net/Test-Corner-%E8%AC%9B%E5%BA%A7-2-%E8%AB%87-Mutation-Testing-Mozilla/"/>
     <id>http://blog.dj1020.net/Test-Corner-講座-2-談-Mutation-Testing-Mozilla/</id>
     <published>2016-02-02T09:57:16.000Z</published>
-    <updated>2016-02-03T01:07:10.000Z</updated>
+    <updated>2016-02-02T13:38:33.000Z</updated>
     <content type="html"><![CDATA[<h1 id="Mutation_Testing_-_Mike_Lien"><a href="#Mutation_Testing_-_Mike_Lien" class="headerlink" title="Mutation Testing - Mike Lien"></a>Mutation Testing - Mike Lien</h1><h2 id="History"><a href="#History" class="headerlink" title="History"></a>History</h2><ul>
 <li>1971 提出</li>
 <li>用來判斷你寫的測試程式的品質</li>
@@ -502,7 +729,7 @@
     <link href="http://blog.dj1020.net/How-To-Update-Xdebug-for-MAMP/"/>
     <id>http://blog.dj1020.net/How-To-Update-Xdebug-for-MAMP/</id>
     <published>2015-11-16T07:19:42.000Z</published>
-    <updated>2015-11-16T07:30:58.000Z</updated>
+    <updated>2015-11-16T07:30:41.000Z</updated>
     <content type="html"><![CDATA[<h2 id="u6B65_u9A5F"><a href="#u6B65_u9A5F" class="headerlink" title="步驟"></a>步驟</h2><ol>
 <li>Download php5.5.22 (版本自己調整一下) from <a href="http://php.net/downloads.php" target="_blank" rel="external">PHP official site</a></li>
 <li><code>mkdir -vp /Applications/MAMP/bin/php/php5.5.22/include</code></li>
@@ -1298,143 +1525,6 @@
   </entry>
   
   <entry>
-    <title><![CDATA[2015 PHP Conf 筆記 (4) - Enterprise Architecture Case in PHP (曾義峰 Ant)]]></title>
-    <link href="http://blog.dj1020.net/2015-PHP-Conf-%E7%AD%86%E8%A8%98(4)%20-%20Enterprise%20Architecture%20Case%20in%20PHP%20(%E6%9B%BE%E7%BE%A9%E5%B3%B0%20Ant)/"/>
-    <id>http://blog.dj1020.net/2015-PHP-Conf-筆記(4) - Enterprise Architecture Case in PHP (曾義峰 Ant)/</id>
-    <published>2015-10-09T01:33:08.000Z</published>
-    <updated>2015-10-09T06:00:30.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="MUZIK__u67B6_u69CB_u6F14_u9032"><a href="#MUZIK__u67B6_u69CB_u6F14_u9032" class="headerlink" title="MUZIK 架構演進"></a>MUZIK 架構演進</h2><h4 id="u67B6_u69CB_u5148_u6C7A"><a href="#u67B6_u69CB_u5148_u6C7A" class="headerlink" title="架構先決"></a>架構先決</h4><ul>
-<li>考慮現有資源，考慮公司人員的專長。</li>
-<li>考慮公司文化、流程、商業擴展。</li>
-<li>思維要超越程式碼</li>
-</ul>
-<h4 id="u6C92_u6709_u5B8C_u7F8E_u7684_u67B6_u69CB_uFF0C_u53EA_u6709_u6700_u9069_u7684_u67B6_u69CB"><a href="#u6C92_u6709_u5B8C_u7F8E_u7684_u67B6_u69CB_uFF0C_u53EA_u6709_u6700_u9069_u7684_u67B6_u69CB" class="headerlink" title="沒有完美的架構，只有最適的架構"></a>沒有完美的架構，只有最適的架構</h4><ul>
-<li>要注意 Context 再來談最適架構</li>
-<li>Ex: high throughput, 千萬人同時在線</li>
-<li>Ex: low latency, 低延遲回應, Ad platform(30ms)</li>
-</ul>
-<h4 id="u67B6_u69CB_u662F_u6F14_u9032_u7684_uFF0C_u9810_u60F3_u4F46_u4E0D_u904E_u65E9_u512A_u5316"><a href="#u67B6_u69CB_u662F_u6F14_u9032_u7684_uFF0C_u9810_u60F3_u4F46_u4E0D_u904E_u65E9_u512A_u5316" class="headerlink" title="架構是演進的，預想但不過早優化"></a>架構是演進的，預想但不過早優化</h4><ul>
-<li>不是 PHP 直接換成 GoLang，需先考慮的是「下一步」 ex: Microservices, SOA, Monolith</li>
-<li>有時候是換整個 framework</li>
-<li><p>Microservices 的 pros/cons, Ex: death star diagram, like twitter, gilt Netflix</p>
-</li>
-<li><p>IPC (in-process communication)</p>
-</li>
-<li>Containers 技術對應 Native 的效能損失</li>
-</ul>
-<h2 id="MUZIK__u67B6_u69CB_u6F14_u5316_u53F2"><a href="#MUZIK__u67B6_u69CB_u6F14_u5316_u53F2" class="headerlink" title="MUZIK 架構演化史"></a>MUZIK 架構演化史</h2><ul>
-<li>對技術研究高度投入，看原始碼！專注節省工程師開發時間。</li>
-</ul>
-<h4 id="Multi_Cloud"><a href="#Multi_Cloud" class="headerlink" title="Multi Cloud"></a>Multi Cloud</h4><ul>
-<li>天啊，他們運用每種「雲」的特性</li>
-<li>追求 Cloud to Cloud (避免被 AWS 綁架)</li>
-<li>建 vCloud 的概念</li>
-</ul>
-<h3 id="Bach__28MUZIK_1-0_29"><a href="#Bach__28MUZIK_1-0_29" class="headerlink" title="Bach (MUZIK 1.0)"></a>Bach (MUZIK 1.0)</h3><ul>
-<li>傳統開發 Monolith 很難 scale out</li>
-<li>Sol 1: Add ELB (負載平衡器)<ul>
-<li>但是 Session 會出問題</li>
-<li>會「不平衡」</li>
-<li>難以橫向擴展</li>
-</ul>
-</li>
-<li>Sol 2: 複製 Session 的方式<ul>
-<li>但會廣播風暴</li>
-<li>越多 Server，同步效能會變差</li>
-<li>…</li>
-</ul>
-</li>
-<li>Sol 3: Session 放進 DB<ul>
-<li>要改應用程式</li>
-<li>資料庫難擴展</li>
-<li>…</li>
-</ul>
-</li>
-<li>Sol 4: Session 放進 Cache (Redis, MemoryCache Daemon)<ul>
-<li>貴</li>
-<li>如果 Cache server 掛了，所有流量會進 DB server，造成雪崩效應！形成痛點</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>要知道每個架構的痛點，知道怎麼補坑</p>
-</blockquote>
-<ul>
-<li>Sol 5: Session 放 Client 端<ul>
-<li>好處多</li>
-<li>安全性會有小問題，但可解<br>-</li>
-</ul>
-</li>
-</ul>
-<h4 id="Migrations__28Phalcon_29"><a href="#Migrations__28Phalcon_29" class="headerlink" title="Migrations (Phalcon)"></a>Migrations (Phalcon)</h4><h4 id="Why_still_use_MySQL"><a href="#Why_still_use_MySQL" class="headerlink" title="Why still use MySQL"></a>Why still use MySQL</h4><ul>
-<li>connection pool (PHP 也支援)<ul>
-<li>佔用資料庫連線，可能會無法連線</li>
-<li>難偵測 DB 狀態，決定何時要下線</li>
-<li>變成另一種 global variable</li>
-</ul>
-</li>
-</ul>
-<h3 id="u6D77_u9813__28MUZIK_2-0_29"><a href="#u6D77_u9813__28MUZIK_2-0_29" class="headerlink" title="海頓 (MUZIK 2.0)"></a>海頓 (MUZIK 2.0)</h3><h4 id="Search__u529F_u80FD_u53D7_u9650_MySQL__u641C_u5C0B_u8F03_u5DEE"><a href="#Search__u529F_u80FD_u53D7_u9650_MySQL__u641C_u5C0B_u8F03_u5DEE" class="headerlink" title="Search 功能受限 MySQL 搜尋較差"></a>Search 功能受限 MySQL 搜尋較差</h4><ul>
-<li>改 ElasticSearch</li>
-<li>…</li>
-</ul>
-<h3 id="28MUZIK_3-0_29"><a href="#28MUZIK_3-0_29" class="headerlink" title="(MUZIK 3.0)"></a>(MUZIK 3.0)</h3><ul>
-<li>改 micro services</li>
-<li>加了 API Gateway</li>
-<li>Nginx 也有建議這樣用，避免 death star diagram<ul>
-<li>不是 100% 的 microservices</li>
-<li>和第三方互動困難</li>
-</ul>
-</li>
-</ul>
-<h4 id="MySQL_5-6_-_26gt_3B_Master-Master_cluster"><a href="#MySQL_5-6_-_26gt_3B_Master-Master_cluster" class="headerlink" title="MySQL 5.6 -&gt; Master-Master cluster"></a>MySQL 5.6 -&gt; Master-Master cluster</h4><ul>
-<li>M-M : 每個資料庫都可讀/可寫<ul>
-<li>如果兩人同時對 A 匯款，但結果被發到兩個 DB server 裡 -&gt; Dead lock/rollback</li>
-<li>Sol: Load balancing，不要放到兩個 DB server 裡，但需 HA，架構變複雜</li>
-<li>Sol: 改 PHP Code 來控制，對同一個人(or 交易)就進同一台機器</li>
-</ul>
-</li>
-</ul>
-<h3 id="4-0"><a href="#4-0" class="headerlink" title="4.0"></a>4.0</h3><h4 id="Geo_DNS__28_u60F3_u8DE8_u6240_u6709_u96F2_u3001_u8DE8_u570B_29"><a href="#Geo_DNS__28_u60F3_u8DE8_u6240_u6709_u96F2_u3001_u8DE8_u570B_29" class="headerlink" title="Geo DNS (想跨所有雲、跨國)"></a>Geo DNS (想跨所有雲、跨國)</h4><p>講太快了</p>
-<h3 id="Next_5-0"><a href="#Next_5-0" class="headerlink" title="Next 5.0"></a>Next 5.0</h3><ul>
-<li><p>Why not Docker ?</p>
-<ul>
-<li>用在 開發環境，但 production 不適用，效能問題、穩定問題</li>
-<li>跑越多 docker containers 效能損越多</li>
-</ul>
-</li>
-<li><p>Big Data</p>
-<ul>
-<li>有些狀況 Hadoop 比 Spark 快，需 study</li>
-<li>提了很多值得深入探討的問題</li>
-</ul>
-</li>
-</ul>
-<h2 id="PHP_7"><a href="#PHP_7" class="headerlink" title="PHP 7"></a>PHP 7</h2><p>評估中，還在實驗、測試中。但勢必會升級。</p>
-<h2 id="15__u689D_u67B6_u69CB_u5FC3_u6CD5"><a href="#15__u689D_u67B6_u69CB_u5FC3_u6CD5" class="headerlink" title="15 條架構心法"></a>15 條架構心法</h2><ol>
-<li>冪等操作</li>
-<li>分層解耦</li>
-<li>服務節流</li>
-<li>熱點緩衝</li>
-<li>服務同質檢測</li>
-<li>服務降級 - 如果 redis 掛了，避免雪崩 -&gt; 把某些服務先關閉，ex: 註冊功能關掉，登入功能關掉，但讓已登入的人繼續操作。<br>…</li>
-<li>混沌破壞設計 (故意搞壞一些機器或用軟體模擬，看服務穩定度)</li>
-</ol>
-<p>Developer 要解決的應該是更宏觀的問題，不是爭論 PHP vs Go vs … 而已。<br>Shared-nothing architecture<br>Monolith - Microservice</p>
-<p>Caching !?<br>Connection Pool !?<br>Extension / HHVM / PHP 7 !?</p>
-<h2 id="Questions"><a href="#Questions" class="headerlink" title="Questions"></a>Questions</h2><p>*</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="MUZIK__u67B6_u69CB_u6F14_u9032"><a href="#MUZIK__u67B6_u69CB_u6F14_u9032" class="headerlink" title="MUZIK 架構演進"></a>MUZIK 架構演進</h2><]]>
-    </summary>
-    
-      <category term="PHP Conf" scheme="http://blog.dj1020.net/tags/PHP-Conf/"/>
-    
-      <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[2015 PHP Conf 筆記 (1) - PHP 之父 Rasmus Lerdorf 帶來的 PHP 7 介紹]]></title>
     <link href="http://blog.dj1020.net/2015-PHP-Conf-%E7%AD%86%E8%A8%98(1)-PHP-%E4%B9%8B%E7%88%B6-Rasmus-Lerdorf-PHP-7-%E4%BB%8B%E7%B4%B9/"/>
     <id>http://blog.dj1020.net/2015-PHP-Conf-筆記(1)-PHP-之父-Rasmus-Lerdorf-PHP-7-介紹/</id>
@@ -1729,6 +1819,143 @@
   </entry>
   
   <entry>
+    <title><![CDATA[2015 PHP Conf 筆記 (4) - Enterprise Architecture Case in PHP (曾義峰 Ant)]]></title>
+    <link href="http://blog.dj1020.net/2015-PHP-Conf-%E7%AD%86%E8%A8%98(4)%20-%20Enterprise%20Architecture%20Case%20in%20PHP%20(%E6%9B%BE%E7%BE%A9%E5%B3%B0%20Ant)/"/>
+    <id>http://blog.dj1020.net/2015-PHP-Conf-筆記(4) - Enterprise Architecture Case in PHP (曾義峰 Ant)/</id>
+    <published>2015-10-09T01:33:08.000Z</published>
+    <updated>2015-10-09T06:00:30.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="MUZIK__u67B6_u69CB_u6F14_u9032"><a href="#MUZIK__u67B6_u69CB_u6F14_u9032" class="headerlink" title="MUZIK 架構演進"></a>MUZIK 架構演進</h2><h4 id="u67B6_u69CB_u5148_u6C7A"><a href="#u67B6_u69CB_u5148_u6C7A" class="headerlink" title="架構先決"></a>架構先決</h4><ul>
+<li>考慮現有資源，考慮公司人員的專長。</li>
+<li>考慮公司文化、流程、商業擴展。</li>
+<li>思維要超越程式碼</li>
+</ul>
+<h4 id="u6C92_u6709_u5B8C_u7F8E_u7684_u67B6_u69CB_uFF0C_u53EA_u6709_u6700_u9069_u7684_u67B6_u69CB"><a href="#u6C92_u6709_u5B8C_u7F8E_u7684_u67B6_u69CB_uFF0C_u53EA_u6709_u6700_u9069_u7684_u67B6_u69CB" class="headerlink" title="沒有完美的架構，只有最適的架構"></a>沒有完美的架構，只有最適的架構</h4><ul>
+<li>要注意 Context 再來談最適架構</li>
+<li>Ex: high throughput, 千萬人同時在線</li>
+<li>Ex: low latency, 低延遲回應, Ad platform(30ms)</li>
+</ul>
+<h4 id="u67B6_u69CB_u662F_u6F14_u9032_u7684_uFF0C_u9810_u60F3_u4F46_u4E0D_u904E_u65E9_u512A_u5316"><a href="#u67B6_u69CB_u662F_u6F14_u9032_u7684_uFF0C_u9810_u60F3_u4F46_u4E0D_u904E_u65E9_u512A_u5316" class="headerlink" title="架構是演進的，預想但不過早優化"></a>架構是演進的，預想但不過早優化</h4><ul>
+<li>不是 PHP 直接換成 GoLang，需先考慮的是「下一步」 ex: Microservices, SOA, Monolith</li>
+<li>有時候是換整個 framework</li>
+<li><p>Microservices 的 pros/cons, Ex: death star diagram, like twitter, gilt Netflix</p>
+</li>
+<li><p>IPC (in-process communication)</p>
+</li>
+<li>Containers 技術對應 Native 的效能損失</li>
+</ul>
+<h2 id="MUZIK__u67B6_u69CB_u6F14_u5316_u53F2"><a href="#MUZIK__u67B6_u69CB_u6F14_u5316_u53F2" class="headerlink" title="MUZIK 架構演化史"></a>MUZIK 架構演化史</h2><ul>
+<li>對技術研究高度投入，看原始碼！專注節省工程師開發時間。</li>
+</ul>
+<h4 id="Multi_Cloud"><a href="#Multi_Cloud" class="headerlink" title="Multi Cloud"></a>Multi Cloud</h4><ul>
+<li>天啊，他們運用每種「雲」的特性</li>
+<li>追求 Cloud to Cloud (避免被 AWS 綁架)</li>
+<li>建 vCloud 的概念</li>
+</ul>
+<h3 id="Bach__28MUZIK_1-0_29"><a href="#Bach__28MUZIK_1-0_29" class="headerlink" title="Bach (MUZIK 1.0)"></a>Bach (MUZIK 1.0)</h3><ul>
+<li>傳統開發 Monolith 很難 scale out</li>
+<li>Sol 1: Add ELB (負載平衡器)<ul>
+<li>但是 Session 會出問題</li>
+<li>會「不平衡」</li>
+<li>難以橫向擴展</li>
+</ul>
+</li>
+<li>Sol 2: 複製 Session 的方式<ul>
+<li>但會廣播風暴</li>
+<li>越多 Server，同步效能會變差</li>
+<li>…</li>
+</ul>
+</li>
+<li>Sol 3: Session 放進 DB<ul>
+<li>要改應用程式</li>
+<li>資料庫難擴展</li>
+<li>…</li>
+</ul>
+</li>
+<li>Sol 4: Session 放進 Cache (Redis, MemoryCache Daemon)<ul>
+<li>貴</li>
+<li>如果 Cache server 掛了，所有流量會進 DB server，造成雪崩效應！形成痛點</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>要知道每個架構的痛點，知道怎麼補坑</p>
+</blockquote>
+<ul>
+<li>Sol 5: Session 放 Client 端<ul>
+<li>好處多</li>
+<li>安全性會有小問題，但可解<br>-</li>
+</ul>
+</li>
+</ul>
+<h4 id="Migrations__28Phalcon_29"><a href="#Migrations__28Phalcon_29" class="headerlink" title="Migrations (Phalcon)"></a>Migrations (Phalcon)</h4><h4 id="Why_still_use_MySQL"><a href="#Why_still_use_MySQL" class="headerlink" title="Why still use MySQL"></a>Why still use MySQL</h4><ul>
+<li>connection pool (PHP 也支援)<ul>
+<li>佔用資料庫連線，可能會無法連線</li>
+<li>難偵測 DB 狀態，決定何時要下線</li>
+<li>變成另一種 global variable</li>
+</ul>
+</li>
+</ul>
+<h3 id="u6D77_u9813__28MUZIK_2-0_29"><a href="#u6D77_u9813__28MUZIK_2-0_29" class="headerlink" title="海頓 (MUZIK 2.0)"></a>海頓 (MUZIK 2.0)</h3><h4 id="Search__u529F_u80FD_u53D7_u9650_MySQL__u641C_u5C0B_u8F03_u5DEE"><a href="#Search__u529F_u80FD_u53D7_u9650_MySQL__u641C_u5C0B_u8F03_u5DEE" class="headerlink" title="Search 功能受限 MySQL 搜尋較差"></a>Search 功能受限 MySQL 搜尋較差</h4><ul>
+<li>改 ElasticSearch</li>
+<li>…</li>
+</ul>
+<h3 id="28MUZIK_3-0_29"><a href="#28MUZIK_3-0_29" class="headerlink" title="(MUZIK 3.0)"></a>(MUZIK 3.0)</h3><ul>
+<li>改 micro services</li>
+<li>加了 API Gateway</li>
+<li>Nginx 也有建議這樣用，避免 death star diagram<ul>
+<li>不是 100% 的 microservices</li>
+<li>和第三方互動困難</li>
+</ul>
+</li>
+</ul>
+<h4 id="MySQL_5-6_-_26gt_3B_Master-Master_cluster"><a href="#MySQL_5-6_-_26gt_3B_Master-Master_cluster" class="headerlink" title="MySQL 5.6 -&gt; Master-Master cluster"></a>MySQL 5.6 -&gt; Master-Master cluster</h4><ul>
+<li>M-M : 每個資料庫都可讀/可寫<ul>
+<li>如果兩人同時對 A 匯款，但結果被發到兩個 DB server 裡 -&gt; Dead lock/rollback</li>
+<li>Sol: Load balancing，不要放到兩個 DB server 裡，但需 HA，架構變複雜</li>
+<li>Sol: 改 PHP Code 來控制，對同一個人(or 交易)就進同一台機器</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-0"><a href="#4-0" class="headerlink" title="4.0"></a>4.0</h3><h4 id="Geo_DNS__28_u60F3_u8DE8_u6240_u6709_u96F2_u3001_u8DE8_u570B_29"><a href="#Geo_DNS__28_u60F3_u8DE8_u6240_u6709_u96F2_u3001_u8DE8_u570B_29" class="headerlink" title="Geo DNS (想跨所有雲、跨國)"></a>Geo DNS (想跨所有雲、跨國)</h4><p>講太快了</p>
+<h3 id="Next_5-0"><a href="#Next_5-0" class="headerlink" title="Next 5.0"></a>Next 5.0</h3><ul>
+<li><p>Why not Docker ?</p>
+<ul>
+<li>用在 開發環境，但 production 不適用，效能問題、穩定問題</li>
+<li>跑越多 docker containers 效能損越多</li>
+</ul>
+</li>
+<li><p>Big Data</p>
+<ul>
+<li>有些狀況 Hadoop 比 Spark 快，需 study</li>
+<li>提了很多值得深入探討的問題</li>
+</ul>
+</li>
+</ul>
+<h2 id="PHP_7"><a href="#PHP_7" class="headerlink" title="PHP 7"></a>PHP 7</h2><p>評估中，還在實驗、測試中。但勢必會升級。</p>
+<h2 id="15__u689D_u67B6_u69CB_u5FC3_u6CD5"><a href="#15__u689D_u67B6_u69CB_u5FC3_u6CD5" class="headerlink" title="15 條架構心法"></a>15 條架構心法</h2><ol>
+<li>冪等操作</li>
+<li>分層解耦</li>
+<li>服務節流</li>
+<li>熱點緩衝</li>
+<li>服務同質檢測</li>
+<li>服務降級 - 如果 redis 掛了，避免雪崩 -&gt; 把某些服務先關閉，ex: 註冊功能關掉，登入功能關掉，但讓已登入的人繼續操作。<br>…</li>
+<li>混沌破壞設計 (故意搞壞一些機器或用軟體模擬，看服務穩定度)</li>
+</ol>
+<p>Developer 要解決的應該是更宏觀的問題，不是爭論 PHP vs Go vs … 而已。<br>Shared-nothing architecture<br>Monolith - Microservice</p>
+<p>Caching !?<br>Connection Pool !?<br>Extension / HHVM / PHP 7 !?</p>
+<h2 id="Questions"><a href="#Questions" class="headerlink" title="Questions"></a>Questions</h2><p>*</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="MUZIK__u67B6_u69CB_u6F14_u9032"><a href="#MUZIK__u67B6_u69CB_u6F14_u9032" class="headerlink" title="MUZIK 架構演進"></a>MUZIK 架構演進</h2><]]>
+    </summary>
+    
+      <category term="PHP Conf" scheme="http://blog.dj1020.net/tags/PHP-Conf/"/>
+    
+      <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[2015 PHP Conf 筆記 (6) - 新創公司軟體架構 (阿川先生)]]></title>
     <link href="http://blog.dj1020.net/2015-PHP-Conf-%E7%AD%86%E8%A8%98(6)%20-%20%E6%96%B0%E5%89%B5%E5%85%AC%E5%8F%B8%E8%BB%9F%E9%AB%94%E6%9E%B6%E6%A7%8B%20(%E9%98%BF%E5%B7%9D%E5%85%88%E7%94%9F)/"/>
     <id>http://blog.dj1020.net/2015-PHP-Conf-筆記(6) - 新創公司軟體架構 (阿川先生)/</id>
@@ -1761,258 +1988,6 @@
 <li>Package 直接符合 psr-4，之後可以直接發佈</li>
 </ul>
 <h2 id="u8EDF_u9AD4_u6E2C_u8A66"><a href="#u8EDF_u9AD4_u6E2C_u]]>
-    </summary>
-    
-      <category term="PHP Conf" scheme="http://blog.dj1020.net/tags/PHP-Conf/"/>
-    
-      <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[2015 PHP Conf 筆記 (7) - Docker 當專案漸趕當遷移不再那麼難 (若虛)]]></title>
-    <link href="http://blog.dj1020.net/2015-PHP-Conf-%E7%AD%86%E8%A8%98(7)%20-%20Docker%20%E7%95%B6%E5%B0%88%E6%A1%88%E6%BC%B8%E8%B6%95%E7%95%B6%E9%81%B7%E7%A7%BB%E4%B8%8D%E5%86%8D%E9%82%A3%E9%BA%BC%E9%9B%A3%20(%E8%8B%A5%E8%99%9B)/"/>
-    <id>http://blog.dj1020.net/2015-PHP-Conf-筆記(7) - Docker 當專案漸趕當遷移不再那麼難 (若虛)/</id>
-    <published>2015-10-09T01:33:08.000Z</published>
-    <updated>2015-10-09T07:57:26.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="u8B58_uFF1ADocker__u7C21_u4ECB"><a href="#u8B58_uFF1ADocker__u7C21_u4ECB" class="headerlink" title="識：Docker 簡介"></a>識：Docker 簡介</h2><ul>
-<li>dotCloud -&gt; Docker</li>
-<li>Fig -&gt; docker compose</li>
-<li>docker -&gt; docker machine</li>
-</ul>
-<h2 id="u790E_uFF1ADocker__u57FA_u790E_u89C0_u5FF5"><a href="#u790E_uFF1ADocker__u57FA_u790E_u89C0_u5FF5" class="headerlink" title="礎：Docker 基礎觀念"></a>礎：Docker 基礎觀念</h2><ul>
-<li>Docker vs VM</li>
-<li>SunOS 可以建 Ubuntu Image</li>
-<li>Container 是在 Image FS 之上</li>
-<li>Container 裡有 Process 在 run</li>
-<li>Image 可以一直 commit 上去，增加不同的修改，甚至可以共用</li>
-<li>例如可以有 php 5.5 image / php 7 image 上面各架 apache / nginx / 等</li>
-<li>可以 expose ports 和其他 container 做溝通，Ex: 可以保護 DB, 可替換 container</li>
-<li>Volumes 把資料夾內容和 host 做同步, Ex: 兩個 container 共用同一個 host 資料夾內容</li>
-<li>Containers 中的 folder 同步會被 Host 蓋掉</li>
-</ul>
-<h2 id="u67B6_uFF1A_u5B89_u88DD_Docker"><a href="#u67B6_uFF1A_u5B89_u88DD_Docker" class="headerlink" title="架：安裝 Docker"></a>架：安裝 Docker</h2><ul>
-<li>今年更新的新的安裝方式，可以在 Windows/OSX 上裝 Docer，利用 VM 的方式</li>
-</ul>
-<h3 id="Docker_Toolbox"><a href="#Docker_Toolbox" class="headerlink" title="Docker Toolbox"></a>Docker Toolbox</h3><pre><code>- 看圖片範例是有 for OSX, Kitematic 所有操作都有 GUI
-- Command Line 也行
-</code></pre><h2 id="u904B_uFF1A_u904B_u884C"><a href="#u904B_uFF1A_u904B_u884C" class="headerlink" title="運：運行"></a>運：運行</h2><ul>
-<li>docker build/pull/run</li>
-<li>Dockerfile<ul>
-<li>可以記錄變動</li>
-<li>方便遷移，可以直接在新機器建立一樣的環境</li>
-<li>可以用 <code>RUN</code> 跑 scripts，用 <code>ADD</code> 複製 host files</li>
-<li>利用 &amp;&amp; 或 \ 把多個 run 或其他指令連在一起</li>
-<li>利用 ENV 預設環境變數</li>
-<li>寫 shell scirpt</li>
-<li>ENTRYPOINT 設定進入點</li>
-<li>用 COPY 把 init.sh copy 進去再用 RUN 來執行</li>
-<li>VALUME 可以在 HOST 建 data folder，再用 ln -s 的方式</li>
-</ul>
-</li>
-</ul>
-<h1 id="u5668_uFF1ADocker_Mahcine_/_Docker_Composer"><a href="#u5668_uFF1ADocker_Mahcine_/_Docker_Composer" class="headerlink" title="器：Docker Mahcine / Docker Composer"></a>器：Docker Mahcine / Docker Composer</h1><h3 id="Docker_Machine"><a href="#Docker_Machine" class="headerlink" title="Docker Machine"></a>Docker Machine</h3><ul>
-<li>直接在 Mac 上利用 VirtualBox 開 VM 跑 docker</li>
-<li>docker-machine env …</li>
-<li>docker-machine create –driver … ex: 連 AWS EC2, Google Cloud, Linode?,</li>
-<li>可以在本機、已存在的機器，或各雲端供應商上運行</li>
-<li>可以搭配 Docker Swarm 更快速建 Docker Cluster</li>
-</ul>
-<h3 id="Docker_Compose"><a href="#Docker_Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h3><ul>
-<li>類似建一個 yaml，然後 docker-compose up 就可以了</li>
-<li>up 要小心，資料先備份，Volume 會不見</li>
-<li>docker-compose up -d/start/stop/rm</li>
-<li><p>可以建 Multi Containers</p>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># docker-compose.yml</span><br><span class="line">web:</span><br><span class="line">    build: ./</span><br><span class="line">    links:</span><br><span class="line">        -<span class="ruby"> mysql</span><br><span class="line"></span>    ports:</span><br><span class="line">        -<span class="ruby"> <span class="string">'9950:80'</span></span><br><span class="line"></span>mysql:</span><br><span class="line">    image: mysql:5.7</span><br><span class="line">    environment:</span><br><span class="line">        -<span class="ruby"> <span class="constant">MYSQL_PASS</span>=password</span><br><span class="line"></span>        -<span class="ruby"> <span class="constant">MYSQL_DBNAME</span>=wordpress</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>有 extends 功能，所以同樣設定在 yaml 裡不用重寫，可以區隔 staging/local/production env</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">web:</span><br><span class="line">    extends:</span><br><span class="line">        file: xxx.<span class="keyword">xml</span></span><br><span class="line">        <span class="title">service</span>: web</span><br><span class="line">    environment:</span><br><span class="line">        - <span class="variable">ENV=</span>development</span><br><span class="line">        - <span class="variable">DB=</span>sqlite3</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>利用環境變數取代 dockerfile 中的預設值</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">web</span>:</span><br><span class="line">    <span class="attribute">volumes</span>:</span><br><span class="line">        - ./<span class="attribute">app</span>:/app</span><br><span class="line"><span class="attribute">db</span>:</span><br><span class="line">    <span class="attribute">volumes</span>:</span><br><span class="line">        - ./<span class="attribute">db</span>:/db</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>利用 restart 避免 docker container 下線</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">web:</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    restart: <span class="constant">true</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>管理多個 container 時很好用，不用下多個 docker run</p>
-</li>
-<li>建議一個 container 一個 service</li>
-</ul>
-<h2 id="u4F8B_uFF1ALive_demo"><a href="#u4F8B_uFF1ALive_demo" class="headerlink" title="例：Live demo"></a>例：Live demo</h2><ul>
-<li>以建 WordPress 為例，快速便捷用很多現成的，減少開發環境建置時間！</li>
-<li>可以取代 Vagrant，方便耶！</li>
-<li>Ex: 測試不同 php version</li>
-</ul>
-<h2 id="u554F_uFF1AQA"><a href="#u554F_uFF1AQA" class="headerlink" title="問：QA"></a>問：QA</h2><p>*</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="u8B58_uFF1ADocker__u7C21_u4ECB"><a href="#u8B58_uFF1ADocker__u7C21_u4ECB" class="headerlink" title="識：Docker 簡介"></a>識：Docker 簡介</h2]]>
-    </summary>
-    
-      <category term="PHP Conf" scheme="http://blog.dj1020.net/tags/PHP-Conf/"/>
-    
-      <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[2015 PHP Conf 筆記 (8) - High Performance Solution for PHP (@Laruence)]]></title>
-    <link href="http://blog.dj1020.net/2015-PHP-Conf-%E7%AD%86%E8%A8%98(8)%20-%20High%20Performance%20Solution%20for%20PHP%20(@Laruence)/"/>
-    <id>http://blog.dj1020.net/2015-PHP-Conf-筆記(8) - High Performance Solution for PHP (@Laruence)/</id>
-    <published>2015-10-09T01:33:08.000Z</published>
-    <updated>2015-10-09T09:07:03.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="About__u60E0_u5FC3_u8FB0"><a href="#About__u60E0_u5FC3_u8FB0" class="headerlink" title="About 惠心辰"></a>About 惠心辰</h2><ul>
-<li>Ya*, Yaf, Yar, Yaconf, Yac, Taint</li>
-<li>Maintainer of Opcache, Msgpack, PHP-Lua</li>
-<li>Core Developer of PHP7 (NG branch)</li>
-<li>微博總架構師</li>
-</ul>
-<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><ul>
-<li><p>Weibo V5 (2012~2015)</p>
-<ul>
-<li>Nginx, PHP-5.4</li>
-<li>300% performance improvement</li>
-<li>60% Response time reduced</li>
-<li>More than 1000 servers saved</li>
-</ul>
-</li>
-<li><p>CBigpipe ??</p>
-</li>
-</ul>
-<h2 id="Framework_-_Yaf"><a href="#Framework_-_Yaf" class="headerlink" title="Framework - Yaf"></a>Framework - Yaf</h2><ul>
-<li>(2011) Use or not use framework was a problem</li>
-<li>What PHP framework should do ?<ul>
-<li>Route</li>
-<li>Dispatch</li>
-<li>Autoloading</li>
-<li>View ? PHP 天生就是 template，Yaf 只有最簡單的</li>
-<li>ORM ? Yaf 沒有</li>
-</ul>
-</li>
-<li>簡單、夠用就好，不求「高」、「大」、「全」</li>
-</ul>
-<h3 id="Yaf_-_the_first_PHP_framework_in_extension"><a href="#Yaf_-_the_first_PHP_framework_in_extension" class="headerlink" title="Yaf - the first PHP framework in extension"></a>Yaf - the first PHP framework in extension</h3><ul>
-<li>不用經過 compile 到 opcode 在 zend VM，最後進入 zend internal APIs</li>
-<li>直接使用 zend internal APIs</li>
-<li>包含 PhalconPHP 都被幹掉，但 Phalcon 也很快，第二名 (參考就好)</li>
-<li>大陸百度、微博、新浪都在用 Yaf</li>
-</ul>
-<h2 id="SOA"><a href="#SOA" class="headerlink" title="SOA"></a>SOA</h2><ul>
-<li>方便分工、解耦合、High Available、Scale out</li>
-<li>(2013) PC 微博，代碼超過 15萬，70多人合作，但只有一個 repo。</li>
-<li>不知道一個接口有沒有人做過，就自己寫了一個。</li>
-<li>所以要 Service 化</li>
-<li><p>但要用 HTTP 嗎？ -&gt; 用 RPC</p>
-<ul>
-<li>但 RPC 有性能問題</li>
-<li>自己寫一個 RPC -&gt; Yar</li>
-</ul>
-</li>
-<li><p>Throughput vs Lagency 有時候是一個 trade-off</p>
-</li>
-</ul>
-<h2 id="Yar"><a href="#Yar" class="headerlink" title="Yar"></a>Yar</h2><ul>
-<li>輕量 RPC framework in etension</li>
-<li>支援 C, PHP, Java</li>
-<li>Bigpipe 自欺欺人讓用戶感覺變快了 - 先給 DOM 結構，慢慢的再把 json 吐出來，把資料填進 dom 裡。但是是 queue 的概念，一個個 output 出來。</li>
-<li>CBigpipe 可以 concurrent 處理 output。</li>
-</ul>
-<h3 id="Yar_for_C_framework"><a href="#Yar_for_C_framework" class="headerlink" title="Yar for C framework"></a>Yar for C framework</h3><ul>
-<li>ex: 白名單、黑名單、Search</li>
-<li>會變動又需要執行的很快的服務，改用 C 來寫核心</li>
-</ul>
-<h3 id="Github"><a href="#Github" class="headerlink" title="Github"></a>Github</h3><ul>
-<li><a href="http://github.com/laruence/yar" target="_blank" rel="external">http://github.com/laruence/yar</a></li>
-<li><a href="http://github.com/laruence/yar-c" target="_blank" rel="external">http://github.com/laruence/yar-c</a></li>
-</ul>
-<h2 id="Yac"><a href="#Yac" class="headerlink" title="Yac"></a>Yac</h2><ul>
-<li>用來取代 APC</li>
-<li>市面沒有本機的 Cache 產品，只好自己寫</li>
-<li>Cache<ul>
-<li>Memcached</li>
-<li>Redis</li>
-</ul>
-</li>
-<li>但運行起來很複雜</li>
-<li>基於共享 Memory 的 Cache 機制</li>
-<li>如果加 lock 多核 CPU 都在等 Memory access</li>
-<li>用 CRC 來確認拿回來的資料對不對！</li>
-<li>Yac is not safe，不是百分百安全</li>
-<li>less than 1/千萬 會得到一個 wrong result (故意給他錯)</li>
-<li>Where is can be used (出了問題也不知道 哈)</li>
-<li>錯誤率可容忍！比 APC 快 6 倍</li>
-<li>特別適用不同用戶，不同進程之間</li>
-<li>key 和 value 分開存，key 基本上不會出錯 (64bits, bytes? 字節)</li>
-<li>衝突發生率很小</li>
-<li>Not wildly used，也不推薦用</li>
-<li>也可以用: APC, Memcached</li>
-</ul>
-<h2 id="Configuration_-_Yaconf"><a href="#Configuration_-_Yaconf" class="headerlink" title="Configuration - Yaconf"></a>Configuration - Yaconf</h2><ul>
-<li>一堆 config 目錄，什麼都存</li>
-<li>問題：<ul>
-<li>每次請求都要 parse 一次</li>
-<li>就算存了 opcache，還是要執行一次 detect env</li>
-<li>配置和代碼一起上線 -&gt; 嚴重的安全性問題，你甚至可以在 github 上 hack 某人的 DB password</li>
-<li>代碼和配置該分開！</li>
-</ul>
-</li>
-<li>Yaconf 就是為了解決這些問題<ul>
-<li>INI File</li>
-<li>Persistent configurations container in extension</li>
-<li>Supports multiply files, sections</li>
-<li>Support constants, env varialbes in PHP</li>
-<li>Loading once serve multiple requests</li>
-</ul>
-</li>
-<li>在微博廣泛使用</li>
-<li>PHP 7 適用，講者不想再 migrate 到 php 5</li>
-<li>PHP 5 以下替代方案： Hidef</li>
-</ul>
-<h2 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h2><ul>
-<li>PHP 最大的三個安全問題<ul>
-<li>XSS</li>
-<li>RCE (Remote Code Execution)</li>
-<li>SQL Injection</li>
-</ul>
-</li>
-</ul>
-<h3 id="Taint"><a href="#Taint" class="headerlink" title="Taint"></a>Taint</h3><ul>
-<li>全部 mark 成「可疑數據」</li>
-<li>敏感操作時，會 warning，ex: echo, print, file_put_contents …</li>
-<li>Q: 何時會去掉 mark ?</li>
-<li>Hack 界很有用！發覺漏洞</li>
-<li>It’s not a cure, 會替換掉一些核心 coode</li>
-<li>和 Xdebug 會衝突</li>
-<li>替代： RIPS etc 靜態檢查，所以有些會查不到</li>
-</ul>
-<h2 id="Opcache"><a href="#Opcache" class="headerlink" title="Opcache"></a>Opcache</h2><ul>
-<li>隨著 PHP 5.5 發佈，快！不建議再用 APC</li>
-<li>也是一個 opcode optimizer<ul>
-<li>Constant propagation</li>
-<li>Dead coes removal</li>
-<li>Literations compact</li>
-<li>NOPS removal</li>
-</ul>
-</li>
-<li>到處都在用</li>
-<li>Always remember to enbale it，不能編到核心碼內。</li>
-</ul>
-<h2 id="PHP_7"><a href="#PHP_7" class="headerlink" title="PHP 7"></a>PHP 7</h2><ul>
-<li>Yaf 17% faster</li>
-<li>Yar 10% faster</li>
-<li>Yac 20% faster</li>
-<li>Yaconf (only for PHP 7)</li>
-<li>Opcache<ul>
-<li>file-based opcodes cache</li>
-<li>hugepagefy text segment (新特性，PHP 爸爸沒提)</li>
-<li>把核心碼 4K page 改成 2T page</li>
-</ul>
-</li>
-</ul>
-<h2 id="QA"><a href="#QA" class="headerlink" title="QA"></a>QA</h2>]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="About__u60E0_u5FC3_u8FB0"><a href="#About__u60E0_u5FC3_u8FB0" class="headerlink" title="About 惠心辰"></a>About 惠心辰</h2><ul>
-<li>Ya*, Y]]>
     </summary>
     
       <category term="PHP Conf" scheme="http://blog.dj1020.net/tags/PHP-Conf/"/>
