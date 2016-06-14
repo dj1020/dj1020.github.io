@@ -4,7 +4,7 @@
   <subtitle><![CDATA[程式學習心得筆記]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.dj1020.net/"/>
-  <updated>2016-05-25T15:48:04.000Z</updated>
+  <updated>2016-06-04T10:39:20.000Z</updated>
   <id>http://blog.dj1020.net/</id>
   
   <author>
@@ -13,6 +13,81 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Laradiner讀書會 - SOLID 原則(4) Interface Segregation Principle]]></title>
+    <link href="http://blog.dj1020.net/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83-SOLID-%E5%8E%9F%E5%89%87(4)-Interface-Segregation-Principle/"/>
+    <id>http://blog.dj1020.net/Laradiner讀書會-SOLID-原則(4)-Interface-Segregation-Principle/</id>
+    <published>2016-06-14T11:30:03.000Z</published>
+    <updated>2016-06-04T10:39:20.000Z</updated>
+    <content type="html"><![CDATA[<h4 id="u904E_u7A0B_u6709_u554F_u984C_u53EF_u5230_Laravel__u53F0_u7063_u81C9_u66F8_u793E_u5718__u767C_u554F"><a href="#u904E_u7A0B_u6709_u554F_u984C_u53EF_u5230_Laravel__u53F0_u7063_u81C9_u66F8_u793E_u5718__u767C_u554F" class="headerlink" title="過程有問題可到 Laravel 台灣臉書社團 發問"></a>過程有問題可到 <a href="https://www.facebook.com/groups/laravel.tw/" target="_blank" rel="external">Laravel 台灣臉書社團</a> 發問</h4><h2 id="u4ECB_u9762_u9694_u96E2_u539F_u5247__28ISP_-_Interface_Segragation_Principle_29"><a href="#u4ECB_u9762_u9694_u96E2_u539F_u5247__28ISP_-_Interface_Segragation_Principle_29" class="headerlink" title="介面隔離原則 (ISP - Interface Segragation Principle)"></a>介面隔離原則 (ISP - Interface Segragation Principle)</h2><p>ISP, Interface Segregation Principle 介面隔離原則，講的概念很簡單，就是實作該介面的類別，不應該實作「不需要的 API 方法」，什麼情況會造成介面中定義了「不需要的 API 方法」？以書中的例子來說：</p>
+<p>Ref: <a href="http://php.net/manual/en/class.sessionhandlerinterface.php" target="_blank" rel="external">http://php.net/manual/en/class.sessionhandlerinterface.php</a></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SessionHandlerInterface &#123;</span><br><span class="line">    <span class="comment">/* API 方法 */</span></span><br><span class="line">    <span class="keyword">abstract</span> <span class="keyword">public</span> bool close ( void )</span><br><span class="line">    <span class="keyword">abstract</span> <span class="keyword">public</span> bool destroy ( string <span class="variable">$session_id</span> )</span><br><span class="line">    <span class="keyword">abstract</span> <span class="keyword">public</span> bool gc ( int <span class="variable">$maxlifetime</span> )</span><br><span class="line">    <span class="keyword">abstract</span> <span class="keyword">public</span> bool open ( string <span class="variable">$save_path</span> , string <span class="variable">$name</span> )</span><br><span class="line">    <span class="keyword">abstract</span> <span class="keyword">public</span> string read ( string <span class="variable">$session_id</span> )</span><br><span class="line">    <span class="keyword">abstract</span> <span class="keyword">public</span> bool write ( string <span class="variable">$session_id</span> , string <span class="variable">$session_data</span> )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你試著用 <strong>Memcached</strong> 來實作這個 <code>SessionHandlerInterface</code> 你會發現你有大半的 API 方法都不需要實作，例如你根本不會需要 <code>open</code> 和 <code>close</code>，另外 <strong>Memcached</strong> 會自動丟棄過期的儲存值，所以你也不需要實作 <code>gc</code> 方法，會造成你為了要符合這樣的 interface 設計，你需要做很多個「空實作(stubs)」來滿足語法條件，但其實這些「空實作(stubs)」出來的方法，根本不會被呼叫到，或是就算被呼叫也不需要執行任何指令。如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">MemcachedSessionHandler implements SessionHandlerInterface &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">close</span> <span class="params">( void )</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 空實作，Just do nothing here.</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">gc</span> <span class="params">( int <span class="variable">$maxlifetime</span> )</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 空實作，Just do nothing here.</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">open</span> <span class="params">( string <span class="variable">$save_path</span> , string <span class="variable">$name</span> )</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 空實作，Just do nothing here.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 後略…</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如此就是違反了 ISP 的原則。</p>
+<p><br></p>
+<blockquote>
+<font size="+2">實作一個 interface 時，每個 API 方法應該都會需要被使用，換句話說，不該有空實作的產生</font>
+
+</blockquote>
+<p><br></p>
+<h3 id="u600E_u9EBC_u907F_u514D_u300C_u7A7A_u5BE6_u4F5C_u300D_u5462_uFF1F"><a href="#u600E_u9EBC_u907F_u514D_u300C_u7A7A_u5BE6_u4F5C_u300D_u5462_uFF1F" class="headerlink" title="怎麼避免「空實作」呢？"></a>怎麼避免「空實作」呢？</h3><p>避免的方法就是把介面「隔離」出來，所以才叫做「介面隔離原則」。以上面 Memcached 的例子來說，GC (garbage collection 一種記憶體管理回收機制) 是不需要的實作，我們可以讓 <code>gc</code> 方法從 <code>SessionHandlerInterface</code> 中隔離出來成另一個獨立的 interface：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">GarbageCollectorInterface</span> </span>&#123;</span><br><span class="line">    <span class="keyword">abstract</span> <span class="keyword">public</span> gc( int <span class="variable">$maxlifetime</span> );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如此，利用 PHP 語言一個類別可以實作多個介面的特性，如果是有需要處理 GC 的實作，才需要實作 <code>GarbageCollectorInterface</code> 這一介面(interface)，做到介面隔離，以符合 ISP 原則。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileSessionHandler</span></span><br><span class="line">    <span class="keyword">implements</span> <span class="title">SessionHandlerInterface</span>, <span class="title">GarbageCollectorInterface</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">gc</span><span class="params">(<span class="variable">$maxlifetime</span>)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 略 …</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MemcachedSessionHandler</span> <span class="keyword">implements</span> <span class="title">SessionHandlerInterface</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="comment">// 不需要 gc 方法實作，略 …</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="ISP__u9055_u53CD_u4E86_u6703_u600E_u6A23_u55CE_uFF1F"><a href="#ISP__u9055_u53CD_u4E86_u6703_u600E_u6A23_u55CE_uFF1F" class="headerlink" title="ISP 違反了會怎樣嗎？"></a>ISP 違反了會怎樣嗎？</h3><p>通常違反了 ISP 就表示你定義的 interface 承擔了太多的職責，也就同時違反了 SRP (單一職責原則)，容易出現萬能類別或是萬能介面。</p>
+<pre style="font-size: 1.2em">
+  * 擁有過多 API 方法的介面易模糊類別的職責，其重用性會變差
+  * 容易造成類別間的耦合
+  * 製造不必要的複雜度，例如我明明呼叫了某個介面方法，結果卻是空實作？
+</pre>
+
+<p>話說好的 API 帶你上天堂，壞的 API 帶你住套房，就是這道理啊~</p>
+<h2 id="u6848_u4F8B2_-_PasswordReminder__u5BC4_u5BC6_u78BC_u904E_u671F_u66F4_u63DB_u901A_u77E5_u4FE1"><a href="#u6848_u4F8B2_-_PasswordReminder__u5BC4_u5BC6_u78BC_u904E_u671F_u66F4_u63DB_u901A_u77E5_u4FE1" class="headerlink" title="案例2 - PasswordReminder 寄密碼過期更換通知信"></a>案例2 - PasswordReminder 寄密碼過期更換通知信</h2><p>如果你有一個 <code>Contact</code> 繼承了 <code>Eloquent</code> 類別如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Contact</span> <span class="keyword">extends</span> <span class="title">Eloquent</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getNameAttribute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$this</span>-&gt;attributes[<span class="string">'name'</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getEmailAttribute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$this</span>-&gt;attributes[<span class="string">'email'</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另外，你有一個 <code>PasswordReminder</code> 類別是用來寄送密碼過期更換通知信的</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PasswordReminder</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remind</span><span class="params">(Contact <span class="variable">$contact</span>, <span class="variable">$view</span>)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 寄出通知信 Email 給 $contact 代表的聯絡人</span></span><br><span class="line">        <span class="variable">$this</span>-&gt;mailer-&gt;mailTo(</span><br><span class="line">            <span class="variable">$contact</span>-&gt;getEmailAttribute(),</span><br><span class="line">            <span class="variable">$this</span>-&gt;render(<span class="variable">$view</span>)</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="u6848_u4F8B2_u8A0E_u8AD6_3A__u9019_u6A23_u7684_u5BE6_u4F5C_u6709_u4EC0_u9EBC_u554F_u984C_uFF1F"><a href="#u6848_u4F8B2_u8A0E_u8AD6_3A__u9019_u6A23_u7684_u5BE6_u4F5C_u6709_u4EC0_u9EBC_u554F_u984C_uFF1F" class="headerlink" title="案例2討論: 這樣的實作有什麼問題？"></a>案例2討論: 這樣的實作有什麼問題？</h2><p>不一定單從 ISP 的角度思考，回想 SOILD 中的每個原則。</p>
+<p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+<h4 id="u554F_u984C1_uFF1APasswordReminder__u548C_Eloquent__u7684_u8026_u5408_u554F_u984C"><a href="#u554F_u984C1_uFF1APasswordReminder__u548C_Eloquent__u7684_u8026_u5408_u554F_u984C" class="headerlink" title="問題1：PasswordReminder 和 Eloquent 的耦合問題"></a><strong>問題1</strong>：<code>PasswordReminder</code> 和 <code>Eloquent</code> 的耦合問題</h4><p>這樣的 TypeHinting 會使得用 <code>remind</code> 方法來寄信時，都一定要傳入一個繼承 <code>Eloquent</code> 的 <code>Contact</code> 物件，難道你只有 <code>Contact</code> 需要使用到 <code>PasswordReminder</code> 嗎？你會不會有 <code>User</code> 類別也需要 PasswordReminder 的功能？這裡卻只能傳 <code>Contact</code></p>
+<p>又或是，你有另一個 <code>CompanyContact</code> 的實作並不打算使用 <code>Eloquent</code> 做為 ORM，造成你要改 Code 才能讓 <code>remind</code> 方法的 type hinting 才可以同時支援 <code>Contact</code> 及 <code>CompanyContact</code> 兩種類別，這就違反了 <a href="http://blog.dj1020.net/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83-SOLID-%E5%8E%9F%E5%89%87(2)-Open-Closed-2016-03-03/">OCP 開放封閉原則</a> 造成維護上的困難。<br><br></p>
+<h4 id="u554F_u984C2_uFF1A_u66DD_u9732_u904E_u591A_u7D30_u7BC0_28knowledge_29__u7D66_PasswordReminder_uFF0C_u9055_u53CD_u6700_u5C0F_u77E5_u8B58_u539F_u5247__28Law_of_Demeter_29"><a href="#u554F_u984C2_uFF1A_u66DD_u9732_u904E_u591A_u7D30_u7BC0_28knowledge_29__u7D66_PasswordReminder_uFF0C_u9055_u53CD_u6700_u5C0F_u77E5_u8B58_u539F_u5247__28Law_of_Demeter_29" class="headerlink" title="問題2：曝露過多細節(knowledge) 給 PasswordReminder，違反最小知識原則 (Law of Demeter)"></a><strong>問題2</strong>：曝露過多細節(knowledge) 給 <code>PasswordReminder</code>，違反最小知識原則 (Law of Demeter)</h4><p>以這簡單例子來看，<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PasswordReminder</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remind</span><span class="params">(Contact <span class="variable">$contact</span>, <span class="variable">$view</span>)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 寄出通知信 Email 給 $contact 代表的聯絡人</span></span><br><span class="line">        <span class="variable">$this</span>-&gt;mailer-&gt;mailTo(</span><br><span class="line">            <span class="variable">$contact</span>-&gt;getEmailAttribute(),</span><br><span class="line">            <span class="variable">$this</span>-&gt;render(<span class="variable">$view</span>)</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其實 <code>remind</code> 只需要用到 <code>getEmailAttribute()</code> 來取得 Email 而已，卻把整個 <code>Contact</code> 物件傳入，如果你熟悉 eloquent 的使用，可以想想看要是有人在 <code>remind</code> 裡改動 <code>$contact</code> 的屬性還執行了 <code>$contact-&gt;save()</code> 會發生什麼情況 ……</p>
+<h4 id="u554F_u984C3_uFF1A_u9055_u53CD_ISP__u539F_u5247_uFF01__u4EC0_u9EBC_uFF1F_u9019_u88E1_u53C8_u6C92_u6709_u5B9A_u7FA9_interface__u600E_u9EBC_u9055_u53CD_ISP_uFF1F"><a href="#u554F_u984C3_uFF1A_u9055_u53CD_ISP__u539F_u5247_uFF01__u4EC0_u9EBC_uFF1F_u9019_u88E1_u53C8_u6C92_u6709_u5B9A_u7FA9_interface__u600E_u9EBC_u9055_u53CD_ISP_uFF1F" class="headerlink" title="問題3：違反 ISP 原則！ 什麼？這裡又沒有定義 interface 怎麼違反 ISP？"></a><strong>問題3</strong>：違反 ISP 原則！ 什麼？這裡又沒有定義 interface 怎麼違反 ISP？</h4><p>請不要把 ISP 原則當成只有使用 interface 時才會碰到，這裡對 <code>PasswordReminder</code> 來說 <code>Contact</code> 這個類別中的所有 public 方法就是一種 interface，你唯一只使用了 <code>Contact</code> 中的 <code>getEmailAttribute()</code> API 來取得 Email，但卻把整個 <code>Contact</code> 的 public 方法群都曝露給 <code>PasswordReminder</code>。</p>
+<h2 id="u6848_u4F8B2__u600E_u9EBC_u89E3_uFF1F__u4E4B_u4E00"><a href="#u6848_u4F8B2__u600E_u9EBC_u89E3_uFF1F__u4E4B_u4E00" class="headerlink" title="案例2 怎麼解？ 之一"></a>案例2 怎麼解？ 之一</h2><p>要解決這些問題，有一個很簡單的方法：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PasswordReminder</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 呼叫時直接傳入 Contact 的 Email 就好了</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remind</span><span class="params">(<span class="variable">$email</span>, <span class="variable">$view</span>)</span> </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;mailer-&gt;mailTo(</span><br><span class="line">            <span class="variable">$email</span>,</span><br><span class="line">            <span class="variable">$this</span>-&gt;render(<span class="variable">$view</span>)</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我只是要 Email 而已嘛，幹嘛傳整個 <code>Contact</code> 物件給我？！書上的教的作法只是脫褲子放屁而已嗎？我在呼叫時傳入 Email 不就好了。</p>
+<h2 id="u6848_u4F8B2__u600E_u9EBC_u89E3_uFF1F__u4E4B_u4E8C_28_u66F8_u4E2D_u7BC4_u4F8B_29"><a href="#u6848_u4F8B2__u600E_u9EBC_u89E3_uFF1F__u4E4B_u4E8C_28_u66F8_u4E2D_u7BC4_u4F8B_29" class="headerlink" title="案例2 怎麼解？ 之二(書中範例)"></a>案例2 怎麼解？ 之二(書中範例)</h2><p>我們先把唯一一個 <code>PasswordReminder</code> 需要用的 API 方法用介面隔離出來：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">RemindableInterface</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getReminderEmail</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>讓 <code>Contact</code> 實作(implements) <code>RemindableInterface</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Contact</span> <span class="keyword">extends</span> <span class="title">Eloquent</span> <span class="keyword">implements</span> <span class="title">RemindableInterface</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getReminderEmail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$this</span>-&gt;attributes[<span class="string">'email'</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>PasswordReminder</code> 跟著調整成：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PasswordReminder</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remind</span><span class="params">(RemindableInterface <span class="variable">$remindable</span>, <span class="variable">$view</span>)</span> </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;mailer-&gt;mailTo(</span><br><span class="line">            <span class="variable">$remindable</span>-&gt;getReminderEmail(),</span><br><span class="line">            <span class="variable">$this</span>-&gt;render(<span class="variable">$view</span>)</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如此一來，只有 <code>PasswordReminder</code> 需要用到的 RemindableInterface 方法會曝露，你可以不用傳 <code>Eloquent</code> 物件進來，只要有實作 <code>getReminderEmail()</code> 方法的物件都可以傳，提高 <code>PasswordReminder</code> 的重用性。</p>
+<p><br></p>
+<h4 id="u70BA_u4E86_u8AAA_u660E_u9019_u7A2E_u4F5C_u6CD5_u9084_u662F_u6709_u5B83_u7684_u512A_u9EDE_uFF0C_u6211_u5011_u4F86_u770B_u4E00_u500B_u60C5_u5883_28Scenario_29"><a href="#u70BA_u4E86_u8AAA_u660E_u9019_u7A2E_u4F5C_u6CD5_u9084_u662F_u6709_u5B83_u7684_u512A_u9EDE_uFF0C_u6211_u5011_u4F86_u770B_u4E00_u500B_u60C5_u5883_28Scenario_29" class="headerlink" title="為了說明這種作法還是有它的優點，我們來看一個情境(Scenario)"></a>為了說明這種作法還是有它的優點，我們來看一個情境(Scenario)</h4><p>今天主管發現 <code>PasswordReminder</code> 的 Email 寄出時，都沒有指定收件人的姓名，在追蹤是寄給誰時碰上了困難，如果是用剛剛(之一)的思維邏輯來解，你也許會這樣做：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PasswordReminder</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 修改參數列(Signature)，加入 $name</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remind</span><span class="params">(<span class="variable">$email</span>, <span class="variable">$name</span>, <span class="variable">$view</span>)</span> </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;mailer-&gt;mailTo(</span><br><span class="line">            <span class="string">"$name &lt;$email&gt;"</span>,</span><br><span class="line">            <span class="variable">$this</span>-&gt;render(<span class="variable">$view</span>)</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<p><font size="+2">慘，違反 OCP，所以所有呼叫 remind() 方法的地方都要跟著改！</font><br>這就是 bug 的來源啊，而且你要執行時爆炸才會知道哪裡忘了改<br><br></p>
+</blockquote>
+<p>如果是用 之二 的解法的話呢？我們可以修改 <code>RemindableInterface</code> 啊，介面有需要還是可以加 API 的！</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">RemindableInterface</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getReminderEmail</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getReminderName</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Contact</span> <span class="keyword">extends</span> <span class="title">Eloquent</span> <span class="keyword">implements</span> <span class="title">RemindableInterface</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getReminderEmail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$this</span>-&gt;attributes[<span class="string">'email'</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getReminderName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$this</span>-&gt;attributes[<span class="string">'name'</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PasswordReminder</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remind</span><span class="params">(RemindableInterface <span class="variable">$remindable</span>, <span class="variable">$view</span>)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">list</span>(<span class="variable">$name</span>, <span class="variable">$email</span>) = [</span><br><span class="line">            <span class="variable">$remindable</span>-&gt;getReminderName(),</span><br><span class="line">            <span class="variable">$remindable</span>-&gt;getReminderEmail(),</span><br><span class="line">        ];</span><br><span class="line"></span><br><span class="line">        <span class="variable">$this</span>-&gt;mailer-&gt;mailTo(</span><br><span class="line">            <span class="string">"$name &lt;$email&gt;"</span>,</span><br><span class="line">            <span class="variable">$this</span>-&gt;render(<span class="variable">$view</span>)</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如此一來，你只要利用 PHP 的語法檢查，就可以馬上知道哪些類別需要增加 <code>getReminderName()</code> 方法的實作，不用等到 runtime。</p>
+<p>不過你也要注意，確定 <code>getReminderName()</code> 這個 API 是每個需要使用 <code>RemindableInterface</code> 的類別都會用到，不然又違反了 ISP 啊。</p>
+<h2 id="u9583_u4EAE_u4EAE_u5C0F_u7D50"><a href="#u9583_u4EAE_u4EAE_u5C0F_u7D50" class="headerlink" title="閃亮亮小結"></a>閃亮亮小結</h2><p>原本想說只是個簡單的觀念，反正，就不要有空實作或是沒用到的介面 API 一句話就講完了。舉例時才發現會牽扯到各種相關問題，甚至涉及 API 設計的藝術，還有不同情境下 遵守 ISP 的好處，延伸觀念眾多。建議是把前面提過的 <a href="http://blog.dj1020.net/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83-SOLID-%E5%8E%9F%E5%89%87-2016-01-21/">SRP 單一職責原則</a> 和 <a href="http://blog.dj1020.net/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83-SOLID-%E5%8E%9F%E5%89%87(2)-Open-Closed-2016-03-03/">OCP 開放封閉原則</a> 完全搞懂之後，再來看這些例子會比較有感覺。</p>
+<p>真的，原本沒打算寫這麼長…… 還以為會是系列中最短的一篇。我錯了。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h4 id="u904E_u7A0B_u6709_u554F_u984C_u53EF_u5230_Laravel__u53F0_u7063_u81C9_u66F8_u793E_u5718__u767C_u554F"><a href="#u904E_u7A0B_u6709_u55]]>
+    </summary>
+    
+      <category term="Laradiner讀書會" scheme="http://blog.dj1020.net/tags/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83/"/>
+    
+      <category term="程式學習" scheme="http://blog.dj1020.net/tags/%E7%A8%8B%E5%BC%8F%E5%AD%B8%E7%BF%92/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Laradiner讀書會 - SOLID 原則(3) Liskov Substitution Principle]]></title>
@@ -479,8 +554,8 @@
   
   <entry>
     <title><![CDATA[Laradiner 讀書會 - SOLID 原則 (1) Single Responsibility Principle 單一職責原則 導讀心得整理筆記]]></title>
-    <link href="http://blog.dj1020.net/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83-SOLID-%E5%8E%9F%E5%89%87-2016-01-21/"/>
-    <id>http://blog.dj1020.net/Laradiner讀書會-SOLID-原則-2016-01-21/</id>
+    <link href="http://blog.dj1020.net/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83-SOLID-%E5%8E%9F%E5%89%87(1)-Single-Responsitory-Principle-2016-01-21/"/>
+    <id>http://blog.dj1020.net/Laradiner讀書會-SOLID-原則(1)-Single-Responsitory-Principle-2016-01-21/</id>
     <published>2016-01-18T12:17:59.000Z</published>
     <updated>2016-03-03T06:08:09.000Z</updated>
     <content type="html"><![CDATA[<h2 id="u6848_u4F8B_1__u524D_u7F6E_u4F5C_u696D"><a href="#u6848_u4F8B_1__u524D_u7F6E_u4F5C_u696D" class="headerlink" title="案例 1 前置作業"></a>案例 1 前置作業</h2><h4 id="u6309_u6B64_u67E5_u770B_Git__u6E90_u78BC"><a href="#u6309_u6B64_u67E5_u770B_Git__u6E90_u78BC" class="headerlink" title="按此查看 Git 源碼"></a><a href="https://github.com/dj1020/CH8_Single_Responsitory_Principle_Demo" target="_blank" rel="external">按此</a>查看 Git 源碼</h4><ol>
@@ -1525,6 +1600,74 @@
   </entry>
   
   <entry>
+    <title><![CDATA[2015 PHP Conf 筆記 (2) - c9s Code Generation(CodeGen)]]></title>
+    <link href="http://blog.dj1020.net/2015-PHP-Conf-%E7%AD%86%E8%A8%98(2)%20-%20c9s%20Code%20Generation(CodeGen)/"/>
+    <id>http://blog.dj1020.net/2015-PHP-Conf-筆記(2) - c9s Code Generation(CodeGen)/</id>
+    <published>2015-10-09T01:33:08.000Z</published>
+    <updated>2015-10-09T07:55:51.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="u8981_u89E3_u6C7A_u7684_u554F_u984C"><a href="#u8981_u89E3_u6C7A_u7684_u554F_u984C" class="headerlink" title="要解決的問題"></a>要解決的問題</h2><ul>
+<li>magic method 如 __call()，不支援 IDE autocompletion 而且跑起來很慢</li>
+</ul>
+<h2 id="Framework_Getting_Bigger"><a href="#Framework_Getting_Bigger" class="headerlink" title="Framework Getting Bigger"></a>Framework Getting Bigger</h2><h4 id="u6D88_u8017_u5F88_u591A_Code__u5728_Detecting_Env"><a href="#u6D88_u8017_u5F88_u591A_Code__u5728_Detecting_Env" class="headerlink" title="消耗很多 Code 在 Detecting Env"></a>消耗很多 Code 在 Detecting Env</h4><ul>
+<li>Ex: production/local/staging 各種環境下要跑不同的 Code，偵測 env 的程式碼到處都是</li>
+<li>Ex: 偵測某套件有沒有被安裝, 像 yaml, mongodb</li>
+</ul>
+<h4 id="Magic_Setters/Getters"><a href="#Magic_Setters/Getters" class="headerlink" title="Magic Setters/Getters"></a>Magic Setters/Getters</h4><ul>
+<li><p><code>__set</code>, <code>__get</code> 的使用，無法知道目前有哪些 key 可以用</p>
+  <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public <span class="keyword">function</span> __get() &#123;</span><br><span class="line">    return <span class="variable">$this-</span>&gt;data[ <span class="variable">$key</span> ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Doctrine 會自己有 getter/setter (應該用的是 magic 方式)</p>
+</li>
+</ul>
+<h2 id="Types_Of_Code_Generation"><a href="#Types_Of_Code_Generation" class="headerlink" title="Types Of Code Generation"></a>Types Of Code Generation</h2><ul>
+<li>JIT (just-in-time)</li>
+<li>PHP to PHP</li>
+</ul>
+<h2 id="Why_Types_Are_Important_to_the_Runtime_System"><a href="#Why_Types_Are_Important_to_the_Runtime_System" class="headerlink" title="Why Types Are Important to the Runtime System"></a>Why Types Are Important to the Runtime System</h2><ul>
+<li><p>以相加為例，不指定類型</p>
+  <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> add(<span class="variable">$a</span>, <span class="variable">$b</span>) &#123;</span><br><span class="line">    return <span class="variable">$a</span> + <span class="variable">$b</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果指定 Variable Type，Compile 出來的機器碼可以少也許 50% 以上</p>
+  <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> add(int <span class="variable">$a</span>, int <span class="variable">$b</span>) : int &#123;</span><br><span class="line">    return <span class="variable">$a</span> + <span class="variable">$b</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="libjit_-_Just-In-Time_compiler"><a href="#libjit_-_Just-In-Time_compiler" class="headerlink" title="libjit - Just-In-Time compiler"></a><a href="https://www.gnu.org/software/libjit/" target="_blank" rel="external">libjit</a> - Just-In-Time compiler</h4><ul>
+<li>講者應該是利用這個 lib 做優化？</li>
+</ul>
+<h4 id="jitfu_php_extension"><a href="#jitfu_php_extension" class="headerlink" title="jitfu php extension"></a><a href="/">jitfu php extension</a></h4><ul>
+<li>可以用 phpbrew 來裝相關 jit 程式庫</li>
+</ul>
+<h2 id="LLVM_vs_LIBJIT__3F"><a href="#LLVM_vs_LIBJIT__3F" class="headerlink" title="LLVM vs LIBJIT ?"></a>LLVM vs LIBJIT ?</h2><ul>
+<li>slides 會上傳，再去找 link 來看，有人分享</li>
+</ul>
+<h2 id="PHP_to_PHP"><a href="#PHP_to_PHP" class="headerlink" title="PHP to PHP"></a>PHP to PHP</h2><ul>
+<li>ex: PyPy</li>
+<li>c9s 就寫了一個 PHPPHP 叫 CodeGen，概念就是用 PHP 把 PHP source 轉成更快的 PHP Code</li>
+<li>Bootstrap 的環境偵測 Code 約 ~1000 ~ 3000 lines，每次 http req 都要跑一遍其實很傷效能。 ex: Laravel Bootstraper 等。</li>
+<li>CodeGen 會把這些 conditions 都移除掉，例如: 搶在 spl前直接 load classes</li>
+</ul>
+<h4 id="u5C0E_u5165_PHP-Parser"><a href="#u5C0E_u5165_PHP-Parser" class="headerlink" title="導入 PHP-Parser"></a>導入 PHP-Parser</h4><ul>
+<li>PHP 5.2~5.6，產生 AST (Abstract Source Tree)，轉成很漂亮的 php code</li>
+<li>把 Condition 移除，等於是先偵測好環境，就不用每次偵測。</li>
+</ul>
+<h2 id="Generating_CRUD_Handler_-_ActionKit"><a href="#Generating_CRUD_Handler_-_ActionKit" class="headerlink" title="Generating CRUD Handler - ActionKit"></a>Generating CRUD Handler - ActionKit</h2><ul>
+<li>利用 SPL 去自動產生 CRUD 的 class</li>
+</ul>
+<h2 id="ConfigKit_-__u81EA_u52D5_u7522_u751F_class_loader"><a href="#ConfigKit_-__u81EA_u52D5_u7522_u751F_class_loader" class="headerlink" title="ConfigKit - 自動產生 class loader"></a>ConfigKit - 自動產生 class loader</h2><ul>
+<li>避免判斷。</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="u8981_u89E3_u6C7A_u7684_u554F_u984C"><a href="#u8981_u89E3_u6C7A_u7684_u554F_u984C" class="headerlink" title="要解決的問題"></a>要解決的問題</h2]]>
+    </summary>
+    
+      <category term="PHP Conf" scheme="http://blog.dj1020.net/tags/PHP-Conf/"/>
+    
+      <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[2015 PHP Conf 筆記 (1) - PHP 之父 Rasmus Lerdorf 帶來的 PHP 7 介紹]]></title>
     <link href="http://blog.dj1020.net/2015-PHP-Conf-%E7%AD%86%E8%A8%98(1)-PHP-%E4%B9%8B%E7%88%B6-Rasmus-Lerdorf-PHP-7-%E4%BB%8B%E7%B4%B9/"/>
     <id>http://blog.dj1020.net/2015-PHP-Conf-筆記(1)-PHP-之父-Rasmus-Lerdorf-PHP-7-介紹/</id>
@@ -1618,60 +1761,6 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<h1 id="PHP__u4E4B_u7236_Rasmus_Lerdorf"><a href="#PHP__u4E4B_u7236_Rasmus_Lerdorf" class="headerlink" title="PHP 之父 Rasmus Lerdorf"></a>PHP]]>
-    </summary>
-    
-      <category term="PHP Conf" scheme="http://blog.dj1020.net/tags/PHP-Conf/"/>
-    
-      <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[2015 PHP Conf 筆記 (5) - ORM 實戰效能 (sdPower)]]></title>
-    <link href="http://blog.dj1020.net/2015-PHP-Conf-%E7%AD%86%E8%A8%98(5)%20-%20ORM%20%E5%AF%A6%E6%88%B0%E6%95%88%E8%83%BD%20(sdPower)/"/>
-    <id>http://blog.dj1020.net/2015-PHP-Conf-筆記(5) - ORM 實戰效能 (sdPower)/</id>
-    <published>2015-10-09T01:33:08.000Z</published>
-    <updated>2015-10-09T07:55:15.000Z</updated>
-    <content type="html"><![CDATA[<p>info@sd.idv.tw</p>
-<h2 id="PhalconPHP"><a href="#PhalconPHP" class="headerlink" title="PhalconPHP"></a>PhalconPHP</h2><h2 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h2><ul>
-<li>參雜 SQL 的 funciton 維護不易，資料表欄位難變動</li>
-<li>Model 有分離 DB 和 Model 層，並有做一些些 Cache，六年前範例 Code，不過仍不好用</li>
-<li>ORM 基本使用介紹，跟 Laravel eloquent 差不多。</li>
-<li>Relations 幾乎跟 Laravel 一樣！？</li>
-</ul>
-<h2 id="ORM__u6E2C_u8A66_u554F_u984C"><a href="#ORM__u6E2C_u8A66_u554F_u984C" class="headerlink" title="ORM 測試問題"></a>ORM 測試問題</h2><ul>
-<li>Ex: Shopping Cart, 購物清單放 session</li>
-<li>寫測試，到底是測 Cart 還是測 session</li>
-<li>建議：<ul>
-<li>測 Controller</li>
-<li>hit db (Mocking 也行)</li>
-<li>用 migration 做 db 模擬測試</li>
-<li>Codeception BDD</li>
-</ul>
-</li>
-</ul>
-<h2 id="ORM__u5FEB_u53D6_u6A5F_u5236"><a href="#ORM__u5FEB_u53D6_u6A5F_u5236" class="headerlink" title="ORM 快取機制"></a>ORM 快取機制</h2><ul>
-<li>設定好 cache 就行了，設 lifetime 5 mins</li>
-<li>可以利用繼承，還決定該 Model 物件要使用的 Cache 方式 (File, memory, DB … )</li>
-<li>PHQL -&gt; 針對 SQL 做 Cache</li>
-</ul>
-<h2 id="ORM__u8CC7_u6599_u512A_u5316"><a href="#ORM__u8CC7_u6599_u512A_u5316" class="headerlink" title="ORM 資料優化"></a>ORM 資料優化</h2><ul>
-<li>PHP 不是高速運算設計的語言</li>
-<li>ex: 大量物件操作，操作 10000 筆資料，new 10000 個 instances -&gt; 不合理</li>
-</ul>
-<h2 id="ODM__28Object-Document_Model_29"><a href="#ODM__28Object-Document_Model_29" class="headerlink" title="ODM (Object-Document Model)"></a>ODM (Object-Document Model)</h2><ul>
-<li>其實就是 Laravel Collections ex: Collections</li>
-<li>還有一些參考連結 ActiveRecord -&gt; 和 ORM 不大一樣</li>
-<li>Sharding, 特殊的: MySQL sharding 到 Redis</li>
-</ul>
-<blockquote>
-<p>EXOSITE 的人，徵人中</p>
-</blockquote>
-<p>what!? EXOSITE</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>info@sd.idv.tw</p>
-<h2 id="PhalconPHP"><a href="#PhalconPHP" class="headerlink" title="PhalconPHP"></a>PhalconPHP</h2><h2 id="MVC"><a hre]]>
     </summary>
     
       <category term="PHP Conf" scheme="http://blog.dj1020.net/tags/PHP-Conf/"/>
@@ -1947,47 +2036,6 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<h2 id="MUZIK__u67B6_u69CB_u6F14_u9032"><a href="#MUZIK__u67B6_u69CB_u6F14_u9032" class="headerlink" title="MUZIK 架構演進"></a>MUZIK 架構演進</h2><]]>
-    </summary>
-    
-      <category term="PHP Conf" scheme="http://blog.dj1020.net/tags/PHP-Conf/"/>
-    
-      <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[2015 PHP Conf 筆記 (6) - 新創公司軟體架構 (阿川先生)]]></title>
-    <link href="http://blog.dj1020.net/2015-PHP-Conf-%E7%AD%86%E8%A8%98(6)%20-%20%E6%96%B0%E5%89%B5%E5%85%AC%E5%8F%B8%E8%BB%9F%E9%AB%94%E6%9E%B6%E6%A7%8B%20(%E9%98%BF%E5%B7%9D%E5%85%88%E7%94%9F)/"/>
-    <id>http://blog.dj1020.net/2015-PHP-Conf-筆記(6) - 新創公司軟體架構 (阿川先生)/</id>
-    <published>2015-10-09T01:33:08.000Z</published>
-    <updated>2015-10-09T06:38:21.000Z</updated>
-    <content type="html"><![CDATA[<p>跟之前在 PHP 也有 Day 講的是類似的</p>
-<ul>
-<li>Package 直接符合 psr-4，之後可以直接發佈</li>
-</ul>
-<h2 id="u8EDF_u9AD4_u6E2C_u8A66"><a href="#u8EDF_u9AD4_u6E2C_u8A66" class="headerlink" title="軟體測試"></a>軟體測試</h2><ol>
-<li>鏡射結構<ul>
-<li>直接和 App 核心一樣，對應一個檔案一個測試檔</li>
-<li>不細分 Unit Test / Integration Test / Accept Test</li>
-<li>設計方便，開發速度快</li>
-</ul>
-</li>
-</ol>
-<p>以開發速度為最優先考量！</p>
-<ul>
-<li>延伸閱讀<ul>
-<li><a href="http://blog.turn.tw/?page_id=2742" target="_blank" rel="external">http://blog.turn.tw/?page_id=2742</a></li>
-<li><a href="http://github.com/howtomakeaturn/phpconf2015" target="_blank" rel="external">http://github.com/howtomakeaturn/phpconf2015</a></li>
-</ul>
-</li>
-</ul>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>跟之前在 PHP 也有 Day 講的是類似的</p>
-<ul>
-<li>Package 直接符合 psr-4，之後可以直接發佈</li>
-</ul>
-<h2 id="u8EDF_u9AD4_u6E2C_u8A66"><a href="#u8EDF_u9AD4_u6E2C_u]]>
     </summary>
     
       <category term="PHP Conf" scheme="http://blog.dj1020.net/tags/PHP-Conf/"/>
