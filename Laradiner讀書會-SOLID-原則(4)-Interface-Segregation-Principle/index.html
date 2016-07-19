@@ -19,7 +19,7 @@ Ref: http:">
 <meta property="og:site_name" content="閃亮亮大師之路">
 <meta property="og:description" content="過程有問題可到 Laravel 台灣臉書社團 發問介面隔離原則 (ISP - Interface Segragation Principle)ISP, Interface Segregation Principle 介面隔離原則，講的概念很簡單，就是實作該介面的類別，不應該實作「不需要的 API 方法」，什麼情況會造成介面中定義了「不需要的 API 方法」？以書中的例子來說：
 Ref: http:">
-<meta property="og:updated_time" content="2016-06-04T10:39:20.000Z">
+<meta property="og:updated_time" content="2016-06-18T07:12:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Laradiner讀書會 - SOLID 原則(4) Interface Segregation Principle">
 <meta name="twitter:description" content="過程有問題可到 Laravel 台灣臉書社團 發問介面隔離原則 (ISP - Interface Segragation Principle)ISP, Interface Segregation Principle 介面隔離原則，講的概念很簡單，就是實作該介面的類別，不應該實作「不需要的 API 方法」，什麼情況會造成介面中定義了「不需要的 API 方法」？以書中的例子來說：
@@ -123,10 +123,10 @@ Ref: http:">
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileSessionHandler</span></span><br><span class="line">    <span class="keyword">implements</span> <span class="title">SessionHandlerInterface</span>, <span class="title">GarbageCollectorInterface</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">gc</span><span class="params">(<span class="variable">$maxlifetime</span>)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 略 …</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MemcachedSessionHandler</span> <span class="keyword">implements</span> <span class="title">SessionHandlerInterface</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="comment">// 不需要 gc 方法實作，略 …</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="ISP__u9055_u53CD_u4E86_u6703_u600E_u6A23_u55CE_uFF1F"><a href="#ISP__u9055_u53CD_u4E86_u6703_u600E_u6A23_u55CE_uFF1F" class="headerlink" title="ISP 違反了會怎樣嗎？"></a>ISP 違反了會怎樣嗎？</h3><p>通常違反了 ISP 就表示你定義的 interface 承擔了太多的職責，也就同時違反了 SRP (單一職責原則)，容易出現萬能類別或是萬能介面。</p>
 <pre style="font-size: 1.2em">
-  * 擁有過多 API 方法的介面易模糊類別的職責，其重用性會變差
-  * 容易造成類別間的耦合
+* 擁有過多 API 方法的介面易模糊類別的職責，其重用性會變差
+* 容易造成類別間的耦合
   * 製造不必要的複雜度，例如我明明呼叫了某個介面方法，結果卻是空實作？
-</pre>
+    </pre>
 
 <p>話說好的 API 帶你上天堂，壞的 API 帶你住套房，就是這道理啊~</p>
 <h2 id="u6848_u4F8B2_-_PasswordReminder__u5BC4_u5BC6_u78BC_u904E_u671F_u66F4_u63DB_u901A_u77E5_u4FE1"><a href="#u6848_u4F8B2_-_PasswordReminder__u5BC4_u5BC6_u78BC_u904E_u671F_u66F4_u63DB_u901A_u77E5_u4FE1" class="headerlink" title="案例2 - PasswordReminder 寄密碼過期更換通知信"></a>案例2 - PasswordReminder 寄密碼過期更換通知信</h2><p>如果你有一個 <code>Contact</code> 繼承了 <code>Eloquent</code> 類別如下：</p>
@@ -137,7 +137,7 @@ Ref: http:">
 <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
 <h4 id="u554F_u984C1_uFF1APasswordReminder__u548C_Eloquent__u7684_u8026_u5408_u554F_u984C"><a href="#u554F_u984C1_uFF1APasswordReminder__u548C_Eloquent__u7684_u8026_u5408_u554F_u984C" class="headerlink" title="問題1：PasswordReminder 和 Eloquent 的耦合問題"></a><strong>問題1</strong>：<code>PasswordReminder</code> 和 <code>Eloquent</code> 的耦合問題</h4><p>這樣的 TypeHinting 會使得用 <code>remind</code> 方法來寄信時，都一定要傳入一個繼承 <code>Eloquent</code> 的 <code>Contact</code> 物件，難道你只有 <code>Contact</code> 需要使用到 <code>PasswordReminder</code> 嗎？你會不會有 <code>User</code> 類別也需要 PasswordReminder 的功能？這裡卻只能傳 <code>Contact</code></p>
 <p>又或是，你有另一個 <code>CompanyContact</code> 的實作並不打算使用 <code>Eloquent</code> 做為 ORM，造成你要改 Code 才能讓 <code>remind</code> 方法的 type hinting 才可以同時支援 <code>Contact</code> 及 <code>CompanyContact</code> 兩種類別，這就違反了 <a href="http://blog.dj1020.net/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83-SOLID-%E5%8E%9F%E5%89%87(2)-Open-Closed-2016-03-03/">OCP 開放封閉原則</a> 造成維護上的困難。<br><br></p>
-<h4 id="u554F_u984C2_uFF1A_u66DD_u9732_u904E_u591A_u7D30_u7BC0_28knowledge_29__u7D66_PasswordReminder_uFF0C_u9055_u53CD_u6700_u5C0F_u77E5_u8B58_u539F_u5247__28Law_of_Demeter_29"><a href="#u554F_u984C2_uFF1A_u66DD_u9732_u904E_u591A_u7D30_u7BC0_28knowledge_29__u7D66_PasswordReminder_uFF0C_u9055_u53CD_u6700_u5C0F_u77E5_u8B58_u539F_u5247__28Law_of_Demeter_29" class="headerlink" title="問題2：曝露過多細節(knowledge) 給 PasswordReminder，違反最小知識原則 (Law of Demeter)"></a><strong>問題2</strong>：曝露過多細節(knowledge) 給 <code>PasswordReminder</code>，違反最小知識原則 (Law of Demeter)</h4><p>以這簡單例子來看，<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PasswordReminder</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remind</span><span class="params">(Contact <span class="variable">$contact</span>, <span class="variable">$view</span>)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 寄出通知信 Email 給 $contact 代表的聯絡人</span></span><br><span class="line">        <span class="variable">$this</span>-&gt;mailer-&gt;mailTo(</span><br><span class="line">            <span class="variable">$contact</span>-&gt;getEmailAttribute(),</span><br><span class="line">            <span class="variable">$this</span>-&gt;render(<span class="variable">$view</span>)</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="u554F_u984C2_uFF1A_u66DD_u9732_u904E_u591A_u7D30_u7BC0_28knowledge_29__u7D66_PasswordReminder_uFF0C_u9055_u53CD_u6700_u5C0F_u77E5_u8B58_u539F_u5247__28Law_of_Demeter_29"><a href="#u554F_u984C2_uFF1A_u66DD_u9732_u904E_u591A_u7D30_u7BC0_28knowledge_29__u7D66_PasswordReminder_uFF0C_u9055_u53CD_u6700_u5C0F_u77E5_u8B58_u539F_u5247__28Law_of_Demeter_29" class="headerlink" title="問題2：曝露過多細節(knowledge) 給 PasswordReminder，違反最小知識原則 (Law of Demeter)"></a><strong>問題2</strong>：曝露過多細節(knowledge) 給 <code>PasswordReminder</code>，違反最小知識原則 (Law of Demeter)</h3><p>以這簡單例子來看，<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PasswordReminder</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">remind</span><span class="params">(Contact <span class="variable">$contact</span>, <span class="variable">$view</span>)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 寄出通知信 Email 給 $contact 代表的聯絡人</span></span><br><span class="line">        <span class="variable">$this</span>-&gt;mailer-&gt;mailTo(</span><br><span class="line">            <span class="variable">$contact</span>-&gt;getEmailAttribute(),</span><br><span class="line">            <span class="variable">$this</span>-&gt;render(<span class="variable">$view</span>)</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>其實 <code>remind</code> 只需要用到 <code>getEmailAttribute()</code> 來取得 Email 而已，卻把整個 <code>Contact</code> 物件傳入，如果你熟悉 eloquent 的使用，可以想想看要是有人在 <code>remind</code> 裡改動 <code>$contact</code> 的屬性還執行了 <code>$contact-&gt;save()</code> 會發生什麼情況 ……</p>
 <h4 id="u554F_u984C3_uFF1A_u9055_u53CD_ISP__u539F_u5247_uFF01__u4EC0_u9EBC_uFF1F_u9019_u88E1_u53C8_u6C92_u6709_u5B9A_u7FA9_interface__u600E_u9EBC_u9055_u53CD_ISP_uFF1F"><a href="#u554F_u984C3_uFF1A_u9055_u53CD_ISP__u539F_u5247_uFF01__u4EC0_u9EBC_uFF1F_u9019_u88E1_u53C8_u6C92_u6709_u5B9A_u7FA9_interface__u600E_u9EBC_u9055_u53CD_ISP_uFF1F" class="headerlink" title="問題3：違反 ISP 原則！ 什麼？這裡又沒有定義 interface 怎麼違反 ISP？"></a><strong>問題3</strong>：違反 ISP 原則！ 什麼？這裡又沒有定義 interface 怎麼違反 ISP？</h4><p>請不要把 ISP 原則當成只有使用 interface 時才會碰到，這裡對 <code>PasswordReminder</code> 來說 <code>Contact</code> 這個類別中的所有 public 方法就是一種 interface，你唯一只使用了 <code>Contact</code> 中的 <code>getEmailAttribute()</code> API 來取得 Email，但卻把整個 <code>Contact</code> 的 public 方法群都曝露給 <code>PasswordReminder</code>。</p>
 <h2 id="u6848_u4F8B2__u600E_u9EBC_u89E3_uFF1F__u4E4B_u4E00"><a href="#u6848_u4F8B2__u600E_u9EBC_u89E3_uFF1F__u4E4B_u4E00" class="headerlink" title="案例2 怎麼解？ 之一"></a>案例2 怎麼解？ 之一</h2><p>要解決這些問題，有一個很簡單的方法：</p>
@@ -193,6 +193,14 @@ Ref: http:">
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/Test-Corner-講座-4-Edward談INTER-APP_COMMUNICATIONS_AT_iCHEF_QUALITY_ENGINEERING@極客窩/" title="Test Corner 講座#4 - INTER-APP COMMUNICATIONS AT iCHEF QUALITY ENGINEERING">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Test Corner 講座#4 - INTER-APP COMMUNICATIONS AT iCHEF QUALITY ENGINEERING</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/Laradiner讀書會-SOLID-原則(3)-Liskov-Substitution-Principle-2016-05-26/"  title="Laradiner讀書會 - SOLID 原則(3) Liskov Substitution Principle">
@@ -212,7 +220,7 @@ Ref: http:">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目錄</strong>
  
- <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#u904E_u7A0B_u6709_u554F_u984C_u53EF_u5230_Laravel__u53F0_u7063_u81C9_u66F8_u793E_u5718__u767C_u554F"><span class="toc-number">1.</span> <span class="toc-text">過程有問題可到 Laravel 台灣臉書社團 發問</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4ECB_u9762_u9694_u96E2_u539F_u5247__28ISP_-_Interface_Segragation_Principle_29"><span class="toc-number"></span> <span class="toc-text">介面隔離原則 (ISP - Interface Segragation Principle)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u600E_u9EBC_u907F_u514D_u300C_u7A7A_u5BE6_u4F5C_u300D_u5462_uFF1F"><span class="toc-number"></span> <span class="toc-text">怎麼避免「空實作」呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ISP__u9055_u53CD_u4E86_u6703_u600E_u6A23_u55CE_uFF1F"><span class="toc-number"></span> <span class="toc-text">ISP 違反了會怎樣嗎？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6848_u4F8B2_-_PasswordReminder__u5BC4_u5BC6_u78BC_u904E_u671F_u66F4_u63DB_u901A_u77E5_u4FE1"><span class="toc-number"></span> <span class="toc-text">案例2 - PasswordReminder 寄密碼過期更換通知信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6848_u4F8B2_u8A0E_u8AD6_3A__u9019_u6A23_u7684_u5BE6_u4F5C_u6709_u4EC0_u9EBC_u554F_u984C_uFF1F"><span class="toc-number"></span> <span class="toc-text">案例2討論: 這樣的實作有什麼問題？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u554F_u984C1_uFF1APasswordReminder__u548C_Eloquent__u7684_u8026_u5408_u554F_u984C"><span class="toc-number">1.</span> <span class="toc-text">問題1：PasswordReminder 和 Eloquent 的耦合問題</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u554F_u984C2_uFF1A_u66DD_u9732_u904E_u591A_u7D30_u7BC0_28knowledge_29__u7D66_PasswordReminder_uFF0C_u9055_u53CD_u6700_u5C0F_u77E5_u8B58_u539F_u5247__28Law_of_Demeter_29"><span class="toc-number">2.</span> <span class="toc-text">問題2：曝露過多細節(knowledge) 給 PasswordReminder，違反最小知識原則 (Law of Demeter)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u554F_u984C3_uFF1A_u9055_u53CD_ISP__u539F_u5247_uFF01__u4EC0_u9EBC_uFF1F_u9019_u88E1_u53C8_u6C92_u6709_u5B9A_u7FA9_interface__u600E_u9EBC_u9055_u53CD_ISP_uFF1F"><span class="toc-number">3.</span> <span class="toc-text">問題3：違反 ISP 原則！ 什麼？這裡又沒有定義 interface 怎麼違反 ISP？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6848_u4F8B2__u600E_u9EBC_u89E3_uFF1F__u4E4B_u4E00"><span class="toc-number"></span> <span class="toc-text">案例2 怎麼解？ 之一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6848_u4F8B2__u600E_u9EBC_u89E3_uFF1F__u4E4B_u4E8C_28_u66F8_u4E2D_u7BC4_u4F8B_29"><span class="toc-number"></span> <span class="toc-text">案例2 怎麼解？ 之二(書中範例)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u70BA_u4E86_u8AAA_u660E_u9019_u7A2E_u4F5C_u6CD5_u9084_u662F_u6709_u5B83_u7684_u512A_u9EDE_uFF0C_u6211_u5011_u4F86_u770B_u4E00_u500B_u60C5_u5883_28Scenario_29"><span class="toc-number">1.</span> <span class="toc-text">為了說明這種作法還是有它的優點，我們來看一個情境(Scenario)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u9583_u4EAE_u4EAE_u5C0F_u7D50"><span class="toc-number"></span> <span class="toc-text">閃亮亮小結</span></a>
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#u904E_u7A0B_u6709_u554F_u984C_u53EF_u5230_Laravel__u53F0_u7063_u81C9_u66F8_u793E_u5718__u767C_u554F"><span class="toc-number">1.</span> <span class="toc-text">過程有問題可到 Laravel 台灣臉書社團 發問</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4ECB_u9762_u9694_u96E2_u539F_u5247__28ISP_-_Interface_Segragation_Principle_29"><span class="toc-number"></span> <span class="toc-text">介面隔離原則 (ISP - Interface Segragation Principle)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u600E_u9EBC_u907F_u514D_u300C_u7A7A_u5BE6_u4F5C_u300D_u5462_uFF1F"><span class="toc-number"></span> <span class="toc-text">怎麼避免「空實作」呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ISP__u9055_u53CD_u4E86_u6703_u600E_u6A23_u55CE_uFF1F"><span class="toc-number"></span> <span class="toc-text">ISP 違反了會怎樣嗎？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6848_u4F8B2_-_PasswordReminder__u5BC4_u5BC6_u78BC_u904E_u671F_u66F4_u63DB_u901A_u77E5_u4FE1"><span class="toc-number"></span> <span class="toc-text">案例2 - PasswordReminder 寄密碼過期更換通知信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6848_u4F8B2_u8A0E_u8AD6_3A__u9019_u6A23_u7684_u5BE6_u4F5C_u6709_u4EC0_u9EBC_u554F_u984C_uFF1F"><span class="toc-number"></span> <span class="toc-text">案例2討論: 這樣的實作有什麼問題？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u554F_u984C1_uFF1APasswordReminder__u548C_Eloquent__u7684_u8026_u5408_u554F_u984C"><span class="toc-number">1.</span> <span class="toc-text">問題1：PasswordReminder 和 Eloquent 的耦合問題</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u554F_u984C2_uFF1A_u66DD_u9732_u904E_u591A_u7D30_u7BC0_28knowledge_29__u7D66_PasswordReminder_uFF0C_u9055_u53CD_u6700_u5C0F_u77E5_u8B58_u539F_u5247__28Law_of_Demeter_29"><span class="toc-number"></span> <span class="toc-text">問題2：曝露過多細節(knowledge) 給 PasswordReminder，違反最小知識原則 (Law of Demeter)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u554F_u984C3_uFF1A_u9055_u53CD_ISP__u539F_u5247_uFF01__u4EC0_u9EBC_uFF1F_u9019_u88E1_u53C8_u6C92_u6709_u5B9A_u7FA9_interface__u600E_u9EBC_u9055_u53CD_ISP_uFF1F"><span class="toc-number">1.</span> <span class="toc-text">問題3：違反 ISP 原則！ 什麼？這裡又沒有定義 interface 怎麼違反 ISP？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6848_u4F8B2__u600E_u9EBC_u89E3_uFF1F__u4E4B_u4E00"><span class="toc-number"></span> <span class="toc-text">案例2 怎麼解？ 之一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u6848_u4F8B2__u600E_u9EBC_u89E3_uFF1F__u4E4B_u4E8C_28_u66F8_u4E2D_u7BC4_u4F8B_29"><span class="toc-number"></span> <span class="toc-text">案例2 怎麼解？ 之二(書中範例)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u70BA_u4E86_u8AAA_u660E_u9019_u7A2E_u4F5C_u6CD5_u9084_u662F_u6709_u5B83_u7684_u512A_u9EDE_uFF0C_u6211_u5011_u4F86_u770B_u4E00_u500B_u60C5_u5883_28Scenario_29"><span class="toc-number">1.</span> <span class="toc-text">為了說明這種作法還是有它的優點，我們來看一個情境(Scenario)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u9583_u4EAE_u4EAE_u5C0F_u7D50"><span class="toc-number"></span> <span class="toc-text">閃亮亮小結</span></a>
  
   </div>
 
@@ -243,7 +251,7 @@ Ref: http:">
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/筆記/" title="筆記">筆記<sup>19</sup></a></li>
+				<li><a href="/tags/筆記/" title="筆記">筆記<sup>22</sup></a></li>
 			
 		
 			
@@ -251,15 +259,15 @@ Ref: http:">
 			
 		
 			
+				<li><a href="/tags/程式學習/" title="程式學習">程式學習<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner讀書會/" title="Laradiner讀書會">Laradiner讀書會<sup>6</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/PHP也有Day/" title="PHP也有Day">PHP也有Day<sup>5</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/程式學習/" title="程式學習">程式學習<sup>5</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Laradiner讀書會/" title="Laradiner讀書會">Laradiner讀書會<sup>5</sup></a></li>
 			
 		
 			
@@ -268,6 +276,10 @@ Ref: http:">
 		
 			
 				<li><a href="/tags/Bootstrap/" title="Bootstrap">Bootstrap<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Test-Corner/" title="Test Corner">Test Corner<sup>4</sup></a></li>
 			
 		
 			
@@ -300,10 +312,6 @@ Ref: http:">
 		
 			
 				<li><a href="/tags/Install/" title="Install">Install<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Test-Corner/" title="Test Corner">Test Corner<sup>1</sup></a></li>
 			
 		
 		</ul>

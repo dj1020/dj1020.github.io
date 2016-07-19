@@ -1,0 +1,665 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Laradiner讀書會 - SOLID 原則(5) Dependency Inversion Principle 依頼反轉原則 | 閃亮亮大師之路</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="閃亮亮dj">
+    
+
+    
+    <meta name="description" content="過程有問題可到 Laravel 台灣臉書社團 發問依賴反轉原則 (DIP - Dependency Inversion Principle)
+節錄自 Laravel: From Apprentice To Artisan - Advanced Architecture With Laravel 4 書中：
+
+
+Dependency Inversion principle, it states th">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Laradiner讀書會 - SOLID 原則(5) Dependency Inversion Principle 依頼反轉原則">
+<meta property="og:url" content="http://blog.dj1020.net/Laradiner讀書會-SOLID-原則(5)-Dependency-Inversion-Principle/index.html">
+<meta property="og:site_name" content="閃亮亮大師之路">
+<meta property="og:description" content="過程有問題可到 Laravel 台灣臉書社團 發問依賴反轉原則 (DIP - Dependency Inversion Principle)
+節錄自 Laravel: From Apprentice To Artisan - Advanced Architecture With Laravel 4 書中：
+
+
+Dependency Inversion principle, it states th">
+<meta property="og:updated_time" content="2016-07-19T06:26:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Laradiner讀書會 - SOLID 原則(5) Dependency Inversion Principle 依頼反轉原則">
+<meta name="twitter:description" content="過程有問題可到 Laravel 台灣臉書社團 發問依賴反轉原則 (DIP - Dependency Inversion Principle)
+節錄自 Laravel: From Apprentice To Artisan - Advanced Architecture With Laravel 4 書中：
+
+
+Dependency Inversion principle, it states th">
+
+    
+    <link rel="alternative" href="/atom.xml" title="閃亮亮大師之路" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="閃亮亮大師之路" title="閃亮亮大師之路"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="閃亮亮大師之路">閃亮亮大師之路</a></h1>
+				<h2 class="blog-motto">程式學習心得筆記</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.dj1020.net">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/Laradiner讀書會-SOLID-原則(5)-Dependency-Inversion-Principle/" title="Laradiner讀書會 - SOLID 原則(5) Dependency Inversion Principle 依頼反轉原則" itemprop="url">Laradiner讀書會 - SOLID 原則(5) Dependency Inversion Principle 依頼反轉原則</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="閃亮亮dj" target="_blank" itemprop="author">閃亮亮dj</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-19T11:30:03.000Z" itemprop="datePublished"> 發表於 2016-07-19</time>
+  </p>
+
+  
+    <div class="article-share clearfix" id="share">
+    
+      <div data-url="http://blog.dj1020.net/Laradiner讀書會-SOLID-原則(5)-Dependency-Inversion-Principle/" data-title="Laradiner讀書會 - SOLID 原則(5) Dependency Inversion Principle 依頼反轉原則 | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+      </div>
+    
+    </div>
+  
+
+</header>
+	<div class="article-content">
+		
+		<h4 id="u904E_u7A0B_u6709_u554F_u984C_u53EF_u5230_Laravel__u53F0_u7063_u81C9_u66F8_u793E_u5718__u767C_u554F"><a href="#u904E_u7A0B_u6709_u554F_u984C_u53EF_u5230_Laravel__u53F0_u7063_u81C9_u66F8_u793E_u5718__u767C_u554F" class="headerlink" title="過程有問題可到 Laravel 台灣臉書社團 發問"></a>過程有問題可到 <a href="https://www.facebook.com/groups/laravel.tw/" target="_blank" rel="external">Laravel 台灣臉書社團</a> 發問</h4><h2 id="u4F9D_u8CF4_u53CD_u8F49_u539F_u5247__28DIP_-_Dependency_Inversion_Principle_29"><a href="#u4F9D_u8CF4_u53CD_u8F49_u539F_u5247__28DIP_-_Dependency_Inversion_Principle_29" class="headerlink" title="依賴反轉原則 (DIP - Dependency Inversion Principle)"></a>依賴反轉原則 (DIP - Dependency Inversion Principle)</h2><ul>
+<li>節錄自 Laravel: From Apprentice To Artisan - Advanced Architecture With Laravel 4 書中：</li>
+</ul>
+<blockquote>
+<p>Dependency Inversion principle, it states that high-level code should not depend on low-level code. Instead, high-level code should depend on an abstraction layer that serves as a “middle-man” between the high and low-level code.</p>
+</blockquote>
+<ul>
+<li>依賴反轉原則，「高階的」程式碼不應該依賴於「低階的」程式碼，「高階的」程式碼應當依賴於一個「抽象層」做為「高階」程式碼和「低階」程式碼溝通的「中間人」。</li>
+</ul>
+<blockquote>
+<p>Abstractions should not depend upon details, but rather details should depend upon abstractions.</p>
+</blockquote>
+<ul>
+<li>另一種說法是，「抽象」不應當依賴於「實作細節」，反之，「實作細節」應該依賴於「抽象」</li>
+</ul>
+<p><br><br><br><br><br></p>
+<h3 id="u53CD_u4F8B1_uFF1A_u300C_u62BD_u8C61_u300D_u4F9D_u8CF4_u65BC_u300C_u5BE6_u4F5C_u7D30_u7BC0_u300D"><a href="#u53CD_u4F8B1_uFF1A_u300C_u62BD_u8C61_u300D_u4F9D_u8CF4_u65BC_u300C_u5BE6_u4F5C_u7D30_u7BC0_u300D" class="headerlink" title="反例1：「抽象」依賴於「實作細節」"></a>反例1：「抽象」依賴於「實作細節」</h3><ul>
+<li>人開跑車 - <a href="http://www.nadaguides.com/Cars/Body-styles" target="_blank" rel="external">http://www.nadaguides.com/Cars/Body-styles</a></li>
+<li>人 – 「抽象」</li>
+<li>跑車 – 「實作細節」</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">drive</span><span class="params">(SportsCar <span class="variable">$sportCar</span>)</span> </span>&#123;</span><br><span class="line">        <span class="variable">$sportCar</span>-&gt;run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SportsCar</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        var_dump(<span class="string">'Sport car is running.'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$someone</span> = <span class="keyword">new</span> Person();</span><br><span class="line"><span class="variable">$someSportCar</span> = <span class="keyword">new</span> SportsCar();</span><br><span class="line"><span class="variable">$someone</span>-&gt;drive(<span class="variable">$someSportCar</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="u9055_u53CD_u4E86_DIP__u539F_u5247_uFF0C_u6240_u4EE5_u7A0B_u5F0F_u5931_u53BB_u5F48_u6027_uFF0C_u4EBA__u53EA_u80FD_u5920_u958B__u8DD1_u8ECA_uFF0C_u4E0D_u80FD_u958B_u5176_u4ED6_u7A2E_u8ECA_u3002"><a href="#u9055_u53CD_u4E86_DIP__u539F_u5247_uFF0C_u6240_u4EE5_u7A0B_u5F0F_u5931_u53BB_u5F48_u6027_uFF0C_u4EBA__u53EA_u80FD_u5920_u958B__u8DD1_u8ECA_uFF0C_u4E0D_u80FD_u958B_u5176_u4ED6_u7A2E_u8ECA_u3002" class="headerlink" title="違反了 DIP 原則，所以程式失去彈性，人 只能夠開 跑車，不能開其他種車。"></a>違反了 DIP 原則，所以程式失去彈性，<strong>人</strong> 只能夠開 <strong>跑車</strong>，不能開其他種車。</h4><blockquote>
+<p>那魯宅和肥蛇怎麼辦？逃~~</p>
+</blockquote>
+<ul>
+<li>人 – 「高階」、「抽象」</li>
+<li>爸爸 – 「低階」、「實作」</li>
+<li>跑車 – 「低階」、「實作」</li>
+<li>車 – 「高階」、「抽象」</li>
+</ul>
+<h4 id="u9AD8_u3001_u4F4E_u968E_u662F_u76F8_u5C0D_u6BD4_u8F03_u4F86_u7684"><a href="#u9AD8_u3001_u4F4E_u968E_u662F_u76F8_u5C0D_u6BD4_u8F03_u4F86_u7684" class="headerlink" title="高、低階是相對比較來的"></a>高、低階是相對比較來的</h4><p><br></p>
+<blockquote>
+<p>不太明白？沒關係，再舉個更常見實戰的例子</p>
+</blockquote>
+<p><br><br><br><br><br><br><br></p>
+<h3 id="u53CD_u4F8B2_uFF1A_u300C_u62BD_u8C61_u300D_u4F9D_u8CF4_u65BC_u300C_u5BE6_u4F5C_u7D30_u7BC0_u300D_u4E4B_u8CFC_u7269_u8ECA_u7BC4_u4F8B"><a href="#u53CD_u4F8B2_uFF1A_u300C_u62BD_u8C61_u300D_u4F9D_u8CF4_u65BC_u300C_u5BE6_u4F5C_u7D30_u7BC0_u300D_u4E4B_u8CFC_u7269_u8ECA_u7BC4_u4F8B" class="headerlink" title="反例2：「抽象」依賴於「實作細節」之購物車範例"></a>反例2：「抽象」依賴於「實作細節」之購物車範例</h3><ul>
+<li>購物車結帳，用信用卡付費</li>
+<li>購物車 – 「抽象」、「高階」</li>
+<li>信用卡 – 「實作」、「低階」</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ShoppingCart</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$items</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">checkout</span><span class="params">(CreditCard <span class="variable">$card</span>)</span> </span>&#123;</span><br><span class="line">        <span class="variable">$amount</span> = <span class="variable">$this</span>-&gt;calculateAmount(<span class="variable">$this</span>-&gt;items);</span><br><span class="line"></span><br><span class="line">        <span class="variable">$card</span>-&gt;pay(<span class="variable">$amount</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CreditCard</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">pay</span><span class="params">(<span class="variable">$amount</span>)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ... 執行信用卡付款流程</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>這個購物車類別，只能使用信用卡結帳。</li>
+<li>購物車類別「依賴於」信用卡類別，高階的<code>購物車</code>依賴於低階的<code>信用卡</code>類別。</li>
+</ul>
+<p><br><br><br><br><br></p>
+<h2 id="u5982_u4F55_u300C_u53CD_u8F49_u300D_u4F9D_u8CF4_u95DC_u4FC2_uFF1F"><a href="#u5982_u4F55_u300C_u53CD_u8F49_u300D_u4F9D_u8CF4_u95DC_u4FC2_uFF1F" class="headerlink" title="如何「反轉」依賴關係？"></a>如何「反轉」依賴關係？</h2><ul>
+<li>製作一個「抽象層」，讓「高階」、「低階」都依賴於「抽象層」，舉例：</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Payment.php 抽象層</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Payment</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">pay</span><span class="params">(<span class="variable">$amount</span>)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<ul>
+<li>改寫，讓高階程式「購物車類別<code>ShoppingCart</code>」依賴於「抽象層」<code>Payment</code> 類別</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ShoppintCart.php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ShoppingCart</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$items</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">checkout</span><span class="params">(Payment <span class="variable">$payment</span>)</span> </span>&#123;   <span class="comment">// &lt;---- 這裡改寫</span></span><br><span class="line">        <span class="variable">$amount</span> = <span class="variable">$this</span>-&gt;calculateAmount(<span class="variable">$this</span>-&gt;items);</span><br><span class="line"></span><br><span class="line">        <span class="variable">$payment</span>-&gt;pay(<span class="variable">$amount</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<ul>
+<li>改寫，讓低階實作「信用卡類別<code>CreditCard</code>」也依賴於「抽象層」<code>Payment</code> 類別</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CreditCard.php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CreditCard</span> <span class="keyword">implements</span> <span class="title">Payment</span> </span>&#123;  <span class="comment">// &lt;---- 這裡改寫</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">pay</span><span class="params">(<span class="variable">$amount</span>)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ... 執行信用卡付款流程</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="u4F9D_u8CF4_u53CD_u8F49_u5B8C_u6210_uFF01"><a href="#u4F9D_u8CF4_u53CD_u8F49_u5B8C_u6210_uFF01" class="headerlink" title="依賴反轉完成！"></a>依賴反轉完成！</h4><ul>
+<li>好處：可以抽換「抽象層」的實作類別，系統彈性 Up! Up!</li>
+<li>遵循 DIP 原則，通常同時也會符合「<a href="http://blog.dj1020.net/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83-SOLID-%E5%8E%9F%E5%89%87(2)-Open-Closed-2016-03-03/">OCP 開放封閉原則</a>」，增加一個付款方式，<code>ShoppingCart</code> 中一行程式碼都不用改，生產力倍增。</li>
+<li>舉例：</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ATMPayment.php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ATMPayment</span> <span class="keyword">implements</span> <span class="title">Payment</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">pay</span><span class="params">(<span class="variable">$amount</span>)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ... 執行 ATM 付款流程</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>搭配「簡單工廠」模式來負責產生 <code>Payment</code> 的低階實作物件</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PaymentFactory.php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PaymentFactory</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">choose</span><span class="params">(<span class="variable">$paymentType</span>)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (<span class="variable">$paymentType</span>) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'ATM'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> ATMPayment();</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'Card'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> CreditCard();</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// checkout.php</span></span><br><span class="line"><span class="variable">$cart</span> = <span class="keyword">new</span> ShoppingCart();</span><br><span class="line"><span class="variable">$payment</span> = PaymentFactory::choose(<span class="variable">$_POST</span>[<span class="string">'paymentType'</span>]);</span><br><span class="line"><span class="variable">$cart</span>-&gt;checkout(<span class="variable">$payment</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>好處：如果再增加第三種付款方式，<code>ShoppingCart</code> 類別完全不需要修改！只要在工廠中增加一種 case 就可以了。</li>
+<li>壞處：如果 interface <code>Payment</code> 定的不好，或是考慮的不夠通用、沒有延展性，之後要修改介面會很麻煩。</li>
+</ul>
+<p><br><br><br><br><br></p>
+<h3 id="u73FE_u5728_u7684_u4F9D_u8CF4_u95DC_u4FC2_u8B8A_u6210_u2026"><a href="#u73FE_u5728_u7684_u4F9D_u8CF4_u95DC_u4FC2_u8B8A_u6210_u2026" class="headerlink" title="現在的依賴關係變成…"></a>現在的依賴關係變成…</h3><ul>
+<li><code>ShoppingCart</code>類別 依賴於 <code>Payment</code></li>
+<li><code>CreditCard</code>類別 依賴於 <code>Payment</code></li>
+<li><code>ATMPayment</code>類別 也依賴於 <code>Payment</code></li>
+<li><code>Payment</code> 做為金流付款的抽象層，定義共同的 API，要結帳就要實作 <code>pay</code> 這隻 API。</li>
+</ul>
+<blockquote>
+<p>註： 單一職責原則，不要把「建立物件」的責任交給 ShoppingCart，會讓你好寫非常多！</p>
+</blockquote>
+<p><br><br><br><br><br><br><br><br><br></p>
+<h2 id="u4F86_u628A_u53CD_u4F8B1__u4E5F_u53CD_u8F49_u904E_u4F86_uFF0C_u63DB_u6210_u8907_u96DC_u4E00_u9EDE_u7684_u60C5_u6CC1"><a href="#u4F86_u628A_u53CD_u4F8B1__u4E5F_u53CD_u8F49_u904E_u4F86_uFF0C_u63DB_u6210_u8907_u96DC_u4E00_u9EDE_u7684_u60C5_u6CC1" class="headerlink" title="來把反例1 也反轉過來，換成複雜一點的情況"></a>來把反例1 也反轉過來，換成複雜一點的情況</h2><ul>
+<li>並不是家裡每個人都會開車，只有爸爸、媽媽會開，弟弟不會開車…</li>
+<li>假設家中有兩台車，一台 <code>Toyota</code>，另一台 <code>Honda</code>，開的方式都一樣</li>
+</ul>
+<blockquote>
+<p>開始反轉吧！</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">eat</span><span class="params">(<span class="variable">$food</span>)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ... 不重要，就是身為一個人會做的事</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>怎麼用程式表達「爸爸」、「媽媽」會開車，「弟弟」不會呢？</li>
+<li>只有需要實作 <code>CanDrive</code> 的 <code>Person</code> 才會依賴於 <code>Car</code></li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">boot</span><span class="params">(<span class="variable">$key</span>)</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">(<span class="variable">$speed</span>)</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">turn</span><span class="params">(<span class="variable">$direction</span>)</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">park</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">CanDrive</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">drive</span><span class="params">(Car <span class="variable">$car</span>)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span> <span class="keyword">extends</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">CanDrive</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">drive</span><span class="params">(Car <span class="variable">$car</span>)</span> </span>&#123;</span><br><span class="line">        <span class="variable">$car</span>-&gt;boot(<span class="variable">$this</span>-&gt;carKey);</span><br><span class="line">        <span class="variable">$car</span>-&gt;run(<span class="number">100</span>);</span><br><span class="line">        <span class="variable">$car</span>-&gt;run(<span class="number">20</span>);</span><br><span class="line">        <span class="variable">$car</span>-&gt;turn(<span class="string">'left'</span>);</span><br><span class="line">        <span class="variable">$car</span>-&gt;park();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">YoungBrother</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 略，沒有 drive 的能力</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br><br><br><br><br></p>
+<ul>
+<li>現在來看怎麼讓車子的實作依賴於「抽象」<code>Car</code> 介面</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Toyota</span> <span class="keyword">implements</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">boot</span><span class="params">(<span class="variable">$key</span>)</span> </span>&#123; <span class="comment">/* 略… */</span> &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">(<span class="variable">$speed</span>)</span> </span>&#123; <span class="comment">/* 略… */</span> &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">turn</span><span class="params">(<span class="variable">$direction</span>)</span> </span>&#123; <span class="comment">/* 略… */</span> &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">park</span><span class="params">()</span> </span>&#123; <span class="comment">/* 略… */</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Honda</span> <span class="keyword">implements</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">boot</span><span class="params">(<span class="variable">$key</span>)</span> </span>&#123; <span class="comment">/* 略… */</span> &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">(<span class="variable">$speed</span>)</span> </span>&#123; <span class="comment">/* 略… */</span> &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">turn</span><span class="params">(<span class="variable">$direction</span>)</span> </span>&#123; <span class="comment">/* 略… */</span> &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">park</span><span class="params">()</span> </span>&#123; <span class="comment">/* 略… */</span> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br><br><br><br><br><br><br></p>
+<ul>
+<li>但如果爸爸是回到未來裡的博士，發明的車子可以做時光旅行…</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TimeTravelCar</span> <span class="keyword">implements</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">boot</span><span class="params">(<span class="variable">$key</span>)</span> </span>&#123; <span class="comment">/* 略... */</span> &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">(<span class="variable">$speed</span>)</span> </span>&#123; <span class="comment">/* 略... */</span> &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">turn</span><span class="params">(<span class="variable">$direction</span>)</span> </span>&#123; <span class="comment">/* 略... */</span> &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">park</span><span class="params">()</span> </span>&#123; <span class="comment">/* 略... */</span> &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 除了基本功能，還可以做時光旅行</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">timeTravel</span><span class="params">(<span class="variable">$year</span>, <span class="variable">$month</span>, <span class="variable">$day</span>, <span class="variable">$time</span>)</span> </span>&#123; <span class="comment">/* 略... */</span> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br><br><br><br><br><br><br></p>
+<h3 id="u898B_u4E0B_u65B9_u7A0B_u5F0F_u78BC_uFF0C_u9019_u6A23_u5BEB_u53EF_u4E0D_u53EF_u4EE5_uFF1F"><a href="#u898B_u4E0B_u65B9_u7A0B_u5F0F_u78BC_uFF0C_u9019_u6A23_u5BEB_u53EF_u4E0D_u53EF_u4EE5_uFF1F" class="headerlink" title="見下方程式碼，這樣寫可不可以？"></a>見下方程式碼，這樣寫可不可以？</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span> <span class="keyword">extends</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">timeTravel</span><span class="params">(Car <span class="variable">$timeTravelCar</span>, <span class="variable">$dateObj</span>)</span> </span>&#123;</span><br><span class="line">        <span class="variable">$timeTravelCar</span>-&gt;timeTravel(<span class="variable">$dateObj</span>-&gt;year, <span class="variable">$dateObj</span>-&gt;month, <span class="variable">$dateObj</span>-&gt;day, <span class="variable">$dateObj</span>-&gt;time);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$specialCar</span> = <span class="keyword">new</span> TimeTravelCar();</span><br><span class="line"><span class="variable">$father</span> = <span class="keyword">new</span> Father();</span><br><span class="line"><span class="variable">$father</span>-&gt;timeTravel(<span class="variable">$specialCar</span>, <span class="keyword">new</span> MarriageDate(<span class="string">"2013-09-20 12:00:00"</span>));</span><br></pre></td></tr></table></figure>
+<p><br><br><br><br><br><br><br></p>
+<font size="+2"><br>- 以程式語法上來說是會通過的，但這是因為 PHP 是「弱型別」語言<br>- <strong>試想，如果是「強型別」的語言的話…</strong><br></font>
+
+<p><br><br><br><br><br><br><br><br><br></p>
+<h4 id="u9019_u9023_Compile__u90FD_u4E0D_u6703_u904E_uFF0C_u56E0_u70BA_Car__u4ECB_u9762_u4E2D_uFF0C_u4E26_u6C92_u6709_u4E00_u500B_u53EB_timeTravel_28_29__u7684_u65B9_u6CD5_uFF01"><a href="#u9019_u9023_Compile__u90FD_u4E0D_u6703_u904E_uFF0C_u56E0_u70BA_Car__u4ECB_u9762_u4E2D_uFF0C_u4E26_u6C92_u6709_u4E00_u500B_u53EB_timeTravel_28_29__u7684_u65B9_u6CD5_uFF01" class="headerlink" title="這連 Compile 都不會過，因為 Car 介面中，並沒有一個叫 timeTravel() 的方法！"></a>這連 Compile 都不會過，因為 <code>Car</code> 介面中，並沒有一個叫 <code>timeTravel()</code> 的方法！</h4><p><br><br><br><br><br><br><br><br><br></p>
+<ul>
+<li>那怎麼辦？老爸自己辛苦製造的時光車就不能開了嗎？</li>
+<li>解：</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">CanTimeTravel</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">timeTravel</span><span class="params">(TimeTravelCar <span class="variable">$specialCar</span>)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span> <span class="keyword">extends</span> <span class="title">Parent</span> <span class="keyword">implements</span> <span class="title">CanTimeTravel</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">timeTravel</span><span class="params">(TimeTravelCar <span class="variable">$specialCar</span>, <span class="variable">$dateObj</span>)</span> </span>&#123;</span><br><span class="line">        <span class="variable">$specialCar</span>-&gt;timeTravel(<span class="variable">$dateObj</span>-&gt;year, <span class="variable">$dateObj</span>-&gt;month, <span class="variable">$dateObj</span>-&gt;day, <span class="variable">$dateObj</span>-&gt;time);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>沒錯，這邊「違反了<code>依賴反轉原則</code>」，但我是有個好理由去違反的，<code>TimeTravelCar</code> 這種車是獨一無二的，它在平時和一般車無異，但在進行時光旅行<code>timeTravel</code> 的時候，我百分百肯定這是無法抽換成別的一般車，所以這邊閃亮亮覺得可以不需要再提取 interface。</li>
+<li>當然，如果你還是想按照教科書教的方式，給 <code>TimeTravelCar</code> 一個自己的「抽象層」也不是不行，但閃亮亮會覺得這樣就有點「過度設計(over-design)」了</li>
+</ul>
+<h2 id="u66F8_u4E2D_u7BC4_u4F8B_u89E3_u8AAA"><a href="#u66F8_u4E2D_u7BC4_u4F8B_u89E3_u8AAA" class="headerlink" title="書中範例解說"></a>書中範例解說</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Authenticator</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(DatabaseConnection <span class="variable">$db</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;db = <span class="variable">$db</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">findUser</span><span class="params">(<span class="variable">$id</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable">$this</span>-&gt;db-&gt;exec(<span class="string">'select * from users where id = ?'</span>, <span class="keyword">array</span>(<span class="variable">$id</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">authenticate</span><span class="params">(<span class="variable">$credentials</span>)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="comment">// Authenticate the user...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>誰是「高階」程式碼？ 誰是「低階」程式碼？</li>
+<li>這個範例有符合 DIP 原則嗎？</li>
+</ul>
+<h3 id="u600E_u9EBC_u89E3_uFF1F__u7576_u56DE_u5BB6_u4F5C_u696D_u7DF4_u7FD2_u770B_u770B_u5427_7E_7E_7E"><a href="#u600E_u9EBC_u89E3_uFF1F__u7576_u56DE_u5BB6_u4F5C_u696D_u7DF4_u7FD2_u770B_u770B_u5427_7E_7E_7E" class="headerlink" title="怎麼解？ 當回家作業練習看看吧~~~"></a>怎麼解？ 當回家作業練習看看吧~~~</h3><ul>
+<li>真的拿書來看啊~ 解答就在上面</li>
+<li>才兩、三頁而已，練練英文閱讀吧，用字都不難。</li>
+</ul>
+<p><br><br><br><br><br><br><br><br><br></p>
+<h2 id="u9583_u4EAE_u4EAE_u5C0F_u7D50"><a href="#u9583_u4EAE_u4EAE_u5C0F_u7D50" class="headerlink" title="閃亮亮小結"></a>閃亮亮小結</h2><p>到了本書的最後一個章節，總算是把 SOLID 全部介紹完了，如果這次範例的程式碼對你太過「抽象」，沒關係，把 SOLID 的前面 4 式練好，你自然就會練成第 5 式「依賴反轉原則」，詳見星爺電影&lt;&lt;武狀元蘇乞兒&gt;&gt;。閃亮亮覺得遵循 <code>DIP 依賴反轉原則</code>，是最容易寫出具備<code>高度彈性</code>、<code>高可測試性</code>的程式碼，話說回來，也比較麻煩一些。我是指，如果你是新手，對編輯器的操作還不熟，光是開 interface、每個職責建一個 class，在不同檔案間切換的操作等等都是用滑鼠來點擊的話。那我想 DIP 離你還很遠，主要是因為搞這些太累了。先找一個好用的工具，如 <code>PhpStorm</code>、<code>Sublime Text</code> 練熟操作之後再說。</p>
+<p>閃亮亮覺得 DIP 原則，是嚴格遵循 <a href="http://blog.dj1020.net/Laradiner%E8%AE%80%E6%9B%B8%E6%9C%83-SOLID-%E5%8E%9F%E5%89%87(2)-Open-Closed-2016-03-03/">OCP 開放封閉原則</a> 會得到的必然結果，平時也沒特別在留意自己的 Code 有沒有符合，但會不斷的檢視自己的 Code 是否能夠在應付變化之下，只要修改一個小小的部份就能支援可能新的需求，也要避免 over design。套一句鐵哥(大澤木小鐵)說的：「為明天的需求設計，但不要為明年的設計」，共勉之~</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Laradiner讀書會/">Laradiner讀書會</a><a href="/tags/程式學習/">程式學習</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.dj1020.net/Laradiner讀書會-SOLID-原則(5)-Dependency-Inversion-Principle/" data-title="Laradiner讀書會 - SOLID 原則(5) Dependency Inversion Principle 依頼反轉原則 | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/Test-Corner-講座-4-Proko談Mobile_App_Testing@極客窩/"  title="Test Corner 講座#4 - Proko談Mobile App Testing@極客窩">
+ <strong>下一篇：</strong><br/> 
+ <span>Test Corner 講座#4 - Proko談Mobile App Testing@極客窩
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目錄</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#u904E_u7A0B_u6709_u554F_u984C_u53EF_u5230_Laravel__u53F0_u7063_u81C9_u66F8_u793E_u5718__u767C_u554F"><span class="toc-number">1.</span> <span class="toc-text">過程有問題可到 Laravel 台灣臉書社團 發問</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F9D_u8CF4_u53CD_u8F49_u539F_u5247__28DIP_-_Dependency_Inversion_Principle_29"><span class="toc-number"></span> <span class="toc-text">依賴反轉原則 (DIP - Dependency Inversion Principle)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u53CD_u4F8B1_uFF1A_u300C_u62BD_u8C61_u300D_u4F9D_u8CF4_u65BC_u300C_u5BE6_u4F5C_u7D30_u7BC0_u300D"><span class="toc-number"></span> <span class="toc-text">反例1：「抽象」依賴於「實作細節」</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u9055_u53CD_u4E86_DIP__u539F_u5247_uFF0C_u6240_u4EE5_u7A0B_u5F0F_u5931_u53BB_u5F48_u6027_uFF0C_u4EBA__u53EA_u80FD_u5920_u958B__u8DD1_u8ECA_uFF0C_u4E0D_u80FD_u958B_u5176_u4ED6_u7A2E_u8ECA_u3002"><span class="toc-number">1.</span> <span class="toc-text">違反了 DIP 原則，所以程式失去彈性，人 只能夠開 跑車，不能開其他種車。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u9AD8_u3001_u4F4E_u968E_u662F_u76F8_u5C0D_u6BD4_u8F03_u4F86_u7684"><span class="toc-number">2.</span> <span class="toc-text">高、低階是相對比較來的</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u53CD_u4F8B2_uFF1A_u300C_u62BD_u8C61_u300D_u4F9D_u8CF4_u65BC_u300C_u5BE6_u4F5C_u7D30_u7BC0_u300D_u4E4B_u8CFC_u7269_u8ECA_u7BC4_u4F8B"><span class="toc-number"></span> <span class="toc-text">反例2：「抽象」依賴於「實作細節」之購物車範例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5982_u4F55_u300C_u53CD_u8F49_u300D_u4F9D_u8CF4_u95DC_u4FC2_uFF1F"><span class="toc-number"></span> <span class="toc-text">如何「反轉」依賴關係？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u4F9D_u8CF4_u53CD_u8F49_u5B8C_u6210_uFF01"><span class="toc-number">1.</span> <span class="toc-text">依賴反轉完成！</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u73FE_u5728_u7684_u4F9D_u8CF4_u95DC_u4FC2_u8B8A_u6210_u2026"><span class="toc-number"></span> <span class="toc-text">現在的依賴關係變成…</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F86_u628A_u53CD_u4F8B1__u4E5F_u53CD_u8F49_u904E_u4F86_uFF0C_u63DB_u6210_u8907_u96DC_u4E00_u9EDE_u7684_u60C5_u6CC1"><span class="toc-number"></span> <span class="toc-text">來把反例1 也反轉過來，換成複雜一點的情況</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u898B_u4E0B_u65B9_u7A0B_u5F0F_u78BC_uFF0C_u9019_u6A23_u5BEB_u53EF_u4E0D_u53EF_u4EE5_uFF1F"><span class="toc-number"></span> <span class="toc-text">見下方程式碼，這樣寫可不可以？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u9019_u9023_Compile__u90FD_u4E0D_u6703_u904E_uFF0C_u56E0_u70BA_Car__u4ECB_u9762_u4E2D_uFF0C_u4E26_u6C92_u6709_u4E00_u500B_u53EB_timeTravel_28_29__u7684_u65B9_u6CD5_uFF01"><span class="toc-number">1.</span> <span class="toc-text">這連 Compile 都不會過，因為 Car 介面中，並沒有一個叫 timeTravel() 的方法！</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u66F8_u4E2D_u7BC4_u4F8B_u89E3_u8AAA"><span class="toc-number"></span> <span class="toc-text">書中範例解說</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u600E_u9EBC_u89E3_uFF1F__u7576_u56DE_u5BB6_u4F5C_u696D_u7DF4_u7FD2_u770B_u770B_u5427_7E_7E_7E"><span class="toc-number"></span> <span class="toc-text">怎麼解？ 當回家作業練習看看吧~~~</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u9583_u4EAE_u4EAE_u5C0F_u7D50"><span class="toc-number"></span> <span class="toc-text">閃亮亮小結</span></a>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分類</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Hexo-筆記/" title="Hexo 筆記">Hexo 筆記<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程式筆記/" title="程式筆記">程式筆記<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/筆記/" title="筆記">筆記<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP-Conf/" title="PHP Conf">PHP Conf<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程式學習/" title="程式學習">程式學習<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner讀書會/" title="Laradiner讀書會">Laradiner讀書會<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP也有Day/" title="PHP也有Day">PHP也有Day<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Bootstrap/" title="Bootstrap">Bootstrap<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Test-Corner/" title="Test Corner">Test Corner<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TDD/" title="TDD">TDD<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/設計模式/" title="設計模式">設計模式<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/curl/" title="curl">curl<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/講座/" title="講座">講座<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner/" title="Laradiner">Laradiner<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Install/" title="Install">Install<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情鏈接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://oomusou.io/" target="_blank" title="Sam&#39;s 點燈坊">Sam&#39;s 點燈坊</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://jaceju.net/" target="_blank" title="鐵哥 JaceJu&#39;s Blog">鐵哥 JaceJu&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Ken Lin in Cloud Interactive. <br/>
+			This is my blog, believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="閃亮亮dj">閃亮亮dj</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+  <!-- Google Tag Manager -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-M3DVW3"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-M3DVW3');</script>
+  <!-- End Google Tag Manager -->
+</html>
+
