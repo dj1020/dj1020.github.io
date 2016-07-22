@@ -4,7 +4,7 @@
   <subtitle><![CDATA[程式學習心得筆記]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.dj1020.net/"/>
-  <updated>2016-07-22T02:20:45.000Z</updated>
+  <updated>2016-07-22T02:32:30.000Z</updated>
   <id>http://blog.dj1020.net/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://blog.dj1020.net/PHP%E4%B9%9F%E6%9C%89day-26_REST_API_%E8%88%87%E5%89%8D%E7%AB%AF%E6%95%B4%E5%90%88%E4%B9%8B%E8%B8%A9%E9%9B%B7%E5%BF%83%E5%BE%97/"/>
     <id>http://blog.dj1020.net/PHP也有day-26_REST_API_與前端整合之踩雷心得/</id>
     <published>2016-07-21T11:30:34.000Z</published>
-    <updated>2016-07-22T02:20:45.000Z</updated>
+    <updated>2016-07-22T02:32:30.000Z</updated>
     <content type="html"><![CDATA[<h2 id="REST_API_Design"><a href="#REST_API_Design" class="headerlink" title="REST API Design"></a>REST API Design</h2><h3 id="Representational_State_Transfer_API"><a href="#Representational_State_Transfer_API" class="headerlink" title="Representational State Transfer API"></a>Representational State Transfer API</h3><ul>
 <li>要求(建議風格)：<ul>
 <li>Client-Server (Request-Response) 一個請求一個回應</li>
@@ -95,7 +95,7 @@
 <li><p>Ajax Crawling (Google 提出)</p>
 <ul>
 <li>有 <code>#!</code> 的 url</li>
-<li>會被置換成 … 見<a href="/test">投影片</a></li>
+<li>會被置換成 … 見<a href="https://docs.google.com/presentation/d/1l8O_5UpWGvfe2lhPjSa8CUbCFIPkFohV0HiJGUqAzec/pub?start=false&amp;loop=false&amp;delayms=3000&amp;slide=id.g15decbfd0a_1_69" target="_blank" rel="external">投影片</a></li>
 <li>寫一個 url rewrite 導向到一個 SSR 的 entry point, 如：<a href="http://example.com/crawler.php" target="_blank" rel="external">http://example.com/crawler.php</a></li>
 <li>專門給 Search Engine 抓網站用的</li>
 </ul>
@@ -211,7 +211,7 @@
 <li>token 就不會受同源政策引響，所以建議用 <code>Authorization token</code> 取代 <code>Cookie</code></li>
 </ul>
 <h2 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h2><ul>
-<li><p>結構，見<a href="/test">投影片</a></p>
+<li><p>結構，見<a href="https://docs.google.com/presentation/d/1l8O_5UpWGvfe2lhPjSa8CUbCFIPkFohV0HiJGUqAzec/pub?start=false&amp;loop=false&amp;delayms=3000&amp;slide=id.g15decbfd0a_1_69" target="_blank" rel="external">投影片</a></p>
 <ul>
 <li>Header : 加密法，類別</li>
 <li>Payload : Request Body</li>
@@ -244,7 +244,7 @@
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$serializr</span>-&gt;serialize(<span class="variable">$data</span>, <span class="string">'xml'</span>);</span><br><span class="line"><span class="variable">$serializr</span>-&gt;serialize(<span class="variable">$data</span>, <span class="string">'json'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// $data 可以丟各種格式進來！自動測！</span></span><br><span class="line"><span class="comment">// 也可以混合格式，有的是 array，有的是 object 都可以解</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$serializr</span>-&gt;deserialize(<span class="variable">$jsonData</span>, <span class="string">'MyNamespace\MyObject'</span>, <span class="string">'json'</span>);</span><br><span class="line"><span class="comment">// 用 Annotations Configure</span></span><br><span class="line"><span class="comment">// 範例見 [投影片] /** @AccessType() */</span></span><br><span class="line"><span class="comment">// 範例見 [投影片] /** @Accessor() */</span></span><br><span class="line"><span class="comment">// 範例見 [投影片] /**</span></span><br><span class="line"><span class="comment">//              * @VirtualProperty</span></span><br><span class="line"><span class="comment">//              * @???</span></span><br><span class="line"><span class="comment">//              */</span></span><br></pre></td></tr></table></figure>
 <ul>
-<li>實在太神了，又很多實際範例，請看<a href="/test">投影片</a>，有種相見恨晚的 feel 啊，真是非常感謝 Ricky 大大把私家秘技都拿出來分享給大家，講得又超好，請受閃亮亮一拜。</li>
+<li>實在太神了，又很多實際範例，請看<a href="https://docs.google.com/presentation/d/1l8O_5UpWGvfe2lhPjSa8CUbCFIPkFohV0HiJGUqAzec/pub?start=false&amp;loop=false&amp;delayms=3000&amp;slide=id.g15decbfd0a_1_69" target="_blank" rel="external">投影片</a>，有種相見恨晚的 feel 啊，真是非常感謝 Ricky 大大把私家秘技都拿出來分享給大家，講得又超好，請受閃亮亮一拜。</li>
 </ul>
 <h2 id="High_Performance_Server__28PHP__u6548_u80FD_Server_-_PPM_29"><a href="#High_Performance_Server__28PHP__u6548_u80FD_Server_-_PPM_29" class="headerlink" title="High Performance Server (PHP 效能 Server - PPM)"></a>High Performance Server (PHP 效能 Server - PPM)</h2><ul>
 <li>PPM (PHP Process Manager) <a href="https://github.com/php-pm/php-pm" target="_blank" rel="external">https://github.com/php-pm/php-pm</a></li>
@@ -273,7 +273,7 @@
 <ul>
 <li>PHP 有一些 memory leak 的問題，用 Singleton 方式會有問題，但了不起重啟</li>
 <li>目前只有針對 Laravel / Symfony 才行</li>
-<li>可以用 NGINX 做轉送，設定見<a href="/test">投影片</a></li>
+<li>可以用 NGINX 做轉送，設定見<a href="https://docs.google.com/presentation/d/1l8O_5UpWGvfe2lhPjSa8CUbCFIPkFohV0HiJGUqAzec/pub?start=false&amp;loop=false&amp;delayms=3000&amp;slide=id.g15decbfd0a_1_69" target="_blank" rel="external">投影片</a></li>
 </ul>
 </li>
 <li><p>Usage:</p>
