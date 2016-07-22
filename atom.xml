@@ -4,7 +4,7 @@
   <subtitle><![CDATA[程式學習心得筆記]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://blog.dj1020.net/"/>
-  <updated>2016-07-19T06:26:38.000Z</updated>
+  <updated>2016-07-22T02:20:45.000Z</updated>
   <id>http://blog.dj1020.net/</id>
   
   <author>
@@ -13,6 +13,286 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[PHP 也有 Day #26 - REST API 與前端整合之踩雷心得@RickySu]]></title>
+    <link href="http://blog.dj1020.net/PHP%E4%B9%9F%E6%9C%89day-26_REST_API_%E8%88%87%E5%89%8D%E7%AB%AF%E6%95%B4%E5%90%88%E4%B9%8B%E8%B8%A9%E9%9B%B7%E5%BF%83%E5%BE%97/"/>
+    <id>http://blog.dj1020.net/PHP也有day-26_REST_API_與前端整合之踩雷心得/</id>
+    <published>2016-07-21T11:30:34.000Z</published>
+    <updated>2016-07-22T02:20:45.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="REST_API_Design"><a href="#REST_API_Design" class="headerlink" title="REST API Design"></a>REST API Design</h2><h3 id="Representational_State_Transfer_API"><a href="#Representational_State_Transfer_API" class="headerlink" title="Representational State Transfer API"></a>Representational State Transfer API</h3><ul>
+<li>要求(建議風格)：<ul>
+<li>Client-Server (Request-Response) 一個請求一個回應</li>
+<li>Stateless 通信狀態全部由客戶端維護</li>
+<li>Cache 快取，可以在過程中被 Cache 起來</li>
+<li>Uniform Interface 統一接口相互通信，提高交互的可見性</li>
+<li>Layered System 將架構分解為若干等級的 layer</li>
+<li>Code-On-Demand (optional) 可以傳送程式碼給客戶端執行</li>
+</ul>
+</li>
+</ul>
+<h3 id="CRUD"><a href="#CRUD" class="headerlink" title="CRUD"></a>CRUD</h3><pre><code>- POST 新增資料
+- GET 讀取資料
+- PUT 更新資料
+- DELETE 刪除資料
+</code></pre><ul>
+<li>GET<ul>
+<li>沒有寫入動作</li>
+<li>idempotent 可以重複呼叫，不影響結果。其實 delete 也應該可以被重複呼叫。</li>
+</ul>
+</li>
+<li><p>POST</p>
+<ul>
+<li>沒有 idempotent，所以每次要求會新增一筆資料</li>
+</ul>
+</li>
+<li><p>Ex1:</p>
+<ul>
+<li>單一接口 <a href="http://api.example.com/products" target="_blank" rel="external">http://api.example.com/products</a></li>
+<li>以複數表示所有產品</li>
+<li>GET <a href="http://api.example.com/products" target="_blank" rel="external">http://api.example.com/products</a> 表示取得所有產品資訊</li>
+</ul>
+</li>
+<li><p>Ex1:</p>
+<ul>
+<li>單一接口 <a href="http://api.example.com/order" target="_blank" rel="external">http://api.example.com/order</a></li>
+<li>以複數表示所有產品 ???</li>
+<li>POST <a href="http://api.example.com/order" target="_blank" rel="external">http://api.example.com/order</a></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;"<span class="attribute">item_id</span>": <span class="value"><span class="number">1</span></span>,  "<span class="attribute">qty</span>": <span class="value"><span class="number">3</span></span>, "<span class="attribute">price</span>": <span class="value"><span class="number">100</span></span>&#125;,</span><br><span class="line">    &#123;"<span class="attribute">item_id</span>": <span class="value"><span class="number">3</span></span>,  "<span class="attribute">qty</span>": <span class="value"><span class="number">1</span></span>, "<span class="attribute">price</span>": <span class="value"><span class="number">100</span></span>&#125;,</span><br><span class="line">    &#123;"<span class="attribute">item_id</span>": <span class="value"><span class="number">10</span></span>, "<span class="attribute">qty</span>": <span class="value"><span class="number">3</span></span>, "<span class="attribute">price</span>": <span class="value"><span class="number">100</span></span>&#125;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h3 id="GET__u50B3_u905E_u53C3_u6578_u6642_u7684_u5730_u96F7_uFF01"><a href="#GET__u50B3_u905E_u53C3_u6578_u6642_u7684_u5730_u96F7_uFF01" class="headerlink" title="GET 傳遞參數時的地雷！"></a>GET 傳遞參數時的地雷！</h3><ul>
+<li>RFC 沒有禁止 GET 不能傳送 Request Body</li>
+<li>jQuery $.ajax 不支援</li>
+<li>Proxy Server 可能會幫你過濾掉</li>
+<li>會影響 Cache 建立</li>
+</ul>
+<blockquote>
+<p>改用 Query String 來傳遞參數，不要放在 Request Body</p>
+</blockquote>
+<h3 id="u5982_u4F55_u5B9A_u7FA9_u56DE_u50B3_u503C_u72C0_u614B__28_u6210_u529F/_u5931_u6557/_u932F_u8AA4_u4EE3_u78BC_u7B49_29"><a href="#u5982_u4F55_u5B9A_u7FA9_u56DE_u50B3_u503C_u72C0_u614B__28_u6210_u529F/_u5931_u6557/_u932F_u8AA4_u4EE3_u78BC_u7B49_29" class="headerlink" title="如何定義回傳值狀態 (成功/失敗/錯誤代碼等)"></a>如何定義回傳值狀態 (成功/失敗/錯誤代碼等)</h3><ul>
+<li>反例 Ex:</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// Success</span><br><span class="line">&#123;</span><br><span class="line">    "status" : true,</span><br><span class="line">    "data" : ""</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Error</span><br><span class="line">&#123;</span><br><span class="line">    "status" : false,</span><br><span class="line">    "msg" : ""</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>因為 $.ajax 時，success 的 callback 還要判斷是否成功的執行 request</li>
+</ul>
+<blockquote>
+<p>建議使用 HTTP Status Code 做為回傳 Error 的方式</p>
+</blockquote>
+<ul>
+<li>可以參考 <a href="https://www.cheatography.com/kstep/cheat-sheets/http-status-codes/" target="_blank" rel="external">狀態碼小抄</a></li>
+</ul>
+<h2 id="SSR"><a href="#SSR" class="headerlink" title="SSR"></a>SSR</h2><ul>
+<li><p>Server Side Render</p>
+<ul>
+<li>Ex: SPA (Single Page Application)</li>
+<li>搜尋引擎爬不到 javascript 執行後才 render 出來的 content</li>
+<li>Google 最近聽說有辦法爬，但其他的如 FB, Twitter, 或其他搜尋引擎就不見得了</li>
+</ul>
+</li>
+<li><p>Ajax Crawling (Google 提出)</p>
+<ul>
+<li>有 <code>#!</code> 的 url</li>
+<li>會被置換成 … 見<a href="/test">投影片</a></li>
+<li>寫一個 url rewrite 導向到一個 SSR 的 entry point, 如：<a href="http://example.com/crawler.php" target="_blank" rel="external">http://example.com/crawler.php</a></li>
+<li>專門給 Search Engine 抓網站用的</li>
+</ul>
+</li>
+<li><p><code>&lt;meta name=&quot;fragment&quot; content=&quot;!&quot;&gt;</code> 會置換 url 去爬網站</p>
+</li>
+</ul>
+<h3 id="SPA_SEO_Services"><a href="#SPA_SEO_Services" class="headerlink" title="SPA SEO Services"></a>SPA SEO Services</h3><ul>
+<li>Prerender.io (付費)</li>
+<li>Brombone (付費)</li>
+<li>SEO.js (付費)</li>
+<li>PhantomJS (免費) - 請他把頁面 render 出來後送給 Search Engine</li>
+</ul>
+<h2 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h2><h3 id="Same_Origin_Policy__28_u540C_u6E90_u653F_u7B56_29"><a href="#Same_Origin_Policy__28_u540C_u6E90_u653F_u7B56_29" class="headerlink" title="Same Origin Policy (同源政策)"></a>Same Origin Policy (同源政策)</h3><ul>
+<li>協定 http, https 要相同</li>
+<li>Port 要相同</li>
+<li>Host 要相同，包含 subdomain</li>
+</ul>
+<blockquote>
+<p>前後端網址總是不同，Ex: CDN</p>
+</blockquote>
+<h3 id="CORS-1"><a href="#CORS-1" class="headerlink" title="CORS"></a>CORS</h3><blockquote>
+<p>Cross Origin Resource Sharing</p>
+</blockquote>
+<ul>
+<li>Simple Request<ul>
+<li>只允許 GET, POST, HEAD</li>
+<li>Header 只允許 <code>Accept</code>, <code>Accept-Language</code>, <code>Content-Language</code></li>
+<li><code>Content-Type</code> 只允許<ul>
+<li><code>application/x-www-form-urlencoded</code></li>
+<li><code>multipart/form-data</code></li>
+<li><code>text/plain</code></li>
+<li><code>application/json</code> <strong>-&gt; 雷！不行</strong></li>
+</ul>
+</li>
+<li>不能自訂 header (ex: x-xss-protection)，不然就不是 Simple Request</li>
+</ul>
+</li>
+</ul>
+<h3 id="u70BA_u4F55_u53EA_u5141_u8A31_u9019_3__u7A2E_methods"><a href="#u70BA_u4F55_u53EA_u5141_u8A31_u9019_3__u7A2E_methods" class="headerlink" title="為何只允許這 3 種 methods"></a>為何只允許這 3 種 methods</h3><ul>
+<li>怕 iframe 嵌入一個表單 … 太快來不及記</li>
+</ul>
+<h3 id="Simple_Request__u600E_u9EBC_u904B_u4F5C_u7684"><a href="#Simple_Request__u600E_u9EBC_u904B_u4F5C_u7684" class="headerlink" title="Simple Request 怎麼運作的"></a>Simple Request 怎麼運作的</h3><blockquote>
+<p>以下或後面的例是都是跨網域送 CORS</p>
+</blockquote>
+<ol>
+<li><p>送出 Request 時</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET <span class="string">http:</span><span class="comment">//a.com</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>瀏覽器會自動加</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Origin:</span> <span class="string">http:</span><span class="comment">//a.com</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Server 端要回應：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Controll-Allow-<span class="string">Origin:</span> <span class="string">http:</span><span class="comment">//a.com</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>完成！可以送 CORS</p>
+</li>
+</ol>
+<ul>
+<li>沒有 Origin 或是回來沒有 Access-Controll-Allow-Origin</li>
+<li>如果回應沒有送 <code>Access-Controll-Allow-Origin</code>，實際上請求還是送出去了，只是回來的 response 會被丟棄！</li>
+<li>Access-Controll-Allow-Origin 只能放一個網址，要從後端自己判斷後回應</li>
+</ul>
+<h3 id="u4E0D_u592A_Simple_Request__28_u4E0D_u5C6C_u65BC_Simple_Request_29"><a href="#u4E0D_u592A_Simple_Request__28_u4E0D_u5C6C_u65BC_Simple_Request_29" class="headerlink" title="不太 Simple Request (不屬於 Simple Request)"></a>不太 Simple Request (不屬於 Simple Request)</h3><ul>
+<li>Ex1:</li>
+</ul>
+<ol>
+<li><p>以送 PUT Request 為例</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PUT <span class="string">http:</span><span class="comment">//a.com</span></span><br><span class="line"><span class="string">Origin:</span> <span class="string">http:</span><span class="comment">//a.com</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>但其實，瀏覽器會先 hold 住不送 Request，先用 OPTION 去 call Server</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OPTION <span class="string">http:</span><span class="comment">//a.com</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Server 回應 OPTION (稱 <code>Prefight Request</code>)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Controll-Allow-<span class="string">Origin:</span> <span class="string">http:</span><span class="comment">//a.com</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Server 回應後，瀏覽器才會把 PUT Request 送出</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">一樣，Server 回應 PUT 時記得要有，不然 Response 會被 drop</span><br><span class="line">Access-Controll-Allow-<span class="string">Origin:</span> <span class="string">http:</span><span class="comment">//a.com</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>CORS 完成！可以送</p>
+</li>
+</ol>
+<h3 id="CORS_Request_Header"><a href="#CORS_Request_Header" class="headerlink" title="CORS Request Header"></a>CORS Request Header</h3><ul>
+<li><code>Access-Controll-Allow-Origin</code></li>
+<li><code>Access-Controll-Allow-Methods</code>，可多個，如 GET, POST, PUT</li>
+<li><code>Access-Controll-Allow-Headers</code>，Ex: X-XSS-PROTECTION</li>
+<li><code>Access-Control-Max-Age</code> 不會再放 <code>Prefight Request</code>，在 ??? 秒內，不然每次都變成兩個 Request</li>
+</ul>
+<h4 id="u6709_u96F7_u5C0F_u5FC3_uFF01"><a href="#u6709_u96F7_u5C0F_u5FC3_uFF01" class="headerlink" title="有雷小心！"></a>有雷小心！</h4><blockquote>
+<p>Chrome 特別之處，即使沒有同源問題，一樣會送 Origin；<br>Firefox 只有非同源時才會送 Origin header</p>
+</blockquote>
+<h3 id="Keep_State_Cookie/Session__u5982_u4F55_u5728_u5BA2_u6236_u7AEF_u4FDD_u5B58_u72C0_u614B"><a href="#Keep_State_Cookie/Session__u5982_u4F55_u5728_u5BA2_u6236_u7AEF_u4FDD_u5B58_u72C0_u614B" class="headerlink" title="Keep State Cookie/Session 如何在客戶端保存狀態"></a>Keep State Cookie/Session 如何在客戶端保存狀態</h3><ul>
+<li>Why not cookie?<ul>
+<li>碰到 CORS 建議不用 Cookie</li>
+<li>舉例：以下皆是非同源的狀況</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><p>(非 Simple Request)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUT <span class="string">http:</span><span class="comment">//a.com</span></span><br><span class="line">prefight request</span><br><span class="line">要特別加 `Access-Controll-Allow-<span class="string">Credentials:</span> <span class="literal">true</span>` 這樣 Server 回傳的 Cookie 才會被接受！！</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Simple Request</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">一樣要特別加 `Access-Controll-Allow-Credentials:</span> <span class="literal">true</span><span class="escape">` </span>這樣 Server 回傳的 Cookie 才會被接受！！</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="u5C0F_u5FC3_uFF01_u6709_u96F7"><a href="#u5C0F_u5FC3_uFF01_u6709_u96F7" class="headerlink" title="小心！有雷"></a>小心！有雷</h4><ul>
+<li>但 Cookie 一樣有 <code>同源政策</code> –&gt; 只好用 token 來處理，加 <code>Authorization</code> header</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Authorization: Bearer <span class="function"><span class="title">custom_token</span><span class="params">(token自訂)</span></span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Server 端也要回應 <code>Access-Controll-Allow-Headers: Authorization</code> 才會生效</li>
+<li>token 就不會受同源政策引響，所以建議用 <code>Authorization token</code> 取代 <code>Cookie</code></li>
+</ul>
+<h2 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h2><ul>
+<li><p>結構，見<a href="/test">投影片</a></p>
+<ul>
+<li>Header : 加密法，類別</li>
+<li>Payload : Request Body</li>
+<li>Verify : 由 Server 端驗證，認 token 來執行 request，裡面帶有 secret key</li>
+</ul>
+</li>
+<li><p>Payload 欄位</p>
+<ul>
+<li>iss - issuer - 通常是放 API 網址</li>
+<li>aud - audience - 通常是放前端網址 ( <code>Header 的 Origin</code> ) 重要！才能識別當初 token 是發給誰！</li>
+<li>exp - expiration - 有效期限 1469027330，如給 1 小時時間，一樣很重要！</li>
+<li>nbf - not before - 不得早於哪個時間， token 暫時還不生效的意思</li>
+<li>iat - issued at - 簽發時間 (時間欄位都是 timestamp 格式)</li>
+</ul>
+</li>
+<li><p>JWT Resource: <a href="https://jwt.io" target="_blank" rel="external">https://jwt.io</a></p>
+<ul>
+<li>有一個 deubg tool 可以用</li>
+<li>有列出很多第三方的 Lib 可以用！！</li>
+<li>連前端讀取 token 的 js lib 都有，但較少</li>
+</ul>
+</li>
+</ul>
+<h2 id="Serializer__u597D_u795E_u554A_uFF01"><a href="#Serializer__u597D_u795E_u554A_uFF01" class="headerlink" title="Serializer 好神啊！"></a>Serializer 好神啊！</h2><h3 id="u5341_u5927_u60F9_u60F1_u5DE5_u7A0B_u5E2B_u65B9_u5F0F_u4E4B_u4E00"><a href="#u5341_u5927_u60F9_u60F1_u5DE5_u7A0B_u5E2B_u65B9_u5F0F_u4E4B_u4E00" class="headerlink" title="十大惹惱工程師方式之一"></a>十大惹惱工程師方式之一</h3><blockquote>
+<p>API 要回傳 JSON -&gt; 回傳 XML 格式也順便做一下！<br>API 要能接收 JSON -&gt; XML 格式也順便來一下吧！</p>
+</blockquote>
+<h3 id="u6709_u7DF4_u904E_u7684_Ricky__u5927_u5927_u6559_u4F60_u9019_u6A23_u505A_u4F86_u5E73_u606F_u6012_u706B"><a href="#u6709_u7DF4_u904E_u7684_Ricky__u5927_u5927_u6559_u4F60_u9019_u6A23_u505A_u4F86_u5E73_u606F_u6012_u706B" class="headerlink" title="有練過的 Ricky 大大教你這樣做來平息怒火"></a>有練過的 Ricky 大大教你這樣做來平息怒火</h3><ul>
+<li>用工具來處理 <code>composer require jms/serializer</code></li>
+<li>有 API 需求的話，就先裝 <code>serializer</code> 就對了！</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$serializr</span>-&gt;serialize(<span class="variable">$data</span>, <span class="string">'xml'</span>);</span><br><span class="line"><span class="variable">$serializr</span>-&gt;serialize(<span class="variable">$data</span>, <span class="string">'json'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// $data 可以丟各種格式進來！自動測！</span></span><br><span class="line"><span class="comment">// 也可以混合格式，有的是 array，有的是 object 都可以解</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$serializr</span>-&gt;deserialize(<span class="variable">$jsonData</span>, <span class="string">'MyNamespace\MyObject'</span>, <span class="string">'json'</span>);</span><br><span class="line"><span class="comment">// 用 Annotations Configure</span></span><br><span class="line"><span class="comment">// 範例見 [投影片] /** @AccessType() */</span></span><br><span class="line"><span class="comment">// 範例見 [投影片] /** @Accessor() */</span></span><br><span class="line"><span class="comment">// 範例見 [投影片] /**</span></span><br><span class="line"><span class="comment">//              * @VirtualProperty</span></span><br><span class="line"><span class="comment">//              * @???</span></span><br><span class="line"><span class="comment">//              */</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>實在太神了，又很多實際範例，請看<a href="/test">投影片</a>，有種相見恨晚的 feel 啊，真是非常感謝 Ricky 大大把私家秘技都拿出來分享給大家，講得又超好，請受閃亮亮一拜。</li>
+</ul>
+<h2 id="High_Performance_Server__28PHP__u6548_u80FD_Server_-_PPM_29"><a href="#High_Performance_Server__28PHP__u6548_u80FD_Server_-_PPM_29" class="headerlink" title="High Performance Server (PHP 效能 Server - PPM)"></a>High Performance Server (PHP 效能 Server - PPM)</h2><ul>
+<li>PPM (PHP Process Manager) <a href="https://github.com/php-pm/php-pm" target="_blank" rel="external">https://github.com/php-pm/php-pm</a></li>
+<li><p>用 PHP 寫 Process Manager 比  php-fpm 快 15 倍！？ 真的假的</p>
+<ul>
+<li>Hot Code Reload 偵測異動</li>
+<li>最重要：可以 Support HttpKernel (Symfony, Laravel) 可以用，Code 不用改就能用！</li>
+</ul>
+</li>
+<li><p>Installation</p>
+<ul>
+<li>先把 Laravel/Symfony 專案建起來</li>
+<li><code>composer require php-pm/httpkernel-adapter dev-master</code> 就可以了！真的假的！</li>
+<li><code>./vendor/bin/ppm start --bootstrap=laravel --app-env=dev --debug=0 --logging=0 --cgi-path=~/bin/php-cgi</code></li>
+<li>需要使用 php-cgi 才行，不能用 php-cli (預設)</li>
+</ul>
+</li>
+<li><p>原理：</p>
+<ul>
+<li>最底層是用 <code>reactphp/http</code> 搜尋 react php 底層是 event driven 的方式</li>
+<li>用 PHP 寫 server，non-block 去除瓶頸</li>
+<li><a href="http://jarves.io" target="_blank" rel="external">http://jarves.io</a> 專門寫 API 的一個 framework</li>
+</ul>
+</li>
+<li><p>Issues：</p>
+<ul>
+<li>PHP 有一些 memory leak 的問題，用 Singleton 方式會有問題，但了不起重啟</li>
+<li>目前只有針對 Laravel / Symfony 才行</li>
+<li>可以用 NGINX 做轉送，設定見<a href="/test">投影片</a></li>
+</ul>
+</li>
+<li><p>Usage:</p>
+<ul>
+<li>不建議在 Production 下用，還在開發中</li>
+<li>官網也列了一些已知問題，但仍是值得密切關注的一個套件！</li>
+</ul>
+</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="REST_API_Design"><a href="#REST_API_Design" class="headerlink" title="REST API Design"></a>REST API Design</h2><h3 id="Representatio]]>
+    </summary>
+    
+      <category term="PHP也有Day" scheme="http://blog.dj1020.net/tags/PHP%E4%B9%9F%E6%9C%89Day/"/>
+    
+      <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Laradiner讀書會 - SOLID 原則(5) Dependency Inversion Principle 依頼反轉原則]]></title>
@@ -1917,125 +2197,6 @@
     </summary>
     
       <category term="PHP也有Day" scheme="http://blog.dj1020.net/tags/PHP%E4%B9%9F%E6%9C%89Day/"/>
-    
-      <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[TDD 實戰與自動測試 (91 哥) - Day 1]]></title>
-    <link href="http://blog.dj1020.net/TDD-%E5%AF%A6%E6%88%B0%E8%88%87%E8%87%AA%E5%8B%95%E6%B8%AC%E8%A9%A6-91-%E5%93%A5-Day-1/"/>
-    <id>http://blog.dj1020.net/TDD-實戰與自動測試-91-哥-Day-1/</id>
-    <published>2015-10-17T01:54:27.000Z</published>
-    <updated>2015-10-18T05:04:05.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="TDD__u958B_u767C_u5BE6_u52D9_u554F_u984C"><a href="#TDD__u958B_u767C_u5BE6_u52D9_u554F_u984C" class="headerlink" title="TDD 開發實務問題"></a>TDD 開發實務問題</h2><ol>
-<li>改贈品價格，結果全部產品停售，缺少迴歸測試，改 A 錯 B</li>
-<li>正式環境的 API 沒辦法直接連接測試，要上線才知道問題</li>
-<li>和同事之間介接 API 要等同事寫好才能測試自己的 Code 是否正常 (平行開發)</li>
-<li>1 + 1 + 1 + 1 + 1 的例子 -&gt; 不要猜，寫程式去證實</li>
-<li>哪裡錯了？測過哪些？</li>
-</ol>
-<h2 id="u6C92_u6709_u4EBA_u6703_u523B_u610F_u5BEB_u6709_bug__u7684_u7A0B_u5F0F"><a href="#u6C92_u6709_u4EBA_u6703_u523B_u610F_u5BEB_u6709_bug__u7684_u7A0B_u5F0F" class="headerlink" title="沒有人會刻意寫有 bug 的程式"></a>沒有人會刻意寫有 bug 的程式</h2><ol>
-<li>Unit Test - 確保程式寫的跟你想的一樣，特別容易出現問題在判斷式</li>
-<li>TDD</li>
-<li>BDD</li>
-</ol>
-<h2 id="u4EC0_u9EBC_u662F_Unit_Test"><a href="#u4EC0_u9EBC_u662F_Unit_Test" class="headerlink" title="什麼是 Unit Test"></a>什麼是 Unit Test</h2><ol>
-<li>最小的測試單位</li>
-<li>外部相依性為零</li>
-<li>不具備商業邏輯</li>
-<li>測試案例之間相依性為零 (獨立性)</li>
-<li>一個測試案例只測一件事</li>
-</ol>
-<h2 id="Unit_Test_vs_Integration_Test_vs_Acceptance_Tetst"><a href="#Unit_Test_vs_Integration_Test_vs_Acceptance_Tetst" class="headerlink" title="Unit Test vs Integration Test vs Acceptance Tetst"></a>Unit Test vs Integration Test vs Acceptance Tetst</h2><ol>
-<li>粒度 A &gt; I &gt; U</li>
-<li>A -&gt; 接近使用者，不知道錯在哪</li>
-<li>U -&gt; 接近系統，知道錯在哪</li>
-</ol>
-<h2 id="u597D_u7684_Unit_Test__u7279_u6027_uFF1A_FIRST"><a href="#u597D_u7684_Unit_Test__u7279_u6027_uFF1A_FIRST" class="headerlink" title="好的 Unit Test 特性： FIRST"></a>好的 Unit Test 特性： FIRST</h2><ol>
-<li>Fast，ex: 1 unit test &lt; 500ms</li>
-<li>Independent，ex: 不相依資料庫，不相依網路</li>
-<li>Repeatable，ex: 最常出現問題，新增 Account，Email 不能重複的情況</li>
-<li>Self-Validating，ex: (反例) 測試跑完，眼睛去看資料庫對不對</li>
-<li>Timely，ex: Production Code 寫完當下，測試程式就寫好了 (TDD)</li>
-</ol>
-<h2 id="u5C0E_u5165_u6E2C_u8A66_u5DE5_u5177"><a href="#u5C0E_u5165_u6E2C_u8A66_u5DE5_u5177" class="headerlink" title="導入測試工具"></a>導入測試工具</h2><ol>
-<li>給大家測試規範，class 命名、測試案例名稱、資料夾結構</li>
-<li>利用 Test Generator 降低第一步的門檻</li>
-</ol>
-<h2 id="u65B0_u89C0_u5FF5_u548C_u5F85_u67E5_for_PHP"><a href="#u65B0_u89C0_u5FF5_u548C_u5F85_u67E5_for_PHP" class="headerlink" title="新觀念和待查 for PHP"></a>新觀念和待查 for PHP</h2><ol>
-<li>查如何一行檢測 Object 相等，並能 assert 顯示不相等的 properties</li>
-<li>查如何一行檢測 Collection(Array) 相等，並能 assert 不相等的 element</li>
-<li>承3，可以不管順序檢測相等</li>
-<li>可以檢測 Object 部份 properties 相等</li>
-<li>可以檢測 Composite Object 相等</li>
-</ol>
-<h2 id="Stub"><a href="#Stub" class="headerlink" title="Stub"></a>Stub</h2><ol>
-<li>Stbu 的目的？ 注入一個假物件到測試目標，去控制流程中的 path</li>
-<li>怎麼初始化 Stub 物件？ ex: NSubstitude</li>
-<li>如何決定 Stub 物件回傳值？ ex: NSubstitude</li>
-</ol>
-<h2 id="Mock"><a href="#Mock" class="headerlink" title="Mock"></a>Mock</h2><ol>
-<li>Mock 的目的？ 用來 assert，例如驗證 mock 物件中某方法被執行幾次，0次、1次、多次</li>
-<li><p>Mock 怎麼使用？</p>
-<ul>
-<li><p>怎麼初始化 mock 物件？</p>
-  <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ILog log = Substitude.For&lt;ILog&gt;();</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>怎麼驗證互動次數與傳入參數？</p>
-  <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 確定 log.Save() 只被執行一次，而且傳入 Save() 的參數中要含有 "login failed" 字串</span></span><br><span class="line">log.Received(<span class="number">1</span>).Save(Arg.Is&lt;<span class="keyword">string</span>&gt;(x =&gt; x.Contains(<span class="string">"login failed"</span>)));</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="Why_IoC"><a href="#Why_IoC" class="headerlink" title="Why IoC"></a>Why IoC</h2><ol>
-<li>為了測試？<ul>
-<li>為了 <code>產品程式碼的擴充性</code> ！</li>
-</ul>
-</li>
-</ol>
-<h2 id="u55AE_u5143_u6E2C_u8A66_u8207_u7269_u4EF6_u5C0E_u5411_u5C01_u88DD_u7684_u672C_u8CEA"><a href="#u55AE_u5143_u6E2C_u8A66_u8207_u7269_u4EF6_u5C0E_u5411_u5C01_u88DD_u7684_u672C_u8CEA" class="headerlink" title="單元測試與物件導向封裝的本質"></a>單元測試與物件導向封裝的本質</h2><ol>
-<li>單元測試的意義<ul>
-<li>模擬”外部”如何使用目標物件，測試並驗證其行為是否符合預期</li>
-</ul>
-</li>
-<li>封裝原則<ul>
-<li>定義「物件的邊界」</li>
-<li>封裝物件實作細節，有時是為了可讀性</li>
-<li>封裝變化</li>
-</ul>
-</li>
-</ol>
-<h2 id="u76F4_u63A5_u6E2C_u8A66_u975E_Public__u65B9_u6CD5_uFF0C_u6709_u4EC0_u9EBC_u554F_u984C_uFF1F"><a href="#u76F4_u63A5_u6E2C_u8A66_u975E_Public__u65B9_u6CD5_uFF0C_u6709_u4EC0_u9EBC_u554F_u984C_uFF1F" class="headerlink" title="直接測試非 Public 方法，有什麼問題？"></a>直接測試非 Public 方法，有什麼問題？</h2><ol>
-<li>為了測試而測試，而<code>不是以需求為出發點</code></li>
-<li>導致測試失去<code>健壯性</code>，原本被封裝的變化，現在被測試程式碼相依，維護成本非常高。</li>
-</ol>
-<h2 id="Internal__u8A72_u5982_u4F55_u6E2C_u8A66_uFF1F"><a href="#Internal__u8A72_u5982_u4F55_u6E2C_u8A66_uFF1F" class="headerlink" title="Internal 該如何測試？"></a>Internal 該如何測試？</h2><ol>
-<li><p>Why Internal？</p>
-<ul>
-<li>有很多 interface 只有內部在用，如果開 public interface 的話，外面就有人用，結果改了 interface 後，外面的程式就壞了。</li>
-</ul>
-</li>
-<li><p>用 [assembly:InternalsVisibleTo(“待測專案名稱”)] 讓測試碼可以和 production code 「在同一個房間」(same namespace)</p>
-<ul>
-<li>ex: [assembly:InternalsVisibleTo(“MyLib.Test”)]</li>
-<li>For Mock - ex: [assembly:InternalsVisibleTo(“DynamicProxyGenAssembly2”)]</li>
-</ul>
-</li>
-</ol>
-<h2 id="u6E2C_u8A66_u6DB5_u84CB_u7387_u7684_u610F_u7FA9"><a href="#u6E2C_u8A66_u6DB5_u84CB_u7387_u7684_u610F_u7FA9" class="headerlink" title="測試涵蓋率的意義"></a>測試涵蓋率的意義</h2><ol>
-<li>測試涵蓋率不足，代表兩種意義：<ul>
-<li>目前的測試案例不足以呈現與說明，產品程式碼的所有功能</li>
-<li>存在與需求無關的程式碼</li>
-</ul>
-</li>
-</ol>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="TDD__u958B_u767C_u5BE6_u52D9_u554F_u984C"><a href="#TDD__u958B_u767C_u5BE6_u52D9_u554F_u984C" class="headerlink" title="TDD 開發實務問題">]]>
-    </summary>
-    
-      <category term="TDD" scheme="http://blog.dj1020.net/tags/TDD/"/>
     
       <category term="筆記" scheme="http://blog.dj1020.net/tags/%E7%AD%86%E8%A8%98/"/>
     

@@ -1,0 +1,796 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>PHP 也有 Day #26 - REST API 與前端整合之踩雷心得@RickySu | 閃亮亮大師之路</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="閃亮亮dj">
+    
+
+    
+    <meta name="description" content="REST API DesignRepresentational State Transfer API
+要求(建議風格)：
+Client-Server (Request-Response) 一個請求一個回應
+Stateless 通信狀態全部由客戶端維護
+Cache 快取，可以在過程中被 Cache 起來
+Uniform Interface 統一接口相互通信，提高交互的可見性
+Layered Syst">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP 也有 Day #26 - REST API 與前端整合之踩雷心得@RickySu">
+<meta property="og:url" content="http://blog.dj1020.net/PHP也有day-26_REST_API_與前端整合之踩雷心得/index.html">
+<meta property="og:site_name" content="閃亮亮大師之路">
+<meta property="og:description" content="REST API DesignRepresentational State Transfer API
+要求(建議風格)：
+Client-Server (Request-Response) 一個請求一個回應
+Stateless 通信狀態全部由客戶端維護
+Cache 快取，可以在過程中被 Cache 起來
+Uniform Interface 統一接口相互通信，提高交互的可見性
+Layered Syst">
+<meta property="og:updated_time" content="2016-07-22T02:20:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PHP 也有 Day #26 - REST API 與前端整合之踩雷心得@RickySu">
+<meta name="twitter:description" content="REST API DesignRepresentational State Transfer API
+要求(建議風格)：
+Client-Server (Request-Response) 一個請求一個回應
+Stateless 通信狀態全部由客戶端維護
+Cache 快取，可以在過程中被 Cache 起來
+Uniform Interface 統一接口相互通信，提高交互的可見性
+Layered Syst">
+
+    
+    <link rel="alternative" href="/atom.xml" title="閃亮亮大師之路" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="閃亮亮大師之路" title="閃亮亮大師之路"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="閃亮亮大師之路">閃亮亮大師之路</a></h1>
+				<h2 class="blog-motto">程式學習心得筆記</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:blog.dj1020.net">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/PHP也有day-26_REST_API_與前端整合之踩雷心得/" title="PHP 也有 Day #26 - REST API 與前端整合之踩雷心得@RickySu" itemprop="url">PHP 也有 Day #26 - REST API 與前端整合之踩雷心得@RickySu</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="閃亮亮dj" target="_blank" itemprop="author">閃亮亮dj</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-21T11:30:34.000Z" itemprop="datePublished"> 發表於 2016-07-21</time>
+  </p>
+
+  
+    <div class="article-share clearfix" id="share">
+    
+      <div data-url="http://blog.dj1020.net/PHP也有day-26_REST_API_與前端整合之踩雷心得/" data-title="PHP 也有 Day #26 - REST API 與前端整合之踩雷心得@RickySu | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+      </div>
+    
+    </div>
+  
+
+</header>
+	<div class="article-content">
+		
+		<h2 id="REST_API_Design"><a href="#REST_API_Design" class="headerlink" title="REST API Design"></a>REST API Design</h2><h3 id="Representational_State_Transfer_API"><a href="#Representational_State_Transfer_API" class="headerlink" title="Representational State Transfer API"></a>Representational State Transfer API</h3><ul>
+<li>要求(建議風格)：<ul>
+<li>Client-Server (Request-Response) 一個請求一個回應</li>
+<li>Stateless 通信狀態全部由客戶端維護</li>
+<li>Cache 快取，可以在過程中被 Cache 起來</li>
+<li>Uniform Interface 統一接口相互通信，提高交互的可見性</li>
+<li>Layered System 將架構分解為若干等級的 layer</li>
+<li>Code-On-Demand (optional) 可以傳送程式碼給客戶端執行</li>
+</ul>
+</li>
+</ul>
+<h3 id="CRUD"><a href="#CRUD" class="headerlink" title="CRUD"></a>CRUD</h3><pre><code>- POST 新增資料
+- GET 讀取資料
+- PUT 更新資料
+- DELETE 刪除資料
+</code></pre><ul>
+<li>GET<ul>
+<li>沒有寫入動作</li>
+<li>idempotent 可以重複呼叫，不影響結果。其實 delete 也應該可以被重複呼叫。</li>
+</ul>
+</li>
+<li><p>POST</p>
+<ul>
+<li>沒有 idempotent，所以每次要求會新增一筆資料</li>
+</ul>
+</li>
+<li><p>Ex1:</p>
+<ul>
+<li>單一接口 <a href="http://api.example.com/products" target="_blank" rel="external">http://api.example.com/products</a></li>
+<li>以複數表示所有產品</li>
+<li>GET <a href="http://api.example.com/products" target="_blank" rel="external">http://api.example.com/products</a> 表示取得所有產品資訊</li>
+</ul>
+</li>
+<li><p>Ex1:</p>
+<ul>
+<li>單一接口 <a href="http://api.example.com/order" target="_blank" rel="external">http://api.example.com/order</a></li>
+<li>以複數表示所有產品 ???</li>
+<li>POST <a href="http://api.example.com/order" target="_blank" rel="external">http://api.example.com/order</a></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;"<span class="attribute">item_id</span>": <span class="value"><span class="number">1</span></span>,  "<span class="attribute">qty</span>": <span class="value"><span class="number">3</span></span>, "<span class="attribute">price</span>": <span class="value"><span class="number">100</span></span>&#125;,</span><br><span class="line">    &#123;"<span class="attribute">item_id</span>": <span class="value"><span class="number">3</span></span>,  "<span class="attribute">qty</span>": <span class="value"><span class="number">1</span></span>, "<span class="attribute">price</span>": <span class="value"><span class="number">100</span></span>&#125;,</span><br><span class="line">    &#123;"<span class="attribute">item_id</span>": <span class="value"><span class="number">10</span></span>, "<span class="attribute">qty</span>": <span class="value"><span class="number">3</span></span>, "<span class="attribute">price</span>": <span class="value"><span class="number">100</span></span>&#125;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h3 id="GET__u50B3_u905E_u53C3_u6578_u6642_u7684_u5730_u96F7_uFF01"><a href="#GET__u50B3_u905E_u53C3_u6578_u6642_u7684_u5730_u96F7_uFF01" class="headerlink" title="GET 傳遞參數時的地雷！"></a>GET 傳遞參數時的地雷！</h3><ul>
+<li>RFC 沒有禁止 GET 不能傳送 Request Body</li>
+<li>jQuery $.ajax 不支援</li>
+<li>Proxy Server 可能會幫你過濾掉</li>
+<li>會影響 Cache 建立</li>
+</ul>
+<blockquote>
+<p>改用 Query String 來傳遞參數，不要放在 Request Body</p>
+</blockquote>
+<h3 id="u5982_u4F55_u5B9A_u7FA9_u56DE_u50B3_u503C_u72C0_u614B__28_u6210_u529F/_u5931_u6557/_u932F_u8AA4_u4EE3_u78BC_u7B49_29"><a href="#u5982_u4F55_u5B9A_u7FA9_u56DE_u50B3_u503C_u72C0_u614B__28_u6210_u529F/_u5931_u6557/_u932F_u8AA4_u4EE3_u78BC_u7B49_29" class="headerlink" title="如何定義回傳值狀態 (成功/失敗/錯誤代碼等)"></a>如何定義回傳值狀態 (成功/失敗/錯誤代碼等)</h3><ul>
+<li>反例 Ex:</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// Success</span><br><span class="line">&#123;</span><br><span class="line">    "status" : true,</span><br><span class="line">    "data" : ""</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Error</span><br><span class="line">&#123;</span><br><span class="line">    "status" : false,</span><br><span class="line">    "msg" : ""</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>因為 $.ajax 時，success 的 callback 還要判斷是否成功的執行 request</li>
+</ul>
+<blockquote>
+<p>建議使用 HTTP Status Code 做為回傳 Error 的方式</p>
+</blockquote>
+<ul>
+<li>可以參考 <a href="https://www.cheatography.com/kstep/cheat-sheets/http-status-codes/" target="_blank" rel="external">狀態碼小抄</a></li>
+</ul>
+<h2 id="SSR"><a href="#SSR" class="headerlink" title="SSR"></a>SSR</h2><ul>
+<li><p>Server Side Render</p>
+<ul>
+<li>Ex: SPA (Single Page Application)</li>
+<li>搜尋引擎爬不到 javascript 執行後才 render 出來的 content</li>
+<li>Google 最近聽說有辦法爬，但其他的如 FB, Twitter, 或其他搜尋引擎就不見得了</li>
+</ul>
+</li>
+<li><p>Ajax Crawling (Google 提出)</p>
+<ul>
+<li>有 <code>#!</code> 的 url</li>
+<li>會被置換成 … 見<a href="/test">投影片</a></li>
+<li>寫一個 url rewrite 導向到一個 SSR 的 entry point, 如：<a href="http://example.com/crawler.php" target="_blank" rel="external">http://example.com/crawler.php</a></li>
+<li>專門給 Search Engine 抓網站用的</li>
+</ul>
+</li>
+<li><p><code>&lt;meta name=&quot;fragment&quot; content=&quot;!&quot;&gt;</code> 會置換 url 去爬網站</p>
+</li>
+</ul>
+<h3 id="SPA_SEO_Services"><a href="#SPA_SEO_Services" class="headerlink" title="SPA SEO Services"></a>SPA SEO Services</h3><ul>
+<li>Prerender.io (付費)</li>
+<li>Brombone (付費)</li>
+<li>SEO.js (付費)</li>
+<li>PhantomJS (免費) - 請他把頁面 render 出來後送給 Search Engine</li>
+</ul>
+<h2 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h2><h3 id="Same_Origin_Policy__28_u540C_u6E90_u653F_u7B56_29"><a href="#Same_Origin_Policy__28_u540C_u6E90_u653F_u7B56_29" class="headerlink" title="Same Origin Policy (同源政策)"></a>Same Origin Policy (同源政策)</h3><ul>
+<li>協定 http, https 要相同</li>
+<li>Port 要相同</li>
+<li>Host 要相同，包含 subdomain</li>
+</ul>
+<blockquote>
+<p>前後端網址總是不同，Ex: CDN</p>
+</blockquote>
+<h3 id="CORS-1"><a href="#CORS-1" class="headerlink" title="CORS"></a>CORS</h3><blockquote>
+<p>Cross Origin Resource Sharing</p>
+</blockquote>
+<ul>
+<li>Simple Request<ul>
+<li>只允許 GET, POST, HEAD</li>
+<li>Header 只允許 <code>Accept</code>, <code>Accept-Language</code>, <code>Content-Language</code></li>
+<li><code>Content-Type</code> 只允許<ul>
+<li><code>application/x-www-form-urlencoded</code></li>
+<li><code>multipart/form-data</code></li>
+<li><code>text/plain</code></li>
+<li><code>application/json</code> <strong>-&gt; 雷！不行</strong></li>
+</ul>
+</li>
+<li>不能自訂 header (ex: x-xss-protection)，不然就不是 Simple Request</li>
+</ul>
+</li>
+</ul>
+<h3 id="u70BA_u4F55_u53EA_u5141_u8A31_u9019_3__u7A2E_methods"><a href="#u70BA_u4F55_u53EA_u5141_u8A31_u9019_3__u7A2E_methods" class="headerlink" title="為何只允許這 3 種 methods"></a>為何只允許這 3 種 methods</h3><ul>
+<li>怕 iframe 嵌入一個表單 … 太快來不及記</li>
+</ul>
+<h3 id="Simple_Request__u600E_u9EBC_u904B_u4F5C_u7684"><a href="#Simple_Request__u600E_u9EBC_u904B_u4F5C_u7684" class="headerlink" title="Simple Request 怎麼運作的"></a>Simple Request 怎麼運作的</h3><blockquote>
+<p>以下或後面的例是都是跨網域送 CORS</p>
+</blockquote>
+<ol>
+<li><p>送出 Request 時</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET <span class="string">http:</span><span class="comment">//a.com</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>瀏覽器會自動加</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Origin:</span> <span class="string">http:</span><span class="comment">//a.com</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Server 端要回應：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Controll-Allow-<span class="string">Origin:</span> <span class="string">http:</span><span class="comment">//a.com</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>完成！可以送 CORS</p>
+</li>
+</ol>
+<ul>
+<li>沒有 Origin 或是回來沒有 Access-Controll-Allow-Origin</li>
+<li>如果回應沒有送 <code>Access-Controll-Allow-Origin</code>，實際上請求還是送出去了，只是回來的 response 會被丟棄！</li>
+<li>Access-Controll-Allow-Origin 只能放一個網址，要從後端自己判斷後回應</li>
+</ul>
+<h3 id="u4E0D_u592A_Simple_Request__28_u4E0D_u5C6C_u65BC_Simple_Request_29"><a href="#u4E0D_u592A_Simple_Request__28_u4E0D_u5C6C_u65BC_Simple_Request_29" class="headerlink" title="不太 Simple Request (不屬於 Simple Request)"></a>不太 Simple Request (不屬於 Simple Request)</h3><ul>
+<li>Ex1:</li>
+</ul>
+<ol>
+<li><p>以送 PUT Request 為例</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PUT <span class="string">http:</span><span class="comment">//a.com</span></span><br><span class="line"><span class="string">Origin:</span> <span class="string">http:</span><span class="comment">//a.com</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>但其實，瀏覽器會先 hold 住不送 Request，先用 OPTION 去 call Server</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OPTION <span class="string">http:</span><span class="comment">//a.com</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Server 回應 OPTION (稱 <code>Prefight Request</code>)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Controll-Allow-<span class="string">Origin:</span> <span class="string">http:</span><span class="comment">//a.com</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Server 回應後，瀏覽器才會把 PUT Request 送出</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">一樣，Server 回應 PUT 時記得要有，不然 Response 會被 drop</span><br><span class="line">Access-Controll-Allow-<span class="string">Origin:</span> <span class="string">http:</span><span class="comment">//a.com</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>CORS 完成！可以送</p>
+</li>
+</ol>
+<h3 id="CORS_Request_Header"><a href="#CORS_Request_Header" class="headerlink" title="CORS Request Header"></a>CORS Request Header</h3><ul>
+<li><code>Access-Controll-Allow-Origin</code></li>
+<li><code>Access-Controll-Allow-Methods</code>，可多個，如 GET, POST, PUT</li>
+<li><code>Access-Controll-Allow-Headers</code>，Ex: X-XSS-PROTECTION</li>
+<li><code>Access-Control-Max-Age</code> 不會再放 <code>Prefight Request</code>，在 ??? 秒內，不然每次都變成兩個 Request</li>
+</ul>
+<h4 id="u6709_u96F7_u5C0F_u5FC3_uFF01"><a href="#u6709_u96F7_u5C0F_u5FC3_uFF01" class="headerlink" title="有雷小心！"></a>有雷小心！</h4><blockquote>
+<p>Chrome 特別之處，即使沒有同源問題，一樣會送 Origin；<br>Firefox 只有非同源時才會送 Origin header</p>
+</blockquote>
+<h3 id="Keep_State_Cookie/Session__u5982_u4F55_u5728_u5BA2_u6236_u7AEF_u4FDD_u5B58_u72C0_u614B"><a href="#Keep_State_Cookie/Session__u5982_u4F55_u5728_u5BA2_u6236_u7AEF_u4FDD_u5B58_u72C0_u614B" class="headerlink" title="Keep State Cookie/Session 如何在客戶端保存狀態"></a>Keep State Cookie/Session 如何在客戶端保存狀態</h3><ul>
+<li>Why not cookie?<ul>
+<li>碰到 CORS 建議不用 Cookie</li>
+<li>舉例：以下皆是非同源的狀況</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><p>(非 Simple Request)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUT <span class="string">http:</span><span class="comment">//a.com</span></span><br><span class="line">prefight request</span><br><span class="line">要特別加 `Access-Controll-Allow-<span class="string">Credentials:</span> <span class="literal">true</span>` 這樣 Server 回傳的 Cookie 才會被接受！！</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Simple Request</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">一樣要特別加 `Access-Controll-Allow-Credentials:</span> <span class="literal">true</span><span class="escape">` </span>這樣 Server 回傳的 Cookie 才會被接受！！</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="u5C0F_u5FC3_uFF01_u6709_u96F7"><a href="#u5C0F_u5FC3_uFF01_u6709_u96F7" class="headerlink" title="小心！有雷"></a>小心！有雷</h4><ul>
+<li>但 Cookie 一樣有 <code>同源政策</code> –&gt; 只好用 token 來處理，加 <code>Authorization</code> header</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Authorization: Bearer <span class="function"><span class="title">custom_token</span><span class="params">(token自訂)</span></span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Server 端也要回應 <code>Access-Controll-Allow-Headers: Authorization</code> 才會生效</li>
+<li>token 就不會受同源政策引響，所以建議用 <code>Authorization token</code> 取代 <code>Cookie</code></li>
+</ul>
+<h2 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h2><ul>
+<li><p>結構，見<a href="/test">投影片</a></p>
+<ul>
+<li>Header : 加密法，類別</li>
+<li>Payload : Request Body</li>
+<li>Verify : 由 Server 端驗證，認 token 來執行 request，裡面帶有 secret key</li>
+</ul>
+</li>
+<li><p>Payload 欄位</p>
+<ul>
+<li>iss - issuer - 通常是放 API 網址</li>
+<li>aud - audience - 通常是放前端網址 ( <code>Header 的 Origin</code> ) 重要！才能識別當初 token 是發給誰！</li>
+<li>exp - expiration - 有效期限 1469027330，如給 1 小時時間，一樣很重要！</li>
+<li>nbf - not before - 不得早於哪個時間， token 暫時還不生效的意思</li>
+<li>iat - issued at - 簽發時間 (時間欄位都是 timestamp 格式)</li>
+</ul>
+</li>
+<li><p>JWT Resource: <a href="https://jwt.io" target="_blank" rel="external">https://jwt.io</a></p>
+<ul>
+<li>有一個 deubg tool 可以用</li>
+<li>有列出很多第三方的 Lib 可以用！！</li>
+<li>連前端讀取 token 的 js lib 都有，但較少</li>
+</ul>
+</li>
+</ul>
+<h2 id="Serializer__u597D_u795E_u554A_uFF01"><a href="#Serializer__u597D_u795E_u554A_uFF01" class="headerlink" title="Serializer 好神啊！"></a>Serializer 好神啊！</h2><h3 id="u5341_u5927_u60F9_u60F1_u5DE5_u7A0B_u5E2B_u65B9_u5F0F_u4E4B_u4E00"><a href="#u5341_u5927_u60F9_u60F1_u5DE5_u7A0B_u5E2B_u65B9_u5F0F_u4E4B_u4E00" class="headerlink" title="十大惹惱工程師方式之一"></a>十大惹惱工程師方式之一</h3><blockquote>
+<p>API 要回傳 JSON -&gt; 回傳 XML 格式也順便做一下！<br>API 要能接收 JSON -&gt; XML 格式也順便來一下吧！</p>
+</blockquote>
+<h3 id="u6709_u7DF4_u904E_u7684_Ricky__u5927_u5927_u6559_u4F60_u9019_u6A23_u505A_u4F86_u5E73_u606F_u6012_u706B"><a href="#u6709_u7DF4_u904E_u7684_Ricky__u5927_u5927_u6559_u4F60_u9019_u6A23_u505A_u4F86_u5E73_u606F_u6012_u706B" class="headerlink" title="有練過的 Ricky 大大教你這樣做來平息怒火"></a>有練過的 Ricky 大大教你這樣做來平息怒火</h3><ul>
+<li>用工具來處理 <code>composer require jms/serializer</code></li>
+<li>有 API 需求的話，就先裝 <code>serializer</code> 就對了！</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$serializr</span>-&gt;serialize(<span class="variable">$data</span>, <span class="string">'xml'</span>);</span><br><span class="line"><span class="variable">$serializr</span>-&gt;serialize(<span class="variable">$data</span>, <span class="string">'json'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// $data 可以丟各種格式進來！自動測！</span></span><br><span class="line"><span class="comment">// 也可以混合格式，有的是 array，有的是 object 都可以解</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$serializr</span>-&gt;deserialize(<span class="variable">$jsonData</span>, <span class="string">'MyNamespace\MyObject'</span>, <span class="string">'json'</span>);</span><br><span class="line"><span class="comment">// 用 Annotations Configure</span></span><br><span class="line"><span class="comment">// 範例見 [投影片] /** @AccessType() */</span></span><br><span class="line"><span class="comment">// 範例見 [投影片] /** @Accessor() */</span></span><br><span class="line"><span class="comment">// 範例見 [投影片] /**</span></span><br><span class="line"><span class="comment">//              * @VirtualProperty</span></span><br><span class="line"><span class="comment">//              * @???</span></span><br><span class="line"><span class="comment">//              */</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>實在太神了，又很多實際範例，請看<a href="/test">投影片</a>，有種相見恨晚的 feel 啊，真是非常感謝 Ricky 大大把私家秘技都拿出來分享給大家，講得又超好，請受閃亮亮一拜。</li>
+</ul>
+<h2 id="High_Performance_Server__28PHP__u6548_u80FD_Server_-_PPM_29"><a href="#High_Performance_Server__28PHP__u6548_u80FD_Server_-_PPM_29" class="headerlink" title="High Performance Server (PHP 效能 Server - PPM)"></a>High Performance Server (PHP 效能 Server - PPM)</h2><ul>
+<li>PPM (PHP Process Manager) <a href="https://github.com/php-pm/php-pm" target="_blank" rel="external">https://github.com/php-pm/php-pm</a></li>
+<li><p>用 PHP 寫 Process Manager 比  php-fpm 快 15 倍！？ 真的假的</p>
+<ul>
+<li>Hot Code Reload 偵測異動</li>
+<li>最重要：可以 Support HttpKernel (Symfony, Laravel) 可以用，Code 不用改就能用！</li>
+</ul>
+</li>
+<li><p>Installation</p>
+<ul>
+<li>先把 Laravel/Symfony 專案建起來</li>
+<li><code>composer require php-pm/httpkernel-adapter dev-master</code> 就可以了！真的假的！</li>
+<li><code>./vendor/bin/ppm start --bootstrap=laravel --app-env=dev --debug=0 --logging=0 --cgi-path=~/bin/php-cgi</code></li>
+<li>需要使用 php-cgi 才行，不能用 php-cli (預設)</li>
+</ul>
+</li>
+<li><p>原理：</p>
+<ul>
+<li>最底層是用 <code>reactphp/http</code> 搜尋 react php 底層是 event driven 的方式</li>
+<li>用 PHP 寫 server，non-block 去除瓶頸</li>
+<li><a href="http://jarves.io" target="_blank" rel="external">http://jarves.io</a> 專門寫 API 的一個 framework</li>
+</ul>
+</li>
+<li><p>Issues：</p>
+<ul>
+<li>PHP 有一些 memory leak 的問題，用 Singleton 方式會有問題，但了不起重啟</li>
+<li>目前只有針對 Laravel / Symfony 才行</li>
+<li>可以用 NGINX 做轉送，設定見<a href="/test">投影片</a></li>
+</ul>
+</li>
+<li><p>Usage:</p>
+<ul>
+<li>不建議在 Production 下用，還在開發中</li>
+<li>官網也列了一些已知問題，但仍是值得密切關注的一個套件！</li>
+</ul>
+</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/PHP也有Day/">PHP也有Day</a><a href="/tags/筆記/">筆記</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.dj1020.net/PHP也有day-26_REST_API_與前端整合之踩雷心得/" data-title="PHP 也有 Day #26 - REST API 與前端整合之踩雷心得@RickySu | 閃亮亮大師之路" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/Laradiner讀書會-SOLID-原則(5)-Dependency-Inversion-Principle/"  title="Laradiner讀書會 - SOLID 原則(5) Dependency Inversion Principle 依頼反轉原則">
+ <strong>下一篇：</strong><br/> 
+ <span>Laradiner讀書會 - SOLID 原則(5) Dependency Inversion Principle 依頼反轉原則
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目錄</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#REST_API_Design"><span class="toc-number">1.</span> <span class="toc-text">REST API Design</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Representational_State_Transfer_API"><span class="toc-number">1.1.</span> <span class="toc-text">Representational State Transfer API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CRUD"><span class="toc-number">1.2.</span> <span class="toc-text">CRUD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GET__u50B3_u905E_u53C3_u6578_u6642_u7684_u5730_u96F7_uFF01"><span class="toc-number">1.3.</span> <span class="toc-text">GET 傳遞參數時的地雷！</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u5982_u4F55_u5B9A_u7FA9_u56DE_u50B3_u503C_u72C0_u614B__28_u6210_u529F/_u5931_u6557/_u932F_u8AA4_u4EE3_u78BC_u7B49_29"><span class="toc-number">1.4.</span> <span class="toc-text">如何定義回傳值狀態 (成功/失敗/錯誤代碼等)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSR"><span class="toc-number">2.</span> <span class="toc-text">SSR</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SPA_SEO_Services"><span class="toc-number">2.1.</span> <span class="toc-text">SPA SEO Services</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CORS"><span class="toc-number">3.</span> <span class="toc-text">CORS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Same_Origin_Policy__28_u540C_u6E90_u653F_u7B56_29"><span class="toc-number">3.1.</span> <span class="toc-text">Same Origin Policy (同源政策)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CORS-1"><span class="toc-number">3.2.</span> <span class="toc-text">CORS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u70BA_u4F55_u53EA_u5141_u8A31_u9019_3__u7A2E_methods"><span class="toc-number">3.3.</span> <span class="toc-text">為何只允許這 3 種 methods</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Simple_Request__u600E_u9EBC_u904B_u4F5C_u7684"><span class="toc-number">3.4.</span> <span class="toc-text">Simple Request 怎麼運作的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u4E0D_u592A_Simple_Request__28_u4E0D_u5C6C_u65BC_Simple_Request_29"><span class="toc-number">3.5.</span> <span class="toc-text">不太 Simple Request (不屬於 Simple Request)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CORS_Request_Header"><span class="toc-number">3.6.</span> <span class="toc-text">CORS Request Header</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u6709_u96F7_u5C0F_u5FC3_uFF01"><span class="toc-number">3.6.1.</span> <span class="toc-text">有雷小心！</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Keep_State_Cookie/Session__u5982_u4F55_u5728_u5BA2_u6236_u7AEF_u4FDD_u5B58_u72C0_u614B"><span class="toc-number">3.7.</span> <span class="toc-text">Keep State Cookie/Session 如何在客戶端保存狀態</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u5C0F_u5FC3_uFF01_u6709_u96F7"><span class="toc-number">3.7.1.</span> <span class="toc-text">小心！有雷</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JWT"><span class="toc-number">4.</span> <span class="toc-text">JWT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Serializer__u597D_u795E_u554A_uFF01"><span class="toc-number">5.</span> <span class="toc-text">Serializer 好神啊！</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u5341_u5927_u60F9_u60F1_u5DE5_u7A0B_u5E2B_u65B9_u5F0F_u4E4B_u4E00"><span class="toc-number">5.1.</span> <span class="toc-text">十大惹惱工程師方式之一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u6709_u7DF4_u904E_u7684_Ricky__u5927_u5927_u6559_u4F60_u9019_u6A23_u505A_u4F86_u5E73_u606F_u6012_u706B"><span class="toc-number">5.2.</span> <span class="toc-text">有練過的 Ricky 大大教你這樣做來平息怒火</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#High_Performance_Server__28PHP__u6548_u80FD_Server_-_PPM_29"><span class="toc-number">6.</span> <span class="toc-text">High Performance Server (PHP 效能 Server - PPM)</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分類</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Hexo-筆記/" title="Hexo 筆記">Hexo 筆記<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/程式筆記/" title="程式筆記">程式筆記<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/筆記/" title="筆記">筆記<sup>23</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP-Conf/" title="PHP Conf">PHP Conf<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP也有Day/" title="PHP也有Day">PHP也有Day<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/程式學習/" title="程式學習">程式學習<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner讀書會/" title="Laradiner讀書會">Laradiner讀書會<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Bootstrap/" title="Bootstrap">Bootstrap<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Test-Corner/" title="Test Corner">Test Corner<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/TDD/" title="TDD">TDD<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/設計模式/" title="設計模式">設計模式<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JSON/" title="JSON">JSON<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/curl/" title="curl">curl<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/講座/" title="講座">講座<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Laradiner/" title="Laradiner">Laradiner<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Install/" title="Install">Install<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情鏈接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://oomusou.io/" target="_blank" title="Sam&#39;s 點燈坊">Sam&#39;s 點燈坊</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://jaceju.net/" target="_blank" title="鐵哥 JaceJu&#39;s Blog">鐵哥 JaceJu&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Ken Lin in Cloud Interactive. <br/>
+			This is my blog, believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="閃亮亮dj">閃亮亮dj</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+  <!-- Google Tag Manager -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-M3DVW3"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-M3DVW3');</script>
+  <!-- End Google Tag Manager -->
+</html>
+
